@@ -6,7 +6,7 @@
 /*   By: amkrtumy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 15:05:44 by amkrtumy          #+#    #+#             */
-/*   Updated: 2023/02/06 15:43:00 by amkrtumy         ###   ########.fr       */
+/*   Updated: 2023/02/15 19:06:18 by amkrtumy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,16 @@ char	*ft_strchr(const char *s, int c)
 	char	*word;
 
 	i = 0;
-	word = NULL;
-	while (s[i] != '\0')
+	word = (char *)s;
+	if (!s)
+		return (NULL);
+	while (s[i])
 	{
-		word[i] = s[i];
+		if(s[i] == (char) c)
+			return (&word[i]);
 		i++;
 	}
-	i = 0;
-	while (word[i] != '\0')
-	{
-		if (word[i] == (char) c)
-			return (&word[i]);
-	}
+	if (c == s[i])
+		return (&(word[i]));
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: amkrtumy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 17:28:31 by amkrtumy          #+#    #+#             */
-/*   Updated: 2023/02/09 19:56:51 by amkrtumy         ###   ########.fr       */
+/*   Updated: 2023/02/15 18:27:57 by amkrtumy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 void	*ft_memchr(const void *s, int c, size_t n)
 {
 	size_t			i;
-	unsigned int	*sentence;
+	unsigned char	*sentence;
 
-	sentence = (unsigned int *)s;
+	sentence = (unsigned char *)s;
 	i = 0;
-	while (sentence[i] != '\0' && i < n)
+	while (i < n && (sentence[i] != '\0' || sentence[i] == 0))
 	{
-		if (sentence[i] == (unsigned int)c)
+		if (sentence[i] == (unsigned char)c)
 			return (&sentence[i]);
 		i++;
 	}

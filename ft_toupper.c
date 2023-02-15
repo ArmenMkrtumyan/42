@@ -6,13 +6,13 @@
 /*   By: amkrtumy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 14:39:26 by amkrtumy          #+#    #+#             */
-/*   Updated: 2023/01/22 14:59:45 by amkrtumy         ###   ########.fr       */
+/*   Updated: 2023/02/15 18:32:22 by amkrtumy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_toupper(int c)
 {
-	if ((unsigned char)c >= 97 && (unsigned char)c <= 123)
+	if ((unsigned char)c >= 97 && (unsigned char)c <= 122)
 	{
 		return (c - 32);
 	}

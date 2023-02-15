@@ -6,13 +6,13 @@
 /*   By: amkrtumy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 18:09:21 by amkrtumy          #+#    #+#             */
-/*   Updated: 2023/01/18 18:09:34 by amkrtumy         ###   ########.fr       */
+/*   Updated: 2023/02/15 18:29:31 by amkrtumy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_isdigit(char number)
 {
-	if (number >= 48 && number <= 58)
+	if (number >= 48 && number <= 57)
 	{
 		return (1);
 	}
