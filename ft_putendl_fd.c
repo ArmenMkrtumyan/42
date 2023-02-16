@@ -6,7 +6,7 @@
 /*   By: amkrtumy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 18:04:49 by amkrtumy          #+#    #+#             */
-/*   Updated: 2023/02/06 17:03:07 by amkrtumy         ###   ########.fr       */
+/*   Updated: 2023/02/16 19:55:27 by amkrtumy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,6 @@
 
 void	ft_putendl_fd(char *s, int fd)
 {
-	write(fd, s, ft_strlen(s)+1);
+	ft_putstr_fd(s, fd);
+	ft_putchar_fd('\n', fd);
 }

@@ -6,7 +6,7 @@
 /*   By: amkrtumy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 16:48:31 by amkrtumy          #+#    #+#             */
-/*   Updated: 2023/01/23 18:14:39 by amkrtumy         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:19:27 by amkrtumy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,21 @@
 size_t	ft_strlcat(char *dst, char *src, size_t dstsize)
 {
 	size_t	i;
-	size_t	len_1;
-	size_t	len_2;
+	size_t	len_dst;
 	size_t	j;
 
-	i = 0;
-	len_1 = 0;
-	len_2 = 0;
-	while (dst[i] != '\0')
-	{
-		i++;
-		len_1++;
-	}
-	while (src[len_2] != '\0' )
-		len_2++;
+	i = ft_strlen(dst);
+	len_dst = i;
+	if (!src)
+		return (ft_strlen(dst));
 	j = 0;
-	while (i < (dstsize - 1))
+	while (j < ft_strlen(src) && dstsize - i - 1 > 0 && dstsize != 0 && dstsize > i)
 	{
 		dst[i++] = src[j++];
 	}
-	dst[i] = '\0';
-	if (dstsize < len_1)
-		return (dstsize + len_2);
-	return (len_2 + len_1);
+	if(dstsize != 0)
+		dst[i] = '\0';
+	if (dstsize < ft_strlen(dst))
+		return (dstsize + ft_strlen(src));
+	return (ft_strlen(src) + len_dst);
 }

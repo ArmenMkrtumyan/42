@@ -6,7 +6,7 @@
 /*   By: amkrtumy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 18:11:15 by amkrtumy          #+#    #+#             */
-/*   Updated: 2023/02/06 15:40:25 by amkrtumy         ###   ########.fr       */
+/*   Updated: 2023/02/16 20:22:00 by amkrtumy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,22 @@
 
 void	ft_putnbr_fd(int n, int fd)
 {
-	char	*text;
-	int		i;
-
-	i = 0;
-	text = ft_itoa(n);
-	while (text[i])
+	if (n == -2147483648)
 	{
-		write(fd, &text[i], 1);
-		i++;
+		ft_putstr_fd("-2147483648", fd);
+		return ;
 	}
+	if (n < 0)
+	{
+		ft_putchar_fd('-', fd);
+		n = -n;
+	}
+	if (n < 10)
+	{
+		ft_putchar_fd(n + '0', fd);
+		return ;
+	}
+	else
+		ft_putnbr_fd(n / 10, fd);
+	ft_putnbr_fd(n % 10, fd);
 }

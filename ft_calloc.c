@@ -6,7 +6,7 @@
 /*   By: amkrtumy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 17:18:06 by amkrtumy          #+#    #+#             */
-/*   Updated: 2023/02/06 16:56:01 by amkrtumy         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:45:49 by amkrtumy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	*ft_calloc(size_t count, size_t size)
 	size_t	i;
 
 	storage = (void *)malloc(count * size);
-	if (!storage)
+	if (!storage || \
+			(count == SIZE_MAX && size > 1) || (size == SIZE_MAX && count > 1))
 		return (NULL);
 	i = 0;
 	while (i < count * size)
