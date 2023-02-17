@@ -6,7 +6,7 @@
 /*   By: amkrtumy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 17:04:25 by amkrtumy          #+#    #+#             */
-/*   Updated: 2023/02/06 17:04:31 by amkrtumy         ###   ########.fr       */
+/*   Updated: 2023/02/17 15:55:11 by amkrtumy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,14 @@
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	if (!*lst)
+	t_list *lst_;
+	if (!lst || !new)
 		return ;
-	(ft_lstlast(*lst))->next = new;
+	if (!(*lst))
+	{
+		*lst = new;
+		return ;
+	}
+	lst_ = ft_lstlast(*lst);
+	lst_->next = new;
 }

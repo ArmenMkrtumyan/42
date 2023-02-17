@@ -6,7 +6,7 @@
 /*   By: amkrtumy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:25:12 by amkrtumy          #+#    #+#             */
-/*   Updated: 2023/02/06 17:48:58 by amkrtumy         ###   ########.fr       */
+/*   Updated: 2023/02/17 15:59:52 by amkrtumy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 			return (NULL);
 		}
 		start_node->next = new_node;
+		start_node = start_node->next;
 	}
 	return (start_node);
 }
