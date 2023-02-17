@@ -6,7 +6,7 @@
 /*   By: amkrtumy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 18:42:08 by amkrtumy          #+#    #+#             */
-/*   Updated: 2023/02/16 19:47:37 by amkrtumy         ###   ########.fr       */
+/*   Updated: 2023/02/17 14:55:29 by amkrtumy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,9 @@ char	*ft_strtrim(char const *s1, char const *set)
 	if (!s1 || !set)
 		return (NULL);
 	start = startpoint(ft_strlen(s1), ft_strlen(set), s1, set);
-	if(start == (int)ft_strlen(s1))
+	if (start == (int) ft_strlen(s1))
 	{
-		s3 = ft_calloc(1,1);
+		s3 = ft_calloc(1, 1);
 		return (s3);
 	}
 	end = endpoint(s1, set, start);

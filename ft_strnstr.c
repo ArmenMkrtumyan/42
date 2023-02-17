@@ -6,7 +6,7 @@
 /*   By: amkrtumy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 17:10:56 by amkrtumy          #+#    #+#             */
-/*   Updated: 2023/02/16 18:29:32 by amkrtumy         ###   ########.fr       */
+/*   Updated: 2023/02/17 14:54:00 by amkrtumy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_strnstr(char *haystack, char *needle, size_t len)
 			j = 0;
 			while (needle[j] != '\0')
 			{
-				if (haystack[i + j] != needle[j] || i+j >= len)
+				if (haystack[i + j] != needle[j] || i + j >= len)
 					break ;
 				j++;
 			}

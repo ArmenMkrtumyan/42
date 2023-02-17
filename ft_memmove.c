@@ -6,7 +6,7 @@
 /*   By: amkrtumy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 17:27:34 by amkrtumy          #+#    #+#             */
-/*   Updated: 2023/02/15 18:09:51 by amkrtumy         ###   ########.fr       */
+/*   Updated: 2023/02/17 15:26:40 by amkrtumy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,22 @@
 void	*ft_memmove(void *dst, const void*src, size_t len)
 {
 	size_t	i;
-	char	src_cpy[len]; //Norminate error, but otherwise its a segfault
-	
+
 	i = 0;
 	if (!dst || !src)
 		return (0);
-	while (i < len)
+	if (src > dst)
 	{
-		src_cpy[i] = ((char *)src)[i];
-		i++;
+		while (i < len)
+		{
+			((char *)dst)[i] = ((char *)src)[i];
+			i++;
+		}
 	}
-	i = 0;
-	while (i < len)
+	else if (src < dst)
 	{
-		((char *)dst)[i] = src_cpy[i];
-		i++;
+		while (len-- > 0)
+			((char *)dst)[len] = ((char *)src)[len];
 	}
 	((char *)dst)[ft_strlen(dst)] = '\0';
 	return (dst);

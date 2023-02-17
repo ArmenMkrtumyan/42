@@ -6,7 +6,7 @@
 /*   By: amkrtumy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 17:35:05 by amkrtumy          #+#    #+#             */
-/*   Updated: 2023/02/06 18:33:06 by amkrtumy         ###   ########.fr       */
+/*   Updated: 2023/02/17 14:07:58 by amkrtumy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <string.h>
 # include <stdlib.h>
 # include <stdbool.h>
+# include <limits.h>
 
 typedef struct s_list
 {

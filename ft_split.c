@@ -6,7 +6,7 @@
 /*   By: amkrtumy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 18:04:27 by amkrtumy          #+#    #+#             */
-/*   Updated: 2023/02/17 12:27:16 by amkrtumy         ###   ########.fr       */
+/*   Updated: 2023/02/17 14:48:37 by amkrtumy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -94,10 +94,7 @@ char	**ft_split(char const *s, char c)
 
 	if (!s)
 		return (NULL);
-	//s = ft_strtrim(s, " ");
-	//printf("\nOur new s is: |%s|\n",s);
 	word_count = calculate_words(s, c);
-	//printf("\nWord count is %d\n", word_count);
 	out = (char **)malloc((word_count + 1) * sizeof(char *));
 	interval = (int *)malloc(sizeof(int) * 3);
 	i = 1;
@@ -107,27 +104,10 @@ char	**ft_split(char const *s, char c)
 		interval[2] = '\0';
 		out[i - 1] = (char *)malloc(sizeof(char)
 				* (interval[1] - interval[0] + 1));
-		//printf("interval 0 is: %d and interval 1 is: %d", interval[0], interval[1]);
 		fill_interval(interval[0], interval[1], s, out[i - 1]);
-		//printf("\nOUT IS: %s\n", out[i-1]);	
 		i++;
 	}
 	free(interval);
-//	free(s);
-	//printf("\ni: %d\n", i);
-	//out[i - 1] = (char *)malloc(sizeof(char) * 1);
 	out[i - 1] = NULL;
 	return (out);
 }
-
-/*int main()
-{
-	char * * tab = ft_split("  tripouille  42  ", ' ');
-	int i;
-	i = 0;
-	while(tab[i] != '\0')
-	{
-		printf("\nelement %d is: %s\n", i, tab[i]);
-		i++;
-	}
-}*/
