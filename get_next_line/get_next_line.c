@@ -10,54 +10,37 @@ char    *get_next_line(int fd)
     int result;
     static char *line;
     char *returnable;
-    int finished;
 
     returnable = NULL;
-    if (line)
+    while(result != -3)
     {
-        if(check_line(&line, &returnable))
-            return(returnable);
-    }
-    sz = read(fd, buffer, BUFFER_SIZE);
-    finished = 0;
-    buffer[sz] = '\0';
-    result = check_buffer(buffer);
-    while(finished == 0)
-    {
+        sz = read(fd, buffer, BUFFER_SIZE);
+        buffer[sz] = '\0';
+        result = check_line_buffer(&line, &returnable, buffer);
         if (result == -1)
         {
             if (!line)
-                line = ft_strdup(buffer);
+                line = ft_substr(buffer, 0, ft_strlen(buffer));
             else
-            {
                 line = ft_strjoin(line, buffer);
-            }
-            sz = read(fd, buffer, BUFFER_SIZE);
-            buffer[sz] = '\0';
-            result = check_buffer(buffer);
         }
-        // else if (result == -2)
-        // {
-        //     line = ft_strjoin(line, ft_substr(buffer, 0, get_the_end(buffer)));
-        //     finished = 1;
-        //     return (line);
-        // }
         else if (result == -3)
         {
-            finished = 1;
             if(!line)
                 return (NULL);
-            returnable = ft_strdup(line);
+            returnable = ft_substr(line, 0, ft_strlen(line));
             line = NULL;
             return(returnable);
         }
+        else if (result == -10)
+            return(returnable);
         else
         {
             if(line)
                 line = ft_strjoin(line, ft_substr(buffer, 0, result));
             else
-                line = ft_strdup(ft_substr(buffer, 0, result));
-            returnable = ft_strdup(line);
+                line = ft_substr(buffer, 0, result);
+            returnable = ft_substr(line, 0, ft_strlen(line));
             line = ft_substr(buffer, result, ft_strlen(buffer) - result);
             return (returnable);
         }
@@ -68,7 +51,6 @@ char    *get_next_line(int fd)
 int main()
 {
     int fd;
-   // char    *text;
 
     fd = open("baz.txt", O_RDONLY);
     if (fd < 0)
