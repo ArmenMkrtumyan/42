@@ -17,16 +17,18 @@ int    check_buffer(char *buffer)
     int i;
 
     i = 0;
+	if(buffer[0] == '\0')
+		return (-3);
     while(buffer[i] != '\0')
     {
         if(buffer[i] == '\n')
             return (i+1);
         i++;
     }
-	if(ft_strlen(buffer) != i)
-	{
-		return (-2);
-	}
+	// if(ft_strlen(buffer) != i)
+	// {
+	// 	return (-2);
+	// }
 	return (-1);
 }
 
@@ -146,4 +148,20 @@ int get_the_end(char *buffer)
 	return (i);
 }
 
-//int buffer_cut(line, buffer)
+int check_line(char **line,char **returnable)
+{
+	int	i;
+
+	i = 0;
+	while((*line)[i] != '\0')
+	{
+		if((*line)[i] == '\n')
+		{
+			*returnable = ft_strdup(ft_substr(*line, 0, i+1));
+			*line = ft_substr(*line, i+1, ft_strlen(*line) - i);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}

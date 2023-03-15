@@ -1,10 +1,10 @@
 #include "get_next_line.h"
 
-//#define BUFFER_SIZE
-
+#ifndef BUFFER_SIZE
+    #define BUFFER_SIZE 5
+#endif
 char    *get_next_line(int fd)
 {
-    int BUFFER_SIZE = 5;
     int sz;
     char buffer[BUFFER_SIZE + 1];
     int result;
@@ -12,11 +12,12 @@ char    *get_next_line(int fd)
     char *returnable;
     int finished;
 
-    // if (check_line(line)==1)
-    // {
-    //     buffer_cut(line,buffer,)
-    // }
     returnable = NULL;
+    if (line)
+    {
+        if(check_line(&line, &returnable))
+            return(returnable);
+    }
     sz = read(fd, buffer, BUFFER_SIZE);
     finished = 0;
     buffer[sz] = '\0';
@@ -35,11 +36,20 @@ char    *get_next_line(int fd)
             buffer[sz] = '\0';
             result = check_buffer(buffer);
         }
-        else if (result == -2)
+        // else if (result == -2)
+        // {
+        //     line = ft_strjoin(line, ft_substr(buffer, 0, get_the_end(buffer)));
+        //     finished = 1;
+        //     return (line);
+        // }
+        else if (result == -3)
         {
-            line = ft_strjoin(line, ft_substr(buffer, 0, get_the_end(buffer)));
             finished = 1;
-            return (line);
+            if(!line)
+                return (NULL);
+            returnable = ft_strdup(line);
+            line = NULL;
+            return(returnable);
         }
         else
         {
@@ -58,7 +68,7 @@ char    *get_next_line(int fd)
 int main()
 {
     int fd;
-    char    *text;
+   // char    *text;
 
     fd = open("baz.txt", O_RDONLY);
     if (fd < 0)
