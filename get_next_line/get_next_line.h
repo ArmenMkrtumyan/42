@@ -30,5 +30,5 @@ size_t	ft_strlen(const char *word);
 char	*ft_strjoin(char  *s1, char *s2);
 char	*ft_substr(char const *s_1, unsigned int start, size_t len);
 int     check_line_buffer(char **line,char **returnable, char *buffer);
-
+char    *result_checker(char **line, char**returnable, char *buffer, int result);
 #endif

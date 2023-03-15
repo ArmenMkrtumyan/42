@@ -103,3 +103,27 @@ int	check_line_buffer(char **line,char **returnable, char *buffer)
 	}
 	return (-1);
 }
+
+char    *result_checker(char **line, char**returnable, char *buffer, int result)
+{
+	if (result == -3)
+	{
+		if(!(*line))
+			return (NULL);
+		*returnable = ft_substr(*line, 0, ft_strlen(*line));
+		*line = NULL;
+		return(*returnable);
+	}
+	else if (result == -10)
+		return(*returnable);
+	else
+	{
+		if(*line)
+			*line = ft_strjoin(*line, ft_substr(buffer, 0, result));
+		else
+			*line = ft_substr(buffer, 0, result);
+		*returnable = ft_substr(*line, 0, ft_strlen(*line));
+		*line = ft_substr(buffer, result, ft_strlen(buffer) - result);
+		return (*returnable);
+	}
+}
