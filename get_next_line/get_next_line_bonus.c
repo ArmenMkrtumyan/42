@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 100
@@ -96,7 +96,7 @@ char	*get_next_line(int fd)
 	int			sz;
 	char		buffer[BUFFER_SIZE + 1];
 	int			result;
-	static char	*line;
+	static char	*line[OPEN_MAX];
 	char		*returnable;
 
 	result = -1;
@@ -106,13 +106,13 @@ char	*get_next_line(int fd)
 		buffer[result] = '\0';
 	while (result != -3)
 	{
-		if (check_line(&line, &returnable) == 0)
+		if (check_line(&line[fd], &returnable) == 0)
 			sz = read(fd, buffer, BUFFER_SIZE);
 		buffer[sz] = '\0';
 		if (returnable)
 			return (returnable);
 		result = check_buffer(buffer);
-		if (result_checker(&line, &returnable, buffer, result))
+		if (result_checker(&line[fd], &returnable, buffer, result))
 			return (returnable);
 	}
 	return (NULL);
