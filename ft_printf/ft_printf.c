@@ -61,11 +61,12 @@ int	ft_printf (const char *sentence, ...)
   int		i;
   int		full_length;
   int		len;
+  int		count;
 
-  va_start (args, 2);/* Save arguments in list. */
   i = -1;
   full_length = 0;
   len = ft_strlen(sentence);
+  va_start (args, sentence);/* Save arguments in list. */
   while (++i < len)
   {
   	if ((sentence[i] == '%') && (len != i))
