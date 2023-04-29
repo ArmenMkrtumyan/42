@@ -6,14 +6,14 @@
 /*   By: amkrtumy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 20:01:11 by amkrtumy          #+#    #+#             */
-/*   Updated: 2023/03/27 20:01:18 by amkrtumy         ###   ########.fr       */
+/*   Updated: 2023/04/03 17:50:37 by amkrtumy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 100
+# define BUFFER_SIZE 1
 #endif
 
 int	for_norminette(char ***line, char ***returnable, char *buffer, int result)
@@ -117,20 +117,20 @@ char	*get_next_line(int fd)
 	}
 	return (NULL);
 }
-// int main()
-// {
-//      int fd;
+/*int main()
+{
+     int fd;
 
-//      fd = open("gnlTester/files/big_line_no_nl", O_RDONLY);
-//      if (fd < 0)
-//          return 0;
-//      char *smth =  get_next_line(fd);
-//      while(smth)
-//      {
-//          printf("%s", smth);
-//          free(smth);
-//          smth = get_next_line(fd);
-//      }
-//      if(smth)
-// 	    free(smth);
-// }
+     fd = open("gnlTester/files/big_line_no_nl", O_RDONLY);
+     if (fd < 0)
+         return 0;
+     char *smth =  get_next_line(fd);
+     while(smth)
+     {
+         printf("%s", smth);
+         free(smth);
+         smth = get_next_line(fd);
+     }
+     if(smth)
+	    free(smth);
+}*/
