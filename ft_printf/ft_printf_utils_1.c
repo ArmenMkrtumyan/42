@@ -31,7 +31,7 @@ void	ft_putstr_fd(char *s, int fd)
 	write(fd, s, sizeof(char) * ft_strlen(s));
 }
 
-int print_char(char character)
+int	print_char(char character)
 {
 	ft_putchar_fd(character, 1);
 	return (1);

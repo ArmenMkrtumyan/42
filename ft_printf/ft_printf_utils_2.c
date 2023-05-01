@@ -14,29 +14,33 @@
 
 int	print_number(int number)
 {
-	int len;
+	int	len;
+	int	min;
 
 	len = 0;
+	min = (number <= 0);
 	ft_putnbr_fd(number, 1);
 	while (number != 0)
 	{
 		number = number / 10;
-		len ++;
+		len++;
 	}
-	return (len);
+	return (len + min);
 }
 
-int print_unsigned(unsigned int number)
+int	print_unsigned(unsigned int number)
 {
-	static int len;
+	static int	len;
 
-	len	= 0;
+	len = 0;
 	if (number == 0)
+	{
 		return (1);
+	}
 	else
 	{
 		print_unsigned(number / 10);
-		ft_putnbr_fd(number%10,1);
+		ft_putnbr_fd(number % 10, 1);
 		len ++;
 	}
 	return (len);
@@ -46,17 +50,16 @@ char	get_char(int number, int capitalize)
 {
 	if (number < 10)
 		return (number + '0');
-	if(capitalize)
-		return ('A' + number-10);
-	return ('a' + number-10);
+	if (capitalize)
+		return ('A' + number - 10);
+	return ('a' + number - 10);
 }
 
-
-int print_hexadecimal(unsigned long number, int capitalize)
+int	print_hexadecimal(uintptr_t number, int capitalize)
 {
-	static int summary;
+	static int	summary;
 
-	summary	= 1;
+	summary = 1;
 	if (number >= 16)
 	{
 		print_hexadecimal (number / 16, capitalize);
@@ -71,8 +74,8 @@ int print_hexadecimal(unsigned long number, int capitalize)
 	return (summary);
 }
 
-int print_pointer(void *argument)
+int	print_pointer(void *argument)
 {
 	write (1, "0x", 2);
-	return (2 + print_hexadecimal((unsigned long)argument, 0));
+	return (2 + print_hexadecimal((uintptr_t)argument, 0));
 }

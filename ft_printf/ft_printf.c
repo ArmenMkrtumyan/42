@@ -12,38 +12,40 @@
 
 #include "ft_printf.h"
 
-int	print_string(char * word)
+int	print_string(char *word)
 {
 	int	i;
 	int	len;
 
+	if (word == NULL)
+	{
+		write(1, "(null)", 6);
+		return (6);
+	}
 	i = 0;
-	len = strlen(word);
+	len = ft_strlen(word);
 	while (i < len)
 	{
 		ft_putchar_fd(word[i], 1);
 		i++;
 	}
-	return (strlen(word));
+	return (ft_strlen(word));
 }
 
 int	switch_case(char letter, void *argument)
 {
 	if (letter == 's')
-		return(print_string((char *)argument));
+		return (print_string((char *)argument));
 	else if (letter == 'p')
 		return (print_pointer(argument));
 	else if (letter == 'd' || letter == 'i')
-		return(print_number((int) argument));
+		return (print_number((int) argument));
 	else if (letter == 'c')
-		return(print_char((char) argument));
+		return (print_char((char) argument));
 	else if (letter == 'u')
 	{
-		if (argument == 0)
-		{
-			ft_putnbr_fd(0, 1);
-			return (1);
-		}
+		if ((unsigned int)argument == 0)
+			return (write(1, "0", 1));
 		return (print_unsigned(((unsigned int) argument)));
 	}
 	else if (letter == 'x')
@@ -51,55 +53,51 @@ int	switch_case(char letter, void *argument)
 	else if (letter == 'X')
 		return (print_hexadecimal((unsigned int) argument, 1));
 	else if (letter == '%')
-		return(print_char('%'));
+		return (print_char('%'));
 	return (0);
 }
 
-int	ft_printf (const char *sentence, ...)
+int	ft_printf(const char *sentence, ...)
 {
-  va_list	args;
-  int		i;
-  int		full_length;
-  int		len;
-  int		count;
+	va_list	args;
+	int		i;
+	int		full_length;
+	int		len;
 
-  i = -1;
-  full_length = 0;
-  len = ft_strlen(sentence);
-  va_start (args, sentence);/* Save arguments in list. */
-  while (++i < len)
-  {
-  	if ((sentence[i] == '%') && (len != i))
+	i = -1;
+	full_length = 0;
+	len = ft_strlen(sentence);
+	va_start (args, sentence);
+	while (++i < len)
 	{
-		full_length += switch_case(sentence[i+1], va_arg(args, void *));
-		i++;
+		if ((sentence[i] == '%') && (len != i))
+		{
+			if (sentence[i + 1] != '%')
+				full_length += switch_case(sentence[i + 1], \
+				va_arg(args, void *));
+			else
+				full_length += switch_case(sentence[i + 1], NULL);
+			i++;
+		}
+		else
+			full_length += write(1, &sentence[i], 1);
 	}
-	else
-	{
-		ft_putchar_fd(sentence[i], 1);
-		full_length ++;
-	}
-  }
-
-  va_end (args);/* Stop traversal. */
-  return full_length;
+	va_end (args);
+	return (full_length);
 }
 
+// int main()
+// {
 
-int main()
-{
+//   //int number = 429496295;
+//   char * name = "ARmen";
+//   char * add = "address";
+//   int number = 8;
 
-  //int number = 429496295;
-  char * name = "ARmen";
-  char * add = "address";
-  int number = 8;
+// 	// printf("%d %d\n", a, b);
+// 	// ft_printf("%u\n", LONG_MIN);
+// 	// printf("Length: %d\n", ft_printf("A RANDOM TEXT"));
+// 	printf("\nLength: %d\n", ft_printf("\nA RANDOM %s TEXT NULL", NULL));
+//   return 0;
 
-  printf("CORRECT Length: %d\n", printf("%s = %p, you did this %d times\n", add, name, number));
-  printf("MY Length: %d\n", ft_printf("%s = %p, you did this %d times\n", add, name, number));
-  //printf("Length: %d\n", ft_printf("address = %x\n", name));
-
-
-
-  return 0;
-
-}
+// }
