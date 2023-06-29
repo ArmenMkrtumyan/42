@@ -14,10 +14,6 @@ This repository contains all archives for the project __libft__ in the __42 scho
 	<a href="#index">Index</a>
 	<span> · </span>
 	<a href="#requirements">Requirements</a>
-	<span> · </span>
-	<a href="#instructions">Instructions</a>
-	<span> · </span>
-	<a href="#testing">Testing</a>
 </h2>
 
 ## About
