@@ -18,9 +18,7 @@ This repository contains all archives for the project __libft__ in the __42 scho
 
 ## About
 
-This project is a __C library__ of useful functions that are allowed to be used in future __School 42 cursus__ projects. With access to this library, the coding proccess in incoming projects will be more effective. The aim of rewrite this functions is to get a better understanding of them, and get a whide range of utilities for the next projects. [You can find more information in the subject](https://github.com/PublioElio/School-42-libft/blob/main/libft_subject.pdf). As it's specified in the subjet, all the archives are in the same folder.
-
-The code in this repository follows [the rules of the Norminette](https://github.com/PublioElio/School42-Piscina-agosto-2022/blob/main/norme.es.pdf).
+This project is a __C library__ of valuable functions that are allowed to be used in future __School 42 cursus__ projects. Access to this library will make the coding process in incoming projects more effective. The aim of rewriting these functions is to get a better understanding of them and get a wide range of utilities for the next projects. [You can find more information in the subject](https://github.com/ArmenMkrtumyan/42/blob/master/libft/Libft%20-%20Subject(EN).pdf). As specified in the subject, all the archives are in the same folder.
 
 ## Index
 ### Functions from `<ctype.h>` library
@@ -34,7 +32,7 @@ The code in this repository follows [the rules of the Norminette](https://github
 
 ### Functions from `<stdlib.h>` library
 * [`ft_atoi`](https://github.com/PublioElio/School-42-libft/blob/main/ft_atoi.c) - Convert ASCII string to integer.
-* [`ft_calloc`](https://github.com/PublioElio/School-42-libft/blob/main/ft_calloc.c) - Allocate space for an array and initializes it to 0. This function and `malloc` return a void pointer, that had no associated data type with it. A void pointer can hold address of any type and can be typecasted to any type.
+* [`ft_calloc`](https://github.com/PublioElio/School-42-libft/blob/main/ft_calloc.c) - Allocate space for an array and initializes it to 0. This function and `malloc` return a void pointer, that had no associated data type with it. A void pointer can hold an address of any type and can be typecasted to any type.
 
 ### Functions from `<strings.h>` library
 * [`ft_bzero`](https://github.com/PublioElio/School-42-libft/blob/main/ft_bzero.c) - Set the first part of an object to null bytes (filling it with zeroes).
@@ -59,24 +57,24 @@ The code in this repository follows [the rules of the Norminette](https://github
 * [`ft_substr`](https://github.com/PublioElio/School-42-libft/blob/main/ft_substr.c) - Get a substring from string.
 * [`ft_strtrim`](https://github.com/PublioElio/School-42-libft/blob/main/ft_strtrim.c) - Trim beginning and end of string with the specified substring.
 * [`ft_strjoin`](https://github.com/PublioElio/School-42-libft/blob/main/ft_strjoin.c) - Concatenate two strings into a new string, using `calloc`.
-* [`ft_split`](https://github.com/PublioElio/School-42-libft/blob/main/ft_split.c) - Split string, with specified character as delimiter, into an array of strings.
+* [`ft_split`](https://github.com/PublioElio/School-42-libft/blob/main/ft_split.c) - Split string, with specified character as a delimiter, into an array of strings.
 * [`ft_strmapi`](https://github.com/PublioElio/School-42-libft/blob/main/ft_strmapi.c) - Create new string from a string modified with a specified function.
 * [`ft_striteri`](https://github.com/PublioElio/School-42-libft/blob/main/ft_striteri.c) - Modify a string with a given function.
 * [`ft_putchar_fd`](https://github.com/PublioElio/School-42-libft/blob/main/ft_putchar_fd.c) - Output a character to given file.
 * [`ft_putstr_fd`](https://github.com/PublioElio/School-42-libft/blob/main/ft_putstr_fd.c) - Output string to given file.
-* [`ft_putendl_fd`](https://github.com/PublioElio/School-42-libft/blob/main/ft_putendl_fd.c) - Output string to given file with newline.
+* [`ft_putendl_fd`](https://github.com/PublioElio/School-42-libft/blob/main/ft_putendl_fd.c) - Output string to given file with a newline.
 * [`ft_putnbr_fd`](https://github.com/PublioElio/School-42-libft/blob/main/ft_putnbr_fd.c) - Output integer to given file.
 
 ### Linked list functions *(bonus)*
 * [`ft_lstnew`](https://github.com/PublioElio/School-42-libft/blob/main/ft_lstnew_bonus.c) - Create new list.
 * [`ft_lstsize`](https://github.com/PublioElio/School-42-libft/blob/main/ft_lstsize_bonus.c) - Count elements of a list.
 * [`ft_lstlast`](https://github.com/PublioElio/School-42-libft/blob/main/ft_lstlast_bonus.c) - Find last element of list.
-* [`ft_lstadd_back`](https://github.com/PublioElio/School-42-libft/blob/main/ft_lstadd_back_bonus.c) - Add new element at end of list.
-* [`ft_lstadd_front`](https://github.com/PublioElio/School-42-libft/blob/main/ft_lstadd_front_bonus.c) - Add new element at beginning of list.
+* [`ft_lstadd_back`](https://github.com/PublioElio/School-42-libft/blob/main/ft_lstadd_back_bonus.c) - Add new element at end of a list.
+* [`ft_lstadd_front`](https://github.com/PublioElio/School-42-libft/blob/main/ft_lstadd_front_bonus.c) - Add new element at beginning of the list.
 * [`ft_lstdelone`](https://github.com/PublioElio/School-42-libft/blob/main/ft_lstdelone_bonus.c) - Delete element from list.
-* [`ft_lstclear`](https://github.com/PublioElio/School-42-libft/blob/main/ft_lstclear_bonus.c) - Delete sequence of elements of list from a starting point.
-* [`ft_lstiter`](https://github.com/PublioElio/School-42-libft/blob/main/ft_lstiter_bonus.c) - Apply function to content of all list's elements.
-* [`ft_lstmap`](https://github.com/PublioElio/School-42-libft/blob/main/ft_lstmap_bonus.c) - Apply function to content of all list's elements into new list.
+* [`ft_lstclear`](https://github.com/PublioElio/School-42-libft/blob/main/ft_lstclear_bonus.c) - Delete a sequence of elements of the list from a starting point.
+* [`ft_lstiter`](https://github.com/PublioElio/School-42-libft/blob/main/ft_lstiter_bonus.c) - Apply function to the content of all list's elements.
+* [`ft_lstmap`](https://github.com/PublioElio/School-42-libft/blob/main/ft_lstmap_bonus.c) - Apply function to the content of all list's elements into a new list.
 
 ## Requirements
 The library is written in __C language__ and needs the `gcc` compiler, with `<stdlib.h>` and `<unistd.h>` standard libraries to run.
