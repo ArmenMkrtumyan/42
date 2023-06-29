@@ -2,7 +2,7 @@
   <img src="https://media.giphy.com/media/ztl9x7JlhSlU4MWD6h/giphy.gif" width="200"/>
 </div>
 
-<h1 align="center">libft</h1>
+<h1 align="center">Project 1 - libft</h1>
 
 > School 42 Málaga cursus project
 
