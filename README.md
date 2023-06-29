@@ -84,37 +84,3 @@ The code in this repository follows [the rules of the Norminette](https://github
 
 ## Requirements
 The library is written in __C language__ and needs the `gcc` compiler, with `<stdlib.h>` and `<unistd.h>` standard libraries to run.
-
-## Instructions
-
-### 1. Compiling the library
-
-To compile the library, go to its path and run:
-
-For __basic__ functions:
-```
-$ make
-```
-
-For __bonus__ functions:
-```
-$ make bonus
-```
-
-### 2. Cleaning all binary (.o) and executable files (.a)
-
-To delete all files generated with make, go to the path and run:
-```
-$ make fclean
-```
-
-### 3. Using it in your code
-
-To use the library functions in your code, simply include this header:
-```
-#include "libft.h"
-```
-
-## Testing
-This library have been tested with [Francinette](https://github.com/xicodomingues/francinette).
-
