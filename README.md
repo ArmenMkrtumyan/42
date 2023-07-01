@@ -90,7 +90,7 @@ The library is written in __C language__ and needs the `gcc` compiler, with `<st
 > 42 school Yerevan project
 
 ## About
-The goal of this project is to create the function `get_next_line.c` which, when called in a loop, will read one line at a time in the __file descriptor__, until the end of the file. As stated in the subject, the program must compile with the `flag-D BUFFER_SIZE=` which will be used as the buffer size for the `read` calls in `get_next_line()`. You can find more details in [the subject of the project](https://github.com/ArmenMkrtumyan/42/blob/master/get_next_line/01_get_next_line_en.pdf).
+The goal of this project is to create the function `get_next_line.c` which, when called in a loop, will read one line at a time in the __file descriptor__, until the end of the file. As stated in the subject, the program must compile with the `flag-D BUFFER_SIZE=` which will be used as the buffer size for the `read` calls in `get_next_line()`. You can find more details in [the subject of the project](https://github.com/ArmenMkrtumyan/42/blob/master/get_next_line/get_next_line_subject.pdf).
 
 This project is an introduction to __static variables__, which will be very useful for future projects. Also, as noted earlier, we'll learn how to handle macros during compilation.
 
