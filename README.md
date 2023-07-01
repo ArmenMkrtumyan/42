@@ -9,18 +9,18 @@
 This is a custom-made library of useful functions in __C language__. The repository includes the `Makefile` and the `libft.h` header.
 
 <h2 align="center">
-	<a href="#about">About</a>
+	<a href="#about_libft">About</a>
 	<span> · </span>
-	<a href="#index">Index</a>
+	<a href="#index_libft">Index</a>
 	<span> · </span>
-	<a href="#requirements">Requirements</a>
+	<a href="#requirements_libft">Requirements</a>
 </h2>
 
-## About
+## About_libft
 
 This project is a __C library__ of valuable functions that are allowed to be used in future __42 school cursus__ projects. Access to this library will make the coding process for upcoming projects more effective. The aim of rewriting these functions is to get a better understanding of them and explore C language in its core. [You can find more information in the subject](https://github.com/ArmenMkrtumyan/42/blob/master/ft_printf/ft_printf_subject.pdf). As specified in the subject, all the archives are in the same folder.
 
-## Index
+## Index_libft
 ### Functions from `<ctype.h>` library
 * [`ft_isascii`](https://github.com/PublioElio/School-42-libft/blob/main/ft_isascii.c) - Test a character to see if it's a 7-bit ASCII character.
 * [`ft_isalpha`](https://github.com/PublioElio/School-42-libft/blob/main/ft_isalpha.c) - Test a character to see if it's alphabetic.
@@ -76,7 +76,7 @@ This project is a __C library__ of valuable functions that are allowed to be use
 * [`ft_lstiter`](https://github.com/PublioElio/School-42-libft/blob/main/ft_lstiter_bonus.c) - Apply function to the content of all list's elements.
 * [`ft_lstmap`](https://github.com/PublioElio/School-42-libft/blob/main/ft_lstmap_bonus.c) - Apply function to the content of all list's elements into a new list.
 
-## Requirements
+## Requirements_libft
 The library is written in __C language__ and needs the `gcc` compiler, with `<stdlib.h>` and `<unistd.h>` standard libraries to run.
 
 <div id="header" align="center">
@@ -103,18 +103,14 @@ This project is an introduction to __static variables__, which will be very usef
 > 42 school Yerevan project
 
 <h2 align="center">
-	<a href="#about">About</a>
+	<a href="#about_printf">About</a>
 	<span> · </span>
-	<a href="#index">Index</a>
+	<a href="#requirements_printf">Requirements</a>
 	<span> · </span>
-	<a href="#requirements">Requirements</a>
-	<span> · </span>
-	<a href="#instructions">Instructions</a>
-	<span> · </span>
-	<a href="#testing">Testing</a>
+	<a href="#instructions_printf">Instructions</a>
 </h2>
 
-## About
+## About_printf
 This repository contains all files for the __ft_printf__ project. The aim of the project is to duplicate the behavior of [`printf()`](https://es.wikipedia.org/wiki/Printf) function, part of the `stdio.h` library.
 __ft_printf__ must handle the following parameters:
 
@@ -127,10 +123,10 @@ __ft_printf__ must handle the following parameters:
 
 You can find more details in the [subject of the project](https://github.com/ArmenMkrtumyan/42/blob/master/ft_printf/ft_printf_subject.pdf).
 
-## Requirements
+## Requirements_printf
 The functions are written in __C language__ and need the `gcc` compiler, with `<stdlib.h>`, `<stdarg.h>` and `<unistd.h>` standard libraries to run.
 
-## Instructions
+## Instructions_printf
 
 ### 1. Compiling the archives
 
