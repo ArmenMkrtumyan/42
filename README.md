@@ -1,5 +1,5 @@
 <div id="header" align="center">
-  <img src="https://media.giphy.com/media/26tn66XDQtXadfWrS/giphy.gif" width="200"/>
+  <img src="https://media.giphy.com/media/ztl9x7JlhSlU4MWD6h/giphy.gif" width="200"/>
 </div>
 
 <h1 align="center">Project 1 - libft</h1>
