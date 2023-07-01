@@ -6,7 +6,7 @@
 
 > 42 school Yerevan project
 
-This repository contains all archives for the project __libft__ in the __42 school Yerevan__. It's a custom-made library of useful functions in __C language__. The repository includes the `Makefile` and the `libft.h` library.
+This is a custom-made library of useful functions in __C language__. The repository includes the `Makefile` and the `libft.h` header.
 
 <h2 align="center">
 	<a href="#about">About</a>
@@ -18,7 +18,7 @@ This repository contains all archives for the project __libft__ in the __42 scho
 
 ## About
 
-This project is a __C library__ of valuable functions that are allowed to be used in future __School 42 cursus__ projects. Access to this library will make the coding process in incoming projects more effective. The aim of rewriting these functions is to get a better understanding of them and get a wide range of utilities for the next projects. [You can find more information in the subject](https://github.com/ArmenMkrtumyan/42/blob/master/libft/Libft%20-%20Subject(EN).pdf). As specified in the subject, all the archives are in the same folder.
+This project is a __C library__ of valuable functions that are allowed to be used in future __42 school cursus__ projects. Access to this library will make the coding process for upcoming projects more effective. The aim of rewriting these functions is to get a better understanding of them and explore C language in its core. [You can find more information in the subject](https://github.com/ArmenMkrtumyan/42/blob/master/libft/Libft%20-%20Subject(EN).pdf). As specified in the subject, all the archives are in the same folder.
 
 ## Index
 ### Functions from `<ctype.h>` library
@@ -87,12 +87,12 @@ The library is written in __C language__ and needs the `gcc` compiler, with `<st
 
 <h1 align="center">Project 2 - get_next_line()</h1>
 
-This is the repository for the 42 School Yerevan.
+> 42 school Yerevan project
 
 ## About
 The goal of this project is to create the function `get_next_line.c` which, when called in a loop, will read one line at a time in the __file descriptor__, until the end of the file. As stated in the subject, the program must compile with the `flag-D BUFFER_SIZE=` which will be used as the buffer size for the `read` calls in `get_next_line()`. You can find more details in [the subject of the project](https://github.com/ArmenMkrtumyan/42/blob/master/get_next_line/01_get_next_line_en.pdf).
 
-This project is a introduction of __static variables__, which will be very useful for future projects. Also, as noted earlier, we'll learn how handle macros during compilation.
+This project is an introduction to __static variables__, which will be very useful for future projects. Also, as noted earlier, we'll learn how to handle macros during compilation.
 
 <div id="header" align="center">
   <img src="https://media.giphy.com/media/QXJd9XVrgJuDFhhcOX/giphy.gif" width="200"/>
@@ -100,7 +100,7 @@ This project is a introduction of __static variables__, which will be very usefu
 
 <h1 align="center">Project 3 - printf()</h1>
 
-This repository contains all files for the __printf__ project from School 42 Málaga cursus. The project consist in duplicate the [`printf()`](https://es.wikipedia.org/wiki/Printf) function, part of the `stdio.h` library.
+> 42 school Yerevan project
 
 <h2 align="center">
 	<a href="#about">About</a>
@@ -115,7 +115,8 @@ This repository contains all files for the __printf__ project from School 42 Má
 </h2>
 
 ## About
-This project consists in duplicate the behavior of the C function `printf()`. It is not necessary to implement the buffer management of the original function. It must handle the following parameters:
+This repository contains all files for the __ft_printf__ project. The aim of the project is to duplicate the behavior of [`printf()`](https://es.wikipedia.org/wiki/Printf) function, part of the `stdio.h` library.
+__ft_printf__ must handle the following parameters:
 
 - `char` type variables.
 - `string` type variables.
@@ -124,43 +125,7 @@ This project consists in duplicate the behavior of the C function `printf()`. It
 - hexadecimal `int` type variables (uppercase and lowercase).
 - `pointer` type variables.
 
-You will find more details in the [subject of the project](https://github.com/PublioElio/School-42-printf/blob/main/printf.es.subject.pdf).
-
-## Index
-- [Structure](#structure)
-- [Formats](#formats)
-	- [va_list](#va_list)
-	- [Returning an integer](#returning-an-integer)
-- [Auxiliary functions](#auxiliary-functions)
-
-### Structure
-The main obstacles during the execution of the project have been: handling a variable number of parameters and the function `ft_printf()` returning an `int`.
-
-#### `va_list`
-To deal with the variable number of parameters entered, the macros `va_list`, `va_start`, `va_arg` and `va_end` have been used. The `ft_printf()` function calls the `ft_fotmat()` function when it finds the `%` sign among the entered parameters, then it checks the next character in the string to call one of the functions that print the different variable types. To use this macro, the libraryt `<stdarg.h>` is included in the `ft_printf.h`.
-
-#### Returning an integer
-To handle the integer returned by `ft_printf()`, a pointer is given in the format printing functions. In this way, the function handles the number of characters printed before continuing with the string sent by parameter. Example:
-
-```
-void	ft_putchar_pf(char c, size_t *counter)
-{
-	write(1, &c, 1);
-	(*counter)++; // increasing the pointer with each character printed
-}
-```
-### Formats
-The different types of variables are printed using a function for each of the formats:
-
-* [__`ft_putchar_pf()`__](https://github.com/PublioElio/School-42-printf/blob/main/ft_putchar_pf.c) prints `char` type variables and is called by each of the following functions to print the character strings one by one. Also, it is where the pointer returned by the `ft_printf()` function is incremented.
-* [__`ft_puthex_pf()`__](https://github.com/PublioElio/School-42-printf/blob/main/ft_puthex_pf.c) prints hexadecimal integers,  using a string included in the `ft_printf.h` library. There is one string for uppercase and one for lowercase characters.
-* [__`ft_putnbr_pf()`__](https://github.com/PublioElio/School-42-printf/blob/main/ft_putnbr_pf.c) recursively prints an integer, handling the maximum negative value with a conditional (`if-else`) and casting the integer to characters.
-* [__`ft_putptr_pf()`__](https://github.com/PublioElio/School-42-printf/blob/main/ft_putptr_pf.c) prints a pointer, in hexadecimal format (lowercase), preceded by the string "0x".
-* [__`ft_putstr_pf()`__](https://github.com/PublioElio/School-42-printf/blob/main/ft_putstr_pf.c) prints a `char *` type variable, calling `ft_putchar_pf()` in a `while` loop. It the string is `NULL`, it returns `"(null)"`.
-* [__`ft_putuint_pf()`__](https://github.com/PublioElio/School-42-printf/blob/main/ft_putuint_pf.c) prints an `unsigned int` type variable.
-
-### Auxiliary functions
-[__`ft_aux_pf.c()`__](https://github.com/PublioElio/School-42-printf/blob/main/ft_aux_pf.c) this file contains all the auxiliary functions, specifically the `ft_atoi_base` function, [made during the August pool](https://github.com/PublioElio/School42-Piscina-agosto-2022). This function will be used mainly to change the base in functions that handle hexadecimal numbers and `unsigned int` type variables.
+You can find more details in the [subject of the project](https://github.com/ArmenMkrtumyan/42/blob/master/ft_printf/ft_printf_subject.pdf).
 
 ## Requirements
 The functions are written in __C language__ and need the `gcc` compiler, with `<stdlib.h>`, `<stdarg.h>` and `<unistd.h>` standard libraries to run.
@@ -188,6 +153,3 @@ To use this project in your code, simply include this header:
 ```
 #include "ft_printf.h"
 ```
-
-## Testing
-This function have been tested with [Francinette](https://github.com/xicodomingues/francinette).
