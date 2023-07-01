@@ -18,7 +18,7 @@ This is a custom-made library of useful functions in __C language__. The reposit
 
 ## About
 
-This project is a __C library__ of valuable functions that are allowed to be used in future __42 school cursus__ projects. Access to this library will make the coding process for upcoming projects more effective. The aim of rewriting these functions is to get a better understanding of them and explore C language in its core. [You can find more information in the subject](https://github.com/ArmenMkrtumyan/42/blob/master/libft/Libft%20-%20Subject(EN).pdf). As specified in the subject, all the archives are in the same folder.
+This project is a __C library__ of valuable functions that are allowed to be used in future __42 school cursus__ projects. Access to this library will make the coding process for upcoming projects more effective. The aim of rewriting these functions is to get a better understanding of them and explore C language in its core. [You can find more information in the subject](https://github.com/ArmenMkrtumyan/42/blob/master/ft_printf/ft_printf_subject.pdf). As specified in the subject, all the archives are in the same folder.
 
 ## Index
 ### Functions from `<ctype.h>` library
