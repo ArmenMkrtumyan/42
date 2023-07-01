@@ -98,7 +98,7 @@ This project is an introduction to __static variables__, which will be very usef
   <img src="https://media.giphy.com/media/QXJd9XVrgJuDFhhcOX/giphy.gif" width="200"/>
 </div>
 
-<h1 align="center">Project 3 - printf()</h1>
+<h1 align="center">Project 3 - ft_printf()</h1>
 
 > 42 school Yerevan project
 
