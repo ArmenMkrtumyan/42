@@ -114,36 +114,40 @@ int main(int argc, char *argv[]) {
 			counter=-1;
 			while(letter != 0)
 			{
+				// printf("Number is %d, counter is: %d\n", letter, counter);
 				if(letter % 2 == 0)
 				{
 					signal_result = kill(pid, SIGUSR2);
-					if (signal_result == 0)
-						printf("SIGUSR2 signal sent successfully.\n");
-					else
-						printf("Error sending signal");
+					counter++;
+					// if (signal_result == 0)
+					// 	printf("SIGUSR2 signal sent successfully.\n");
+					// else
+					// 	printf("Error sending signal");
 				}
 				else
 				{
 					signal_result = kill(pid, SIGUSR1);
-					if (signal_result == 0)
-						printf("SIGUSR1 signal sent successfully.\n");
-					else
-						printf("Error sending signal");
+					counter++;
+					// if (signal_result == 0)
+					// 	printf("SIGUSR1 signal sent successfully.\n");
+					// else
+					// 	printf("Error sending signal");
 				}
-				usleep(100);
-				counter++;
+				usleep(20);
 				letter = letter / 2;
+				// printf("Letter is %c\n", letter);
 			}
 			i++;
 			//Addding the extra zeros to make it 1 byte
-			while(counter != 8)
+			while(counter != 7)
 			{
 				signal_result = kill(pid, SIGUSR2);
-				if (signal_result == 0)
-					printf("SIGUSR2 signal sent successfully.\n");
-				else
-					printf("Error sending signal");
+				// if (signal_result == 0)
+				// 	printf("SIGUSR2 signal sent successfully.\n");
+				// else
+				// 	printf("Error sending signal");
 				counter++;
+				usleep(100);
 			}
 		}
 	}
