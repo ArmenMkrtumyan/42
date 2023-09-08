@@ -10,161 +10,94 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <signal.h>
-#include <unistd.h>
-#include <stdlib.h>
+#include "ft_printf.h"
 
-//Volatile
-//is for variables which can be changed from
-//external function, whereas global variables still have
-//to be assigned inside the program, such as a=42
-//
-//sig_atomic_t is data type which ensures safe use inside
-//the signal handler
-//
+int	ft_atoi(char *s);
 
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	i;
 
-// Handling with signal function
-
-// // Custom signal handler function
-// void handle_sigint(int signum) {
-//     printf("Received SIGINT signal (%d). Exiting...\n", signum);
-//     // You can perform cleanup or other tasks here if needed
-//     exit(signum);
-// }
-
-// int main() {
-//     // Registering the custom handler for SIGINT
-
-
-// 	// void (*signal(int signum, void (*handler)(int)))(int);
-//     signal(SIGINT, handle_sigint);
-
-//     printf("Press Ctrl+C to trigger the SIGINT signal.\n");
-
-//     // A loop to keep the program running until the signal is received
-//     while (1) {
-//         // Your program's main logic goes here
-//     }
-
-//     return 0;
-// }
-
-
-// Sig empty set example
-// int sigemptyset(sigset_t *set);
-
-// int main() {
-//     sigset_t my_set;
-//     sigemptyset(&my_set); // Initialize an empty signal set
-
-//     // Now 'my_set' is an empty signal set
-//     return 0;
-// }
-
-// Sig add set example
-// int sigaddset(sigset_t *set, int signum);
-
-// int main() {
-//     sigset_t my_set;
-//     sigemptyset(&my_set);
-
-//     sigaddset(&my_set, SIGINT); // Add SIGINT signal to 'my_set'
-
-//     // Now 'my_set' contains the SIGINT signal
-//     return 0;
-// }
-
-
-// To see a list of available signals and their corresponding numbers, you can use the kill -l option.
-
-// 1. PAUSE
-
-void signal_handler(int signum) {
-    printf("Signal %d received. Resuming...\n", signum);
+	i = 0;
+	while ((s1[i] && s2[i]) && s1[i] == s2[i])
+		++i;
+	return (s1[i] - s2[i]);
 }
 
+int	check_pid(char *pid)
+{
+	int	i;
 
-int main(int argc, char *argv[]) {
-	char	*text;
-	int		pid;
-
-	if(argc != 3)
-		printf("%s", "Invalid number of arguments");
-	else
+	i = 0;
+	while (pid[i])
 	{
-		pid = atoi(argv[1]);
-		text = argv[2];
-
-		//signal(SIGUSR1, signal_handler);
-		printf("Resumed.\n");
-
-		printf("The pid is: %d and the text is - %s\n", pid, text);
-		//pause(); // Program waits here until a signal is received
-		//printf("Resumed.\n");
-
-		int i = 0;
-		char letter;
-		int signal_result;
-		int counter;
-		while(text[i] != 0)
+		if (pid[i] < '0' || pid[i] > '9')
 		{
-			letter = text[i];
-			counter=-1;
-			while(letter != 0)
-			{
-				// printf("Number is %d, counter is: %d\n", letter, counter);
-				if(letter % 2 == 0)
-				{
-					signal_result = kill(pid, SIGUSR2);
-					counter++;
-					// if (signal_result == 0)
-					// 	printf("SIGUSR2 signal sent successfully.\n");
-					// else
-					// 	printf("Error sending signal");
-				}
-				else
-				{
-					signal_result = kill(pid, SIGUSR1);
-					counter++;
-					// if (signal_result == 0)
-					// 	printf("SIGUSR1 signal sent successfully.\n");
-					// else
-					// 	printf("Error sending signal");
-				}
-				usleep(20);
-				letter = letter / 2;
-				// printf("Letter is %c\n", letter);
-			}
-			i++;
-			//Addding the extra zeros to make it 1 byte
-			while(counter != 7)
-			{
-				signal_result = kill(pid, SIGUSR2);
-				// if (signal_result == 0)
-				// 	printf("SIGUSR2 signal sent successfully.\n");
-				// else
-				// 	printf("Error sending signal");
-				counter++;
-				usleep(100);
-			}
+			ft_printf("invalid input");
+			exit (1);
+		}
+		++i;
+	}
+	if (i >= 10 && ft_strcmp("2147483647", pid) < 0)
+	{
+		ft_printf("invalid input");
+		exit (1);
+	}
+	return (0);
+}
+
+void	check_singal_result(int signal_result)
+{
+	if (signal_result != 0)
+		ft_printf("Error sending signal");
+}
+
+void	send_signals(char *letter, int *signal_result, int *counter, int *pid)
+{
+	while (*letter != 0)
+	{
+		if (*letter % 2 == 0)
+		{
+			*signal_result = kill(*pid, SIGUSR2);
+			check_singal_result(*signal_result);
+		}
+		else
+		{
+			*signal_result = kill(*pid, SIGUSR1);
+			check_singal_result(*signal_result);
+		}
+		(*counter)++;
+		usleep(20);
+		*letter = *letter / 2;
+	}
+}
+
+int	main(int argc, char *argv[])
+{
+	int		pid;
+	int		i;
+	char	letter;
+	int		signal_result;
+	int		counter;
+
+	i = 0;
+	if (argc != 3 || check_pid(argv[1]))
+		return (ft_printf("%s", "Invalid number of arguments"));
+	pid = ft_atoi(argv[1]);
+	ft_printf("The pid is: %d and the text is - %s\n", pid, argv[2]);
+	while (argv[2][i] != 0)
+	{
+		letter = argv[2][i++];
+		counter = -1;
+		send_signals(&letter, &signal_result, &counter, &pid);
+		while (counter != 7)
+		{
+			signal_result = kill(pid, SIGUSR2);
+			check_singal_result(signal_result);
+			counter++;
+			usleep(100);
 		}
 	}
-    return 0;
+	return (0);
 }
-
-
-// 2. SLEEP
-
-// int main() {
-//     printf("Sleeping for 5 seconds...\n");
-//     sleep(5); // Program pauses for 5 seconds
-//     printf("Awake!\n");
-
-//     return 0;
-// }
-
-// 3. USLEEP - same but for microseconds
-
-// 4.
