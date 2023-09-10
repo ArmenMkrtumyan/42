@@ -6,38 +6,13 @@
 /*   By: amkrtumy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 11:11:19 by amkrtumy          #+#    #+#             */
-/*   Updated: 2023/06/13 15:18:18 by amkrtumy         ###   ########.fr       */
+/*   Updated: 2023/09/10 18:05:22 by amkrtumy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
 #include <signal.h>
-
 #include "ft_printf.h"
-
-// void handle_sigusr1(int signum, siginfo_t *info, char *word)
-// {
-// 	static int	byte_counter = -1;
-
-// 	if (signum == 30)
-// 	{
-// 		printf("Received SIGUSR1 signal(1)\n");
-// 		byte_counter ++;
-// 		word[byte_counter] = pow(2, byte_counter);
-// 	}
-// 	if (signum == 31)
-// 	{
-// 		printf("Received SIGUSR2 signal(0)\n");
-// 		byte_counter ++;
-// 		word[byte_counter] = pow(2, byte_counter);
-// 	}
-
-	// if(byte_counter == 7)
-	// {
-	// 	printf("\n%s\n", word);
-	// 	byte_counter = -1;
-	// }
-// }
 
 int	power_of_two(int count)
 {
@@ -80,11 +55,14 @@ void	handle_sigusr1(int signum, siginfo_t *info, void *context)
 	}
 }
 
-int	main(void)
+int	main(int argc, char *argv[])
 {
 	int					server_pid;
 	struct sigaction	sa;
 
+	(void)argv;
+	if (argc != 1)
+		return (ft_printf("%s", "Invalid number of arguments"));
 	server_pid = getpid();
 	ft_printf("\nThis is PID: %d\n", server_pid);
 	sa.sa_sigaction = handle_sigusr1;

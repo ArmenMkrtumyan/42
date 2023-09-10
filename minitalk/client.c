@@ -6,7 +6,7 @@
 /*   By: amkrtumy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 11:11:16 by amkrtumy          #+#    #+#             */
-/*   Updated: 2023/06/13 16:01:09 by amkrtumy         ###   ########.fr       */
+/*   Updated: 2023/09/10 18:04:54 by amkrtumy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ int	check_pid(char *pid)
 void	check_singal_result(int signal_result)
 {
 	if (signal_result != 0)
+	{
 		ft_printf("Error sending signal");
+		exit (1);
+	}
 }
 
 void	send_signals(char *letter, int *signal_result, int *counter, int *pid)
@@ -85,7 +88,6 @@ int	main(int argc, char *argv[])
 	if (argc != 3 || check_pid(argv[1]))
 		return (ft_printf("%s", "Invalid number of arguments"));
 	pid = ft_atoi(argv[1]);
-	ft_printf("The pid is: %d and the text is - %s\n", pid, argv[2]);
 	while (argv[2][i] != 0)
 	{
 		letter = argv[2][i++];
