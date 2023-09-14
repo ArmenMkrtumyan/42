@@ -1,24 +1,27 @@
-NAME = libftprintf.a
+NAME = so_long
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -Imlx
+CFLAGS = -fsanitize=address -g #-Wall -Wextra -Werror
 
 RM = rm -f
 
-SRCS = ft_printf.c		\
-		ft_printf_utils_1.c		\
-		ft_printf_utils_2.c		\
+SRCS	=	check_file.c	\
+			mlx.c			\
+			path_check.c
 
 OBJS = $(SRCS:.c=.o)
 
-%.o:%.c
-	$(CC) $(CFLAGS) -c $< -o $@
+all:	mlx	$(NAME)
 
-all:		$(NAME)
+mlx:
+	make -C mlx
+
+%.o: %.c Makefile so_long.h
+	$(CC) $(CFLAGS) -I mlx -c $< -o $@
 
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) -I mlx -L mlx -lmlx -lm -framework OpenGL -framework AppKit -o $(NAME)
 
 clean:
 			$(RM) $(OBJS)
