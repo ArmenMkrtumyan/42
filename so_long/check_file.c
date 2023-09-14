@@ -2,9 +2,10 @@
 
 int count_checker(char **matrix, t_position **full_matrix, int row, int column)
 {
-	int i = 0;
-	int k = 0;
-	static char letters[4]; // CEP
+	int				i = 0;
+	int				k = 0;
+	static	char	letters[4]; // CEP
+	static	int		E_position[3];
 
 	// letters[0] = 0; //C
 	// letters[1] = 0; //E
@@ -22,7 +23,11 @@ int count_checker(char **matrix, t_position **full_matrix, int row, int column)
 			if(matrix[i][k] == 'C')
 				letters[0] ++;
 			else if(matrix[i][k] == 'E')
+			{
 				letters[1] ++;
+				E_position[0] = i;
+				E_position[1] = k;
+			}
 			else if(matrix[i][k] == 'P')
 				letters[2] ++;
 			else

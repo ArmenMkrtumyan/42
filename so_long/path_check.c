@@ -12,26 +12,65 @@ void	direction_init(char **maze, t_position **matrix, int row, int col)
 		(matrix[row][col]).W = 1;
 }
 
-// void	visited_loop(char **matrix, t_position **node, int row, int col)
+int		check_visited(t_position **matrix, int row, int col)
+{
+	int	i;
+	int	k;
+
+	i = -1;
+	while (++i < row)
+	{
+		k = -1;
+		while (++k < col)
+		{
+			if(matrix[i][k].visited == 1)
+				return (0);
+		}
+	}
+	return (1);
+}
+
+// void get_minimum(t_position **matrix, int *x, int *y)
 // {
 // 	int	i;
 // 	int	k;
-// 	int	exit_exist;
+// 	int	min;
 
+// 	min = INT_MAX;
 // 	i = -1;
-// 	exit_exist = 0;
 // 	while (++i < row)
 // 	{
 // 		k = -1;
 // 		while (++k < col)
 // 		{
-// 			if (node[i][k].unvisited == 1)
-// 				;
+// 			if(matrix[i][k].visited == 1 && matrix[i][k].cost < min)
+// 			{
+// 				min = matrix[i][k].cost;
+// 				*x = i;
+// 				*y = k;
+// 			}
 // 		}
 // 	}
-// 	if (exit_exist == 0 || )
-// 		;// error
 // }
+
+void	visited_loop(char **matrix, t_position **node, int row, int col)
+{
+	int	i;
+	int	k;
+	int	exit_exist;
+	int	minx;
+	int	miny;
+
+	i = -1;
+	exit_exist = 0;
+	// while (check_visited(node, row, col))
+	// {
+	// 	get_minimum(node, &x, &y);
+	// 	node[minx][miny].visited = 0;
+	// 	if (minx == min_x_E && miny == min_y_E)
+	// 		break;
+	// }
+}
 
 int check_path(t_position **full_matrix, char **matrix, int row, int col)
 {
@@ -60,23 +99,23 @@ int check_path(t_position **full_matrix, char **matrix, int row, int col)
 				direction_init(matrix, full_matrix, i, k);
 		}
 	}
-	//visited_loop(matrix, full_matrix, row, col);
-	i = -1;k = -1;
+	visited_loop(matrix, full_matrix, row, col);
+	// i = -1;k = -1;
 
-	while (++i < row)
-	{
-		k = -1;
-		while (++k < col)
-		{
-			printf ("int this elem: '%c', indexs: %d %d\n", matrix[i][k], i, k);
-			printf ("N: %d\n", full_matrix[i][k].N);
-			printf ("S: %d\n", full_matrix[i][k].S);
-			printf ("E: %d\n", full_matrix[i][k].E);
-			printf ("W: %d\n", full_matrix[i][k].W);
-			printf ("cost %d\n", full_matrix[i][k].cost);
-			printf ("visited %d\n", full_matrix[i][k].visited);
-		}
-		printf ("\n");
-	}
+	// while (++i < row)
+	// {
+	// 	k = -1;
+	// 	while (++k < col)
+	// 	{
+	// 		printf ("int this elem: '%c', indexs: %d %d\n", matrix[i][k], i, k);
+	// 		printf ("N: %d\n", full_matrix[i][k].N);
+	// 		printf ("S: %d\n", full_matrix[i][k].S);
+	// 		printf ("E: %d\n", full_matrix[i][k].E);
+	// 		printf ("W: %d\n", full_matrix[i][k].W);
+	// 		printf ("cost %d\n", full_matrix[i][k].cost);
+	// 		printf ("visited %d\n", full_matrix[i][k].visited);
+	// 	}
+	// 	printf ("\n");
+	// }
 	return (1);
 }
