@@ -2,7 +2,7 @@ NAME = so_long
 
 CC = cc
 
-CFLAGS = -fsanitize=address -g #-Wall -Wextra -Werror
+CFLAGS = -fsanitize=address -g -ggdb3#-Wall -Wextra -Werror
 
 RM = rm -f
 

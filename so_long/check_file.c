@@ -5,7 +5,8 @@ int count_checker(char **matrix, t_position **full_matrix, int row, int column)
 	int				i = 0;
 	int				k = 0;
 	static	char	letters[4]; // CEP
-	static	int		E_position[3];
+	t_coordinate	E_coordinate;
+	t_coordinate	dimensions;
 
 	// letters[0] = 0; //C
 	// letters[1] = 0; //E
@@ -25,8 +26,8 @@ int count_checker(char **matrix, t_position **full_matrix, int row, int column)
 			else if(matrix[i][k] == 'E')
 			{
 				letters[1] ++;
-				E_position[0] = i;
-				E_position[1] = k;
+				E_coordinate.row	= i;
+				E_coordinate.column	= k;
 			}
 			else if(matrix[i][k] == 'P')
 				letters[2] ++;
@@ -48,7 +49,9 @@ int count_checker(char **matrix, t_position **full_matrix, int row, int column)
 		free_matrix(matrix, row);
 		return (0);
 	}
-	check_path(full_matrix, matrix, row, column);
+	dimensions.row = row;
+	dimensions.column = column;
+	check_path(full_matrix, matrix, dimensions, E_coordinate);
 	return (1);
 }
 
@@ -117,14 +120,10 @@ int	check_insides_map(int fd, int row, int column)
 		else
 		{
 			matrix[changing_rows][changing_columns] = symbol[0];
-			full_matrix[changing_rows][changing_columns].cost = -1;
+			full_matrix[changing_rows][changing_columns].cost = INT_MAX - 1;
 			full_matrix[changing_rows][changing_columns].visited = 1;
-			if (symbol[0] == '0' || symbol[0] == 'C' || symbol[0] == 'E')
-				full_matrix[changing_rows][changing_columns].cost = INT_MAX;
 			if (symbol[0] == 'P')
 				full_matrix[changing_rows][changing_columns].cost = 0;
-			// else if (symbol[0] == 'C' || symbol[0] == 'P')
-			// 	full_matrix[changing_rows][changing_columns].cost = 0;
 		}
 		printf ("%c", symbol[0]);
 		changing_columns++;
