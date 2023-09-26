@@ -18,7 +18,6 @@ int	main()
 	int fd2;
 	int row;
 	int column;
-	char **matrix;
 
 	fd1 = open("map.ber", O_RDONLY);
 	if (fd1 < 0)
@@ -42,6 +41,6 @@ int	main()
 	else
 		printf("\nWRONG MAP\n");
 
-	// while(1)
-	// 	;
+	while(1)
+		;
 }

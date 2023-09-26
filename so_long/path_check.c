@@ -97,36 +97,6 @@ void	visited_loop(char **matrix, t_position **node, t_coordinate dimensions, t_c
 	int temp_dist;
 	int coin_count;
 	int exit_exists;
-	// node[E_coordinates.row][E_coordinates.column].N = 0;
-	// node[E_coordinates.row][E_coordinates.column].S = 0;
-	// node[E_coordinates.row][E_coordinates.column].E = 0;
-	// node[E_coordinates.row][E_coordinates.column].W = 0;
-
-//EXIT INIT
-
-	// printf ("exit row col: %d %d\n", E_coordinates.row, E_coordinates.column);
-	// node[E_coordinates.row - 1][E_coordinates.column].S = 0;
-	// printf ("poxum enq %d %d i N coord\n", E_coordinates.row - 1, E_coordinates.column);
-	// node[E_coordinates.row + 1][E_coordinates.column].N = 0;
-	// node[E_coordinates.row][E_coordinates.column + 1].W = 0;
-	// node[E_coordinates.row][E_coordinates.column - 1].E = 0;
-
-
-	// i = -1;
-	// int i1 = -1, k1;
-	// while (++i1 < dimensions.row)
-	// {
-	// 	k1 = -1;
-	// 	while (++k1 < dimensions.column)
-	// 	{
-	// 		printf ("node %d %d: N: %d, S: %d, E: %d, W: %d\n", i1, k1, \
-	// 		node[i1][k1].N, \
-	// 		node[i1][k1].S, \
-	// 		node[i1][k1].E, \
-	// 		node[i1][k1].W);
-	// 	}
-	// }
-	// printf ("\nCOIN COUNT: %d\n", coin_count);
 
 	exit_exists = 0;
 	coin_count = get_coin_count(matrix, dimensions);
@@ -137,22 +107,27 @@ void	visited_loop(char **matrix, t_position **node, t_coordinate dimensions, t_c
 		current_cell = get_minimum(node, dimensions, matrix);
 		node[current_cell.row][current_cell.column].visited = 0;
 		if (current_cell.wall)
-			continue ;
-		if (current_cell.row == E_coordinates.row && current_cell.column == E_coordinates.column && coin_count==0)
 		{
-			printf("\n\nEXIT EXISTS!!!!\n\n");
-			exit_exists = 1;
+			if (exit_exists == 0)
+				printf("\n\nCouldnt Find an EXIT!!!!\n\n");
+			else
+			{
+				if (coin_count == 0)
+					printf("\n\nEXIT EXISTS AND COINS ARE COLLECTED!!!!\n\n");
+				else
+					printf("\n\nEXIT EXISTS BUT COULD NOT COLLECT ALL THE COINS!!!!\n\n");
+			}
 			break ;
 		}
+		if (current_cell.row == E_coordinates.row && current_cell.column == E_coordinates.column && coin_count==0)
+			exit_exists = 1;
 		directions[0] = node[current_cell.row][current_cell.column].N;
 		directions[1] = node[current_cell.row][current_cell.column].S;
 		directions[2] = node[current_cell.row][current_cell.column].E;
 		directions[3] = node[current_cell.row][current_cell.column].W;
 		k = 0;
-		//printf ("indexes: %d %d, N: %d, S: %d, E: %d, W: %d\n", current_cell.row, current_cell.column, directions[0], directions[1], directions[2], directions[3]);
 		while (k < 4)
 		{
-			// printf ()
 			if (directions[k] == 1)
 			{
 				temp_dist = 0;
@@ -176,12 +151,8 @@ void	visited_loop(char **matrix, t_position **node, t_coordinate dimensions, t_c
 					child_cell.row = current_cell.row;
 					child_cell.column = current_cell.column - 1;
 				}
-				if (coin_count != 0 && \
-				child_cell.row == E_coordinates.row && child_cell.column == E_coordinates.column)
-				{
-					k++;
-					continue ;
-				}
+				if (child_cell.row == E_coordinates.row && child_cell.column == E_coordinates.column)
+					exit_exists = 1;
 				if (node[child_cell.row][child_cell.column].visited == 0 || \
 				node[child_cell.row][child_cell.column].cost != INT_MAX -1
 				)
@@ -189,8 +160,6 @@ void	visited_loop(char **matrix, t_position **node, t_coordinate dimensions, t_c
 					k++;
 					continue ;
 				}
-				// else
-				// 	node[child_cell.row][child_cell.column].visited = 0;
 				temp_dist = node[current_cell.row][current_cell.column].cost;
 
 				if(matrix[child_cell.row][child_cell.column] == 'C')
@@ -216,8 +185,7 @@ void	visited_loop(char **matrix, t_position **node, t_coordinate dimensions, t_c
 			printf("%d", node[i2][k2].visited);
 		printf ("\n");
 	}
-	printf("\n\n\nEXIT EXIST?: %d\nNumber of remaining coins to collect: %d\n\n",\
-	 exit_exists, coin_count);
+	printf("\n\n\nNumber of remaining coins to collect: %d\n\n", coin_count);
 }
 
 int check_path(t_position **full_matrix, char **matrix, t_coordinate dimensions, t_coordinate E_coordinate)
@@ -248,6 +216,7 @@ int check_path(t_position **full_matrix, char **matrix, t_coordinate dimensions,
 		}
 	}
 	visited_loop(matrix, full_matrix, dimensions, E_coordinate);
+	free_matrix(matrix, dimensions.row);
 	// i = -1;k = -1;
 
 	// while (++i < dimensions.row)

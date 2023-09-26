@@ -31,5 +31,9 @@ int check_path(t_position **full_matrix, char **matrix, t_coordinate dimensions,
 int check_dimensions_map(int fd, int *row, int *column);
 int	check_insides_map(int fd, int row, int column);
 int	check_visited(t_position **matrix, t_coordinate dimensions);
+void	direction_init(char **maze, t_position **matrix, int row, int col);
+t_coordinate get_minimum(t_position **node, t_coordinate dimensions, char **matrix);
+int	get_coin_count(char **matrix, t_coordinate dimensions);
+void	visited_loop(char **matrix, t_position **node, t_coordinate dimensions, t_coordinate E_coordinates);
 
 #endif
