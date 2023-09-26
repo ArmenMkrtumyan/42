@@ -21,6 +21,8 @@ int count_checker(char **matrix, t_position **full_matrix, int row, int column)
 				free_matrix(matrix, row);
 				return (0);
 			}
+			// else if (matrix[i][k] == '1')
+			// 	full_matrix[i][k].visited = 0;
 			if(matrix[i][k] == 'C')
 				letters[0] ++;
 			else if(matrix[i][k] == 'E')

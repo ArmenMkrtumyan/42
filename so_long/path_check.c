@@ -30,7 +30,7 @@ int		check_visited(t_position **matrix, t_coordinate dimensions)
 	return (0);
 }
 
-t_coordinate get_minimum(t_position **matrix, t_coordinate dimensions)
+t_coordinate get_minimum(t_position **node, t_coordinate dimensions, char **matrix)
 {
 	int				i;
 	int				k;
@@ -46,9 +46,9 @@ t_coordinate get_minimum(t_position **matrix, t_coordinate dimensions)
 		k = 0;
 		while (k < dimensions.column)
 		{
-			if (matrix[i][k].visited == 1 && matrix[i][k].cost < min)
+			if (node[i][k].visited == 1 && node[i][k].cost < min)
 			{
-				min = matrix[i][k].cost;
+				min = node[i][k].cost;
 				min_coordinates.row = i;
 				min_coordinates.column = k;
 			}
@@ -62,6 +62,8 @@ t_coordinate get_minimum(t_position **matrix, t_coordinate dimensions)
 	// 	printf("\nFOUND A WALL in coor %d %d\n", min_coordinates.row, min_coordinates.column);
 	// 	min_coordinates.wall = 1;
 	// }
+	if (matrix[min_coordinates.row][min_coordinates.column] == '1')
+		min_coordinates.wall = 1;
 	return (min_coordinates);
 }
 
@@ -132,7 +134,7 @@ void	visited_loop(char **matrix, t_position **node, t_coordinate dimensions, t_c
 	i = 0;
 	while (check_visited(node, dimensions))
 	{
-		current_cell = get_minimum(node, dimensions);
+		current_cell = get_minimum(node, dimensions, matrix);
 		node[current_cell.row][current_cell.column].visited = 0;
 		if (current_cell.wall)
 			continue ;
@@ -159,17 +161,17 @@ void	visited_loop(char **matrix, t_position **node, t_coordinate dimensions, t_c
 					child_cell.row = current_cell.row - 1;
 					child_cell.column = current_cell.column;
 				}
-				if (k == 1)
+				else if (k == 1)
 				{
 					child_cell.row = current_cell.row + 1;
 					child_cell.column = current_cell.column;
 				}
-				if (k == 2)
+				else if (k == 2)
 				{
 					child_cell.row = current_cell.row;
 					child_cell.column = current_cell.column + 1;
 				}
-				if (k == 3)
+				else if (k == 3)
 				{
 					child_cell.row = current_cell.row;
 					child_cell.column = current_cell.column - 1;
@@ -180,20 +182,27 @@ void	visited_loop(char **matrix, t_position **node, t_coordinate dimensions, t_c
 					k++;
 					continue ;
 				}
-				if (node[child_cell.row][child_cell.column].visited == 0)
+				if (node[child_cell.row][child_cell.column].visited == 0 || \
+				node[child_cell.row][child_cell.column].cost != INT_MAX -1
+				)
 				{
 					k++;
 					continue ;
 				}
-				temp_dist = node[current_cell.row][current_cell.column].cost + 10;
+				// else
+				// 	node[child_cell.row][child_cell.column].visited = 0;
+				temp_dist = node[current_cell.row][current_cell.column].cost;
 
 				if(matrix[child_cell.row][child_cell.column] == 'C')
 				{
-					temp_dist -= 100;
+					temp_dist += 100;
 					coin_count -= 1;
 				}
+				else
+					temp_dist = node[current_cell.row][current_cell.column].cost + 1000;
 				if (temp_dist < node[child_cell.row][child_cell.column].cost)
 					node[child_cell.row][child_cell.column].cost = temp_dist;
+
 			}
 			k++;
 		}
