@@ -1,6 +1,6 @@
 #include "so_long.h"
 
-int count_checker(char **matrix, t_position **full_matrix, int row, int column)
+int count_checker(t_matrices *matrices, int row, int column)
 {
 	int				i = 0;
 	int				k = 0;
@@ -12,52 +12,37 @@ int count_checker(char **matrix, t_position **full_matrix, int row, int column)
 	// letters[1] = 0; //E
 	// letters[2] = 0; //P
 	// letters[3] = '\0';
-	while(i < row)
+	dimensions.row = row;
+	dimensions.column = column;
+	i = -1;
+	while (++i < row)
 	{
-		while(k < column)
+		k = 0;
+		while (++k < column)
 		{
-			if((matrix[i][k] != '1') && (k==0 || k==column-1 || i==0 || i == row-1))
-			{
-				free_matrix(matrix, row);
-				return (0);
-			}
-			// else if (matrix[i][k] == '1')
-			// 	full_matrix[i][k].visited = 0;
-			if(matrix[i][k] == 'C')
+			if ((matrices->passed_matrix[i][k] != '1') && (k==0 || k==column-1 || i==0 || i == row-1))
+				return (free_matrix(matrices, row));
+			else if (matrices->passed_matrix[i][k] == 'C')
 				letters[0] ++;
-			else if(matrix[i][k] == 'E')
+			else if (matrices->passed_matrix[i][k] == 'E')
 			{
 				letters[1] ++;
 				E_coordinate.row	= i;
 				E_coordinate.column	= k;
 			}
-			else if(matrix[i][k] == 'P')
+			else if (matrices->passed_matrix[i][k] == 'P')
 				letters[2] ++;
-			else
-			{
-				if (matrix[i][k] != '1' && matrix[i][k] != '0' )
-				{
-					free_matrix(matrix, row);
-					return(0);
-				}
-			}
-			k++;
+			else if (matrices->passed_matrix[i][k] != '1' && matrices->passed_matrix[i][k] != '0' )
+					return (free_matrix(matrices, row));
 		}
-		i++;
-		k = 0;
 	}
 	if (letters[0] == 0 || letters[1] != 1 || letters[2] != 1)
-	{
-		free_matrix(matrix, row);
-		return (0);
-	}
-	dimensions.row = row;
-	dimensions.column = column;
-	check_path(full_matrix, matrix, dimensions, E_coordinate);
+		return (free_matrix(matrices, row));
+	check_path(matrices->full_matrix, matrices->passed_matrix, dimensions, E_coordinate);
 	return (1);
 }
 
-int check_dimensions_map(int fd, int *row, int *column)
+int check_dimensions_map(int fd, t_coordinate *dimensions)
 {
 	int		sz;
 	char	symbol[2];
@@ -69,73 +54,90 @@ int check_dimensions_map(int fd, int *row, int *column)
 	{
 		sz = read(fd, symbol, 1);
 		symbol[sz] = '\0';
-		if (*row-1 == 0)
+		if ((dimensions->row) - 1 == 0)
 			fix_columns++;
-		(*column)++;
+		(dimensions->column)++;
 		if (symbol[0] == '\n')
 		{
-			(*row)++;
-			if (*column != fix_columns)
+			(dimensions->row)++;
+			if (dimensions->column != fix_columns)
 				return(0);
-			*column = -1;
+			dimensions->column = -1;
 		}
 	}
-	if (*column != fix_columns)
+	if (dimensions->column != fix_columns || dimensions->row < 3)
 		return (0);
-	*column = fix_columns;
+	dimensions->column = fix_columns;
 	return (1);
 }
 
-
-int	check_insides_map(int fd, int row, int column)
+t_matrices	create_matrices(t_coordinate dimensions)
 {
-	int changing_rows;
-	int changing_columns;
-	char **matrix;
-	t_position **full_matrix;
+	t_matrices	matrices;
+	int			k;
 
-	matrix = (char **)malloc((row+1) * sizeof(char*));
-
-	full_matrix = (t_position **)malloc((row + 1) * sizeof(t_position));
-
-	int k = 0;
-	while(k < row)
+	matrices.passed_matrix = (char **)malloc((dimensions.row + 1) * sizeof(char*));
+	if (!(matrices.passed_matrix))
 	{
-		full_matrix[k] = (t_position *)malloc((column + 1) * sizeof(t_position));
-		matrix[k] = (char *)malloc((column + 1) * sizeof(char));
+		printf("Memory allocation failed");
+		exit(1);
+	}
+	matrices.full_matrix = (t_position **)malloc((dimensions.row + 1) * sizeof(t_position));
+	if (!(matrices.full_matrix))
+	{
+		printf("Memory allocation failed");
+		exit(1);
+	}
+	k = 0;
+	while (k < dimensions.row)
+	{
+		matrices.full_matrix[k] = (t_position *)malloc((dimensions.column + 1) * sizeof(t_position));
+		matrices.passed_matrix[k] = (char *)malloc((dimensions.column + 1) * sizeof(char));
 		k++;
 	}
-	int sz;
-	char symbol[2];
+	return (matrices);
+}
 
-	changing_rows = 0;
-	changing_columns = 0;
-
-	sz = 1;
-	while (sz != 0)
+void	fill_matrices(t_matrices *matrices, t_coordinate *dimensions, t_fileRead *file_read_info)//int *fd, int *sz, char *symbol)
+{
+	file_read_info->sz = 1;
+	while (file_read_info->sz != 0)
 	{
-		sz = read(fd, symbol, 1);
-
-		symbol[sz] = '\0';
-		if (sz == 0)
-			matrix[changing_rows][changing_columns] = '\0';
+		file_read_info->sz = read(file_read_info->fd, file_read_info->symbol, 1);
+		file_read_info->symbol[file_read_info->sz] = '\0';
+		if (file_read_info->sz == 0)
+			matrices->passed_matrix[dimensions->row][dimensions->column] = '\0';
 		else
 		{
-			matrix[changing_rows][changing_columns] = symbol[0];
-			full_matrix[changing_rows][changing_columns].cost = INT_MAX - 1;
-			full_matrix[changing_rows][changing_columns].visited = 1;
-			if (symbol[0] == 'P')
-				full_matrix[changing_rows][changing_columns].cost = 0;
+			matrices->passed_matrix[dimensions->row][dimensions->column] = file_read_info->symbol[0];
+			matrices->full_matrix[dimensions->row][dimensions->column].cost = INT_MAX - 1;
+			(matrices->full_matrix[dimensions->row][dimensions->column]).visited = 1;
+			if (file_read_info->symbol[0] == 'P')
+				(matrices->full_matrix[dimensions->row][dimensions->column]).cost = 0;
 		}
-		printf ("%c", symbol[0]);
-		changing_columns++;
-		if (symbol[0] == '\n' || sz == 0)
+		printf ("%c", file_read_info->symbol[0]);
+		dimensions->column++;
+		if (file_read_info->symbol[0] == '\n' || file_read_info->sz == 0)
 		{
-			changing_rows+=1;
-			changing_columns = 0;
+			dimensions->row+=1;
+			dimensions->column = 0;
 		}
 	}
-	if (count_checker(matrix, full_matrix, row, column))
+}
+
+int	check_insides_map(int fd, t_coordinate dimensions)
+{
+	t_coordinate	temp_dimensions;
+	t_matrices		matrices;
+	t_fileRead		file_read_info;
+
+	file_read_info.fd = fd;
+	matrices = create_matrices(dimensions);
+	temp_dimensions.row = 0;
+	temp_dimensions.column = 0;
+	fill_matrices(&matrices, &temp_dimensions, &file_read_info);
+
+	if (count_checker(&matrices, dimensions.row, dimensions.column))
 		return (1);
 	return (0);
 }

@@ -216,7 +216,8 @@ int check_path(t_position **full_matrix, char **matrix, t_coordinate dimensions,
 		}
 	}
 	visited_loop(matrix, full_matrix, dimensions, E_coordinate);
-	free_matrix(matrix, dimensions.row);
+	// free_matrix(matrix, dimensions.row);
+
 	// i = -1;k = -1;
 
 	// while (++i < dimensions.row)

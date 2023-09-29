@@ -1,46 +1,46 @@
 #include "so_long.h"
 
-#define PROGRAM_ERROR	1
-
-void free_matrix(char **matrix, int row)
+int free_matrix(t_matrices *matrices, int row)
 {
 	int	i;
 
 	i = 0;
 	while(i < row)
-		free(matrix[i++]);
-	free(matrix);
+		free(matrices->passed_matrix[i++]);
+	free(matrices->passed_matrix);
+	i = 0;
+	while(i < row)
+		free(matrices->full_matrix[i++]);
+	free(matrices->full_matrix);
+	return (0);
 }
 
 int	main()
 {
-	int fd1;
-	int fd2;
-	int row;
-	int column;
+	int				fd1;
+	int				fd2;
+	t_coordinate	dimensions;
 
+	dimensions.row = 1;
+	dimensions.column = -1;
 	fd1 = open("map.ber", O_RDONLY);
 	if (fd1 < 0)
 		return 0;
 	fd2 = open("map.ber", O_RDONLY);
 	if (fd2 < 0)
 		return 0;
-
-	row = 1;
-	column = -1;
-
-	if(check_dimensions_map(fd1, &row, &column))
+	if (check_dimensions_map(fd1, &dimensions))
 	{
-		printf("\nCORRECT MAP DIMENSIONS(%d,%d), CHECKING THE INSIDE...\n", row, column);
+		printf("\n\nCORRECT MAP DIMENSIONS(%d,%d), CHECKING THE INSIDE...\n\n", dimensions.row, dimensions.column);
 
-		if(check_insides_map(fd2, row, column))
-			printf("\nCORRECT MAP INSIDES (%d, %d), LOADING THE GAME...", row, column);
+		if (check_insides_map(fd2, dimensions))
+			printf("\n\nCORRECT MAP INSIDES (%d, %d), LOADING THE GAME...", dimensions.row, dimensions.column);
 		else
-				printf("\nWRONG MAP\n");
+			printf("\n\nWRONG INSIDES\n\n");
 	}
 	else
-		printf("\nWRONG MAP\n");
+		printf("\n\nWRONG DIMENSIONS\n\n");
 
-	while(1)
-		;
+	// while(1)
+	// 	;
 }
