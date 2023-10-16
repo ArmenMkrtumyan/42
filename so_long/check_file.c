@@ -170,7 +170,6 @@ int	check_insides_map(int fd, t_coordinate dimensions)
 	return (0);
 }
 
-
 //letters[0] - C
 //letters[1] - E
 //letters[2] - P

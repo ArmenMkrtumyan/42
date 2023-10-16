@@ -12,7 +12,7 @@
 
 #include "so_long.h"
 
-void	direction_init(char **maze, t_position **matrix, int row, int col)
+void direction_init(char **maze, t_position **matrix, int row, int col)
 {
 	if (maze[row + 1][col] != '1')
 		(matrix[row][col]).S = 1;
@@ -24,10 +24,10 @@ void	direction_init(char **maze, t_position **matrix, int row, int col)
 		(matrix[row][col]).W = 1;
 }
 
-int		check_visited(t_position **matrix, t_coordinate dimensions)
+int check_visited(t_position **matrix, t_coordinate dimensions)
 {
-	int	i;
-	int	k;
+	int i;
+	int k;
 
 	i = -1;
 	while (++i < dimensions.row)
@@ -35,7 +35,7 @@ int		check_visited(t_position **matrix, t_coordinate dimensions)
 		k = -1;
 		while (++k < dimensions.column)
 		{
-			if(matrix[i][k].visited == 1)
+			if (matrix[i][k].visited == 1)
 				return (1);
 		}
 	}
@@ -44,9 +44,9 @@ int		check_visited(t_position **matrix, t_coordinate dimensions)
 
 t_coordinate get_minimum(t_position **node, t_coordinate dimensions, char **matrix)
 {
-	t_coordinate	i_k;
-	int				min;
-	t_coordinate	min_coordinates;
+	t_coordinate i_k;
+	int min;
+	t_coordinate min_coordinates;
 
 	min = INT_MAX;
 	i_k.row = 0;
@@ -71,11 +71,11 @@ t_coordinate get_minimum(t_position **node, t_coordinate dimensions, char **matr
 	return (min_coordinates);
 }
 
-int	get_coin_count(char **matrix, t_coordinate dimensions)
+int get_coin_count(char **matrix, t_coordinate dimensions)
 {
-	int	i;
-	int	k;
-	int	coin_count;
+	int i;
+	int k;
+	int coin_count;
 
 	i = -1;
 	coin_count = 0;
@@ -84,14 +84,14 @@ int	get_coin_count(char **matrix, t_coordinate dimensions)
 		k = -1;
 		while (++k < dimensions.column)
 		{
-			if(matrix[i][k] == 'C')
-				coin_count ++;
+			if (matrix[i][k] == 'C')
+				coin_count++;
 		}
 	}
 	return (coin_count);
 }
 
-int	check_wall_aka_the_end(int current_cell_wall, int exit_exists, int coin_count)
+int check_wall_aka_the_end(int current_cell_wall, int exit_exists, int coin_count)
 {
 	if (current_cell_wall)
 	{
@@ -109,7 +109,7 @@ int	check_wall_aka_the_end(int current_cell_wall, int exit_exists, int coin_coun
 	return (1);
 }
 
-void	assign_cell(int k, t_coordinate *child_cell, t_coordinate *current_cell)
+void assign_cell(int k, t_coordinate *child_cell, t_coordinate *current_cell)
 {
 	switch (k)
 	{
@@ -175,11 +175,41 @@ void initialize_directions(int *directions, t_matrices *matrices, t_coordinate c
 	directions[4] = '\0';
 }
 
-void change_weights(t_matrices *matrices, t_coordinate dimensions,t_coordinate *current_cell, t_coordinate *E_coordinates, t_coordinate *child_cell, int *coin_count, int *exit_exists)
+void fix_coordinates(int k, t_coordinate *child_cell, t_coordinate current_cell)
 {
-	static 	int	directions[5];
-	int			k;
-	int			temp_dist;
+	if (k == 0)
+	{
+		child_cell->row = current_cell.row - 1;
+		child_cell->column = current_cell.column;
+	}
+	else if (k == 1)
+	{
+		child_cell->row = current_cell.row + 1;
+		child_cell->column = current_cell.column;
+	}
+	else if (k == 2)
+	{
+		child_cell->row = current_cell.row;
+		child_cell->column = current_cell.column + 1;
+	}
+	else if (k == 3)
+	{
+		child_cell->row = current_cell.row;
+		child_cell->column = current_cell.column - 1;
+	}
+}
+
+void check_exit(int child_row, int child_column, int E_row, int E_column, int *exit_exists)
+{
+	if (child_row == E_row && child_column == E_column)
+		*exit_exists = 1;
+}
+
+void change_weights(t_matrices *matrices, t_coordinate dimensions, t_coordinate *current_cell, t_coordinate *E_coordinates, t_coordinate *child_cell, int *coin_count, int *exit_exists)
+{
+	static int directions[5];
+	int k;
+	int temp_dist;
 
 	initialize_directions(directions, matrices, *current_cell);
 	k = 0;
@@ -188,39 +218,16 @@ void change_weights(t_matrices *matrices, t_coordinate dimensions,t_coordinate *
 		if (directions[k] == 1)
 		{
 			temp_dist = 0;
-			//fix_coordinates(k, &child_cell, current_cell);
-			if (k == 0)
-			{
-				child_cell->row = current_cell->row - 1;
-				child_cell->column = current_cell->column;
-			}
-			else if (k == 1)
-			{
-				child_cell->row = current_cell->row + 1;
-				child_cell->column = current_cell->column;
-			}
-			else if (k == 2)
-			{
-				child_cell->row = current_cell->row;
-				child_cell->column = current_cell->column + 1;
-			}
-			else if (k == 3)
-			{
-				child_cell->row = current_cell->row;
-				child_cell->column = current_cell->column - 1;
-			}
-			if (child_cell->row == E_coordinates->row && child_cell->column == E_coordinates->column)
-				*exit_exists = 1;
-			if (matrices->full_matrix[child_cell->row][child_cell->column].visited == 0 || \
-			matrices->full_matrix[child_cell->row][child_cell->column].cost != INT_MAX -1
-			)
+			fix_coordinates(k, child_cell, *current_cell);
+			check_exit(child_cell->row, child_cell->column, E_coordinates->row, E_coordinates->column, exit_exists);
+			if (matrices->full_matrix[child_cell->row][child_cell->column].visited == 0 ||
+				matrices->full_matrix[child_cell->row][child_cell->column].cost != INT_MAX - 1)
 			{
 				k++;
-				continue ;
+				continue;
 			}
 			temp_dist = matrices->full_matrix[current_cell->row][current_cell->column].cost;
-
-			if(matrices->passed_matrix[child_cell->row][child_cell->column] == 'C')
+			if (matrices->passed_matrix[child_cell->row][child_cell->column] == 'C')
 			{
 				temp_dist += 100;
 				*coin_count -= 1;
@@ -229,18 +236,17 @@ void change_weights(t_matrices *matrices, t_coordinate dimensions,t_coordinate *
 				temp_dist = matrices->full_matrix[current_cell->row][current_cell->column].cost + 1000;
 			if (temp_dist < matrices->full_matrix[child_cell->row][child_cell->column].cost)
 				matrices->full_matrix[child_cell->row][child_cell->column].cost = temp_dist;
-
 		}
 		k++;
 	}
 }
 
-void	check_path(t_matrices *matrices, t_coordinate dimensions, t_coordinate E_coordinates)
+void check_path(t_matrices *matrices, t_coordinate dimensions, t_coordinate E_coordinates)
 {
-	int	i;
-	int	k;
+	int i;
+	int k;
 	t_coordinate current_cell;
-	t_coordinate	child_cell;
+	t_coordinate child_cell;
 	int coin_count;
 	int exit_exists;
 
@@ -253,20 +259,34 @@ void	check_path(t_matrices *matrices, t_coordinate dimensions, t_coordinate E_co
 		matrices->full_matrix[current_cell.row][current_cell.column].visited = 0;
 		if (check_wall(current_cell.wall, exit_exists, coin_count))
 			break;
-		if (current_cell.row == E_coordinates.row && current_cell.column == E_coordinates.column && coin_count==0)
+		if (current_cell.row == E_coordinates.row && current_cell.column == E_coordinates.column && coin_count == 0)
 			exit_exists = 1;
 		change_weights(matrices, dimensions, &current_cell, &E_coordinates, &child_cell, &coin_count, &exit_exists);
 	}
 	int i2 = -1, k2;
-	printf ("\n");
+	printf("\n");
 	while (++i2 < dimensions.row)
 	{
 		k2 = -1;
 		while (++k2 < dimensions.column)
 			printf("%d", matrices->full_matrix[i2][k2].visited);
-		printf ("\n");
+		printf("\n");
 	}
 	printf("\n\n\nNumber of remaining coins to collect: %d\n\n", coin_count);
+	i2 = -1;
+	while (++i2 < dimensions.row)
+	{
+		k2 = -1;
+		while (++k2 < dimensions.column)
+		{
+			printf("               ");
+			if (matrices->full_matrix[i2][k2].cost == INT_MAX - 1)
+				printf("X");
+			else
+				printf("%d", matrices->full_matrix[i2][k2].cost);
+		}
+		printf("\n");
+	}
 }
 
 int assign_NSEW(t_matrices *matrices, t_coordinate dimensions, t_coordinate E_coordinate)
