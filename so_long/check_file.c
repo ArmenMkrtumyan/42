@@ -14,7 +14,6 @@
 
 int check_letters(char letter, char *letters, t_coordinate* E_coordinate, t_coordinate* i_k)
 {
-	//printf("\nReceived a letter: %c\n", letter);
 	if (letter == 'C')
 		letters[0] ++;
 	else if (letter == 'E')
@@ -25,7 +24,6 @@ int check_letters(char letter, char *letters, t_coordinate* E_coordinate, t_coor
 	}
 	else if (letter == 'P')
 		letters[2] ++;
-	//printf("\nReceived letters: %s\n", letters);
 	if (letter == 'C' || letter == 'E' || letter == 'P')
 		return (1);
 	return (0);
