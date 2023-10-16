@@ -253,33 +253,32 @@ void	check_path(t_matrices *matrices, t_coordinate dimensions, t_coordinate E_co
 
 int assign_NSEW(t_matrices *matrices, t_coordinate dimensions, t_coordinate E_coordinate)
 {
-	int i = -1;
-	int k = -1;
+	t_coordinate i_k;
 
-	while (++i < dimensions.row)
+	i_k.row = -1;
+	while (++i_k.row < dimensions.row)
 	{
-		k = -1;
-		while (++k < dimensions.column)
+		i_k.column = -1;
+		while (++i_k.column < dimensions.column)
 		{
 
-			(matrices->full_matrix[i][k]).N = 0;
-			(matrices->full_matrix[i][k]).S = 0;
-			(matrices->full_matrix[i][k]).E = 0;
-			(matrices->full_matrix[i][k]).W = 0;
-			if (i == 0)
-				matrices->full_matrix[i][k].N = 0;
-			else if (i == dimensions.row - 1)
-				matrices->full_matrix[i][k].S = 0;
-			else if (k == 0)
-				matrices->full_matrix[i][k].W = 0;
-			else if (k == dimensions.column - 1)
-				matrices->full_matrix[i][k].E = 0;
+			(matrices->full_matrix[i_k.row][i_k.column]).N = 0;
+			(matrices->full_matrix[i_k.row][i_k.column]).S = 0;
+			(matrices->full_matrix[i_k.row][i_k.column]).E = 0;
+			(matrices->full_matrix[i_k.row][i_k.column]).W = 0;
+			if (i_k.row == 0)
+				matrices->full_matrix[i_k.row][i_k.column].N = 0;
+			else if (i_k.row == dimensions.row - 1)
+				matrices->full_matrix[i_k.row][i_k.column].S = 0;
+			else if (i_k.column == 0)
+				matrices->full_matrix[i_k.row][i_k.column].W = 0;
+			else if (i_k.column == dimensions.column - 1)
+				matrices->full_matrix[i_k.row][i_k.column].E = 0;
 			else
-				direction_init(matrices->passed_matrix, matrices->full_matrix, i, k);
+				direction_init(matrices->passed_matrix, matrices->full_matrix, i_k.row, i_k.column);
 		}
 	}
 	check_path(matrices, dimensions, E_coordinate);
-
 	return (1);
 }
 	// free_matrix(matrix, dimensions.row);

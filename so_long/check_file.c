@@ -12,40 +12,57 @@
 
 #include "so_long.h"
 
-// letters[0] = 0; //C
-// letters[1] = 0; //E
-// letters[2] = 0; //P
-// letters[3] = '\0';
+int check_letters(char letter, char *letters, t_coordinate* E_coordinate, t_coordinate* i_k)
+{
+	//printf("\nReceived a letter: %c\n", letter);
+	if (letter == 'C')
+		letters[0] ++;
+	else if (letter == 'E')
+	{
+		letters[1] ++;
+		E_coordinate->row	= i_k->row;
+		E_coordinate->column	= i_k->column;
+	}
+	else if (letter == 'P')
+		letters[2] ++;
+	//printf("\nReceived letters: %s\n", letters);
+	if (letter == 'C' || letter == 'E' || letter == 'P')
+		return (1);
+	return (0);
+}
+
+void letters_initializer(char *letters)
+{
+	letters[0] = '0';
+	letters[1] = '0';
+	letters[2] = '0';
+	letters[3] = '\0';
+}
+
 int count_checker(t_matrices *matrices, t_coordinate dimensions)
 {
-	int				i = 0;
-	int				k = 0;
-	static	char	letters[4]; // CEP
+	char			letters[4]; // CEP
 	t_coordinate	E_coordinate;
+	t_coordinate	i_k;
+	char			element;
 
-	i = -1;
-	while (++i < dimensions.row)
+	letters_initializer(letters);
+	i_k.row = -1;
+	while(++i_k.row < dimensions.row)
 	{
-		k = 0;
-		while (++k < dimensions.column)
+		i_k.column = 0;
+		while (++i_k.column < dimensions.column)
 		{
-			if ((matrices->passed_matrix[i][k] != '1') && (k==0 || k==dimensions.column-1 || i==0 || i == dimensions.row-1))
+			element = matrices->passed_matrix[i_k.row][i_k.column];
+			if ((element != '1') && (i_k.column==0 || i_k.column==dimensions.column-1 || i_k.row==0 || i_k.row == dimensions.row-1))
 				return (free_matrix(matrices, dimensions.row));
-			else if (matrices->passed_matrix[i][k] == 'C')
-				letters[0] ++;
-			else if (matrices->passed_matrix[i][k] == 'E')
-			{
-				letters[1] ++;
-				E_coordinate.row	= i;
-				E_coordinate.column	= k;
-			}
-			else if (matrices->passed_matrix[i][k] == 'P')
-				letters[2] ++;
-			else if (matrices->passed_matrix[i][k] != '1' && matrices->passed_matrix[i][k] != '0' )
-					return (free_matrix(matrices, dimensions.row));
+			else if(check_letters(element, letters, &E_coordinate, &i_k))
+				continue;
+			else if (element != '1' && element != '0' )
+				return (free_matrix(matrices, dimensions.row));
 		}
 	}
-	if (letters[0] == 0 || letters[1] != 1 || letters[2] != 1)
+	if (letters[0] == '0' || letters[1] != '1' || letters[2] != '1')
 		return (free_matrix(matrices, dimensions.row));
 	assign_NSEW(matrices, dimensions, E_coordinate);
 	return (1);
@@ -125,7 +142,7 @@ void	fill_matrices(t_matrices *matrices, t_coordinate *dimensions, t_fileRead *f
 			if (file_read_info->symbol[0] == 'P')
 				(matrices->full_matrix[dimensions->row][dimensions->column]).cost = 0;
 		}
-		// printf ("%c", file_read_info->symbol[0]);
+		printf ("%c", file_read_info->symbol[0]);
 		dimensions->column++;
 		if (file_read_info->symbol[0] == '\n' || file_read_info->sz == 0)
 		{
@@ -154,3 +171,8 @@ int	check_insides_map(int fd, t_coordinate dimensions)
 		return (1);
 	return (0);
 }
+
+
+//letters[0] - C
+//letters[1] - E
+//letters[2] - P
