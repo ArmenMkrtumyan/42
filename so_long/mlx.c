@@ -12,7 +12,7 @@
 
 #include "so_long.h"
 
-int	free_matrix(t_matrices *matrices, int row)
+void	free_matrix(t_matrices *matrices, int row, t_insides *insides)
 {
 	int	i;
 
@@ -24,7 +24,7 @@ int	free_matrix(t_matrices *matrices, int row)
 	while (i < row)
 		free(matrices->full_matrix[i++]);
 	free(matrices->full_matrix);
-	return (0);
+	insides->freed = 1;
 }
 
 int	main(int argc, char	*argv[])
@@ -32,27 +32,36 @@ int	main(int argc, char	*argv[])
 	int				fd1;
 	int				fd2;
 	t_coordinate	dimensions;
+	t_insides		insides;
 
 	(void) argc;
 	(void) argv;
 	dimensions.row = 1;
 	dimensions.column = -1;
-	fd1 = open("map.ber", O_RDONLY);
-	if (fd1 < 0)
-		return (0);
-	fd2 = open("map.ber", O_RDONLY);
-	if (fd2 < 0)
-		return (0);
+	fd1 = get_fd("map.ber");
+	fd2 = get_fd("map.ber");
 	if (check_dimensions_map(fd1, &dimensions))
 	{
-		printf("\n\nCORRECT DIMENSIONS(%d,%d),CHECKING THE INSIDE...\n\n", dimensions.row, dimensions.column);
-		if (check_insides_map(fd2, dimensions))
-			printf("\n\nCORRECT MAP INSIDES (%d, %d),LOADING THE GAME...", dimensions.row, dimensions.column);
+		printf("\n\nCORRECT DIMENSIONS(%d, %d),CHECKING THE INSIDE...\n\n", \
+		dimensions.row, dimensions.column);
+		if (check_insides_map(fd2, dimensions, &insides) == 0)
+		{
+			printf("\n\nCORRECT MAP INSIDES (%d, %d),CHECKING PATHS...", \
+			dimensions.row, dimensions.column);
+			check_path(&insides.matrices, insides.dimensions, insides.E_coordinates);
+			if (insides.matrices.path_exists == 1)
+				printf("\n\nCORRECT PATHS...Launching the game\n\n");
+			else
+			{
+				printf("\n\nISSUE WITH PATHS\n\n");
+				free_matrix(&insides.matrices, dimensions.row, &insides);
+			}
+		}
 		else
 			printf("\n\nWRONG INSIDES\n\n");
 	}
 	else
 		printf("\n\nWRONG DIMENSIONS\n\n");
-	// while (1)
-	// 	{}
+	while (1)
+		{}
 }

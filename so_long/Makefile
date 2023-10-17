@@ -8,7 +8,11 @@ RM = rm -f
 
 SRCS	=	check_file.c	\
 			mlx.c			\
-			path_check.c
+			path_check.c	\
+			util_initializers.c	\
+			util_updater.c	\
+			util_checkers.c	\
+			util_getters.c	\
 
 OBJS = $(SRCS:.c=.o)
 
