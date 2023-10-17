@@ -29,7 +29,7 @@ void	direction_init(char **maze, t_position **matrix, int row, int col)
 		(matrix[row][col]).W = 1;
 }
 
-void	initialize_NSEW(t_matrices *matrices, t_coordinate dimensions, t_coordinate E_coordinate)
+void	initialize_NSEW(t_matrices *matrices, t_coordinate dimensions, t_coordinate E)
 {
 	t_coordinate	i_k;
 
@@ -55,4 +55,12 @@ void	initialize_NSEW(t_matrices *matrices, t_coordinate dimensions, t_coordinate
 				direction_init(matrices->passed_matrix, matrices->full_matrix, i_k.row, i_k.column);
 		}
 	}
+}
+
+void initialize_insides(t_inside *insides, t_matrices *matrices, t_coordinate dims, t_coordinate e)
+{
+	insides->matrices = *matrices;
+	insides->dimensions = dims;
+	insides->Es = e;
+	insides->freed = 0;
 }

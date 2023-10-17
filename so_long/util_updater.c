@@ -29,7 +29,7 @@ int check_dimensions_map(int fd, t_coordinate *dimensions)
 	return (1);
 }
 
-void	change_weights(t_matrices *matrices, t_coordinate dimensions, t_coordinate *current_cell, t_coordinate *E_coordinates, t_coordinate *child_cell, int *coin_count, int *exit_exists)
+void	change_weights(t_matrices *matrices, t_coordinate dimensions, t_coordinate *current_cell, t_coordinate *Es, t_coordinate *child_cell, int *coin_count, int *exit_exists)
 {
 	static int directions[5];
 	int k;
@@ -43,7 +43,7 @@ void	change_weights(t_matrices *matrices, t_coordinate dimensions, t_coordinate 
 		{
 			temp_dist = 0;
 			fix_coordinates(k, child_cell, *current_cell);
-			check_exit(child_cell->row, child_cell->column, E_coordinates->row, E_coordinates->column, exit_exists);
+			check_exit(child_cell->row, child_cell->column, Es->row, Es->column, exit_exists);
 			if (matrices->full_matrix[child_cell->row][child_cell->column].visited == 0 ||
 				matrices->full_matrix[child_cell->row][child_cell->column].cost != INT_MAX - 1)
 			{

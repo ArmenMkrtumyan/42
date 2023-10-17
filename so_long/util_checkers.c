@@ -50,3 +50,19 @@ int	check_wall(int wall, int exit_exists, int coin_count, t_matrices *matrices)
 	}
 	return (0);
 }
+
+int ft_strncmp(char *str1, char *str2, int n)
+{
+	int i;
+
+	i = 0;
+	if (get_len(str1) != 4)
+		return (1);
+	while (i < n)
+	{
+		if (str1[i] != str2[i])
+			return (1);
+		i++;
+	}
+	return (0);
+}

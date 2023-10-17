@@ -12,14 +12,14 @@
 
 #include "so_long.h"
 
-int	check_path(t_matrices *matrices, t_coordinate dimensions, t_coordinate E_coordinates)
+int	check_path(t_matrices *matrices, t_coordinate dimensions, t_coordinate Es)
 {
 	t_coordinate current_cell;
 	t_coordinate child_cell;
 	int coin_count;
 	int exit_exists;
 
-	initialize_NSEW(matrices, dimensions, E_coordinates);
+	initialize_NSEW(matrices, dimensions, Es);
 	exit_exists = 0;
 	coin_count = get_coin_count(matrices->passed_matrix, dimensions);
 	while (check_visited(matrices->full_matrix, dimensions))
@@ -28,9 +28,9 @@ int	check_path(t_matrices *matrices, t_coordinate dimensions, t_coordinate E_coo
 		matrices->full_matrix[current_cell.row][current_cell.column].visited = 0;
 		if (check_wall(current_cell.wall, exit_exists, coin_count, matrices))
 			break;
-		if (current_cell.row == E_coordinates.row && current_cell.column == E_coordinates.column && coin_count == 0)
+		if (current_cell.row == Es.row && current_cell.column == Es.column && coin_count == 0)
 			exit_exists = 1;
-		change_weights(matrices, dimensions, &current_cell, &E_coordinates, &child_cell, &coin_count, &exit_exists);
+		change_weights(matrices, dimensions, &current_cell, &Es, &child_cell, &coin_count, &exit_exists);
 	}
 	int i2 = -1, k2;
 	printf("\n");

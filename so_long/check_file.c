@@ -12,56 +12,51 @@
 
 #include "so_long.h"
 
-int check_letters(char letter, char *letters, t_coordinate* E_coordinate, t_coordinate* i_k)
+int	check_letters(char letter, char *array, t_coordinate *e, t_coordinate *i_k)
 {
 	if (letter == 'C')
-		letters[0] ++;
+		array[0]++;
 	else if (letter == 'E')
 	{
-		letters[1] ++;
-		E_coordinate->row	= i_k->row;
-		E_coordinate->column	= i_k->column;
+		array[1]++;
+		e->row = i_k->row;
+		e->column = i_k->column;
 	}
 	else if (letter == 'P')
-		letters[2] ++;
+		array[2]++;
 	if (letter == 'C' || letter == 'E' || letter == 'P')
 		return (1);
 	return (0);
 }
 
-void	count_checker(t_matrices *matrices, t_coordinate dimensions, t_insides *insides)
+void	count_check(t_matrices *matrices, t_coordinate dims, t_inside *insides)
 {
 	char			letters[4];
-	t_coordinate	E_coordinate;
+	t_coordinate	e;
 	t_coordinate	i_k;
 	char			element;
 
 	letters_initializer(letters);
 	i_k.row = -1;
-	while (++i_k.row < dimensions.row)
+	while (++i_k.row < dims.row)
 	{
 		i_k.column = 0;
-		while (++i_k.column < dimensions.column)
+		while (++i_k.column < dims.column)
 		{
 			element = matrices->passed_matrix[i_k.row][i_k.column];
-			if ((element != '1') && \
-			(i_k.column == 0 || i_k.column == dimensions.column - 1 || i_k.row == 0 || i_k.row == dimensions.row-1))
-				free_matrix(matrices, dimensions.row, insides);
-			else if(check_letters(element, letters, &E_coordinate, &i_k))
+			if(check_letters(element, letters, &e, &i_k))
 				continue;
-			else if (element != '1' && element != '0' )
-				free_matrix(matrices, dimensions.row, insides);
+			else if (((element != '1') && (i_k.column == 0 || i_k.column == dims.column - 1 \
+			|| i_k.row == 0 || i_k.row == dims.row-1)) || element != '1' && element != '0')
+				free_matrix(matrices, dims.row, insides);
 		}
 	}
 	if (letters[0] == '0' || letters[1] != '1' || letters[2] != '1')
-		return (free_matrix(matrices, dimensions.row, insides));
-	insides->matrices = *matrices;
-	insides->dimensions = dimensions;
-	insides->E_coordinates = E_coordinate;
-	insides->freed = 0;
+		return (free_matrix(matrices, dims.row, insides));
+	initialize_insides(insides, matrices, dims, e);
 }
 
-void	fill_matrices(t_matrices *matrices, t_coordinate *dimensions, t_fileRead *file_read_info)
+void	fill_matrices(t_matrices* matrices, t_coordinate* dimensions, t_fileRead* file_read_info)
 {
 	file_read_info->sz = 1;
 	while (file_read_info->sz != 0)
@@ -88,7 +83,7 @@ void	fill_matrices(t_matrices *matrices, t_coordinate *dimensions, t_fileRead *f
 	}
 }
 
-void	create_matrices(t_coordinate dimensions, t_matrices *matrices)
+void	create_matrices(t_coordinate dimensions, t_matrices* matrices)
 {
 	int	k;
 
@@ -113,7 +108,7 @@ void	create_matrices(t_coordinate dimensions, t_matrices *matrices)
 	}
 }
 
-int	check_insides_map(int fd, t_coordinate dimensions, t_insides *insides)
+int	check_insides_map(int fd, t_coordinate dimensions, t_inside* insides)
 {
 	t_coordinate	temp_dimensions;
 	t_matrices		matrices;
@@ -124,7 +119,7 @@ int	check_insides_map(int fd, t_coordinate dimensions, t_insides *insides)
 	temp_dimensions.column = 0;
 	create_matrices(dimensions, &matrices);
 	fill_matrices(&matrices, &temp_dimensions, &file_read_info);
-	count_checker(&matrices, dimensions, insides);
+	count_check(&matrices, dimensions, insides);
 	return (insides->freed);
 }
 

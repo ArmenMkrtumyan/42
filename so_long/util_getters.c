@@ -61,3 +61,13 @@ t_coordinate	get_minimum(t_position **node, t_coordinate dimensions, char **matr
 		min_coordinates.wall = 1;
 	return (min_coordinates);
 }
+
+int	get_len(char *sentence)
+{
+	int i;
+
+	i = 0;
+	while (sentence[i] != '\0')
+		i++;
+	return (i);
+}
