@@ -18,12 +18,12 @@ void	free_matrix(t_matrices *matrices, int row, t_inside *insides)
 
 	i = 0;
 	while (i < row)
-		free(matrices->passed_matrix[i++]);
-	free(matrices->passed_matrix);
+		free(matrices->char_info[i++]);
+	free(matrices->char_info);
 	i = 0;
 	while (i < row)
-		free(matrices->full_matrix[i++]);
-	free(matrices->full_matrix);
+		free(matrices->pos_info[i++]);
+	free(matrices->pos_info);
 	insides->freed = 1;
 }
 

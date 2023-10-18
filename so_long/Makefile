@@ -2,7 +2,7 @@ NAME = so_long
 
 CC = cc
 
-CFLAGS = #-Wall -Wextra -Werror #-g -ggdb3 #-fsanitize=address
+CFLAGS = -g -ggdb3 #-fsanitize=address #-Wall -Wextra -Werror
 
 RM = rm -f
 
@@ -13,6 +13,7 @@ SRCS	=	check_file.c	\
 			util_updater.c	\
 			util_checkers.c	\
 			util_getters.c	\
+			util_printer.c	\
 
 OBJS = $(SRCS:.c=.o)
 

@@ -33,7 +33,7 @@ int	get_coin_count(char **matrix, t_coordinate dimensions)
 	return (coin_count);
 }
 
-t_coordinate	get_minimum(t_position **node, t_coordinate dimensions, char **matrix)
+t_coordinate	get_min(t_pos **node, t_coordinate dimensions, char **matrix)
 {
 	t_coordinate i_k;
 	int min;

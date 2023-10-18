@@ -1,14 +1,14 @@
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-#include "mlx.h"
-#include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <limits.h>
+# include "mlx.h"
+# include <stdlib.h>
+# include <fcntl.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <limits.h>
 
-typedef struct	s_placement
+typedef struct s_placement
 {
 	int	N;
 	int	S;
@@ -16,23 +16,23 @@ typedef struct	s_placement
 	int	W;
 	int	cost;
 	int	visited;
-}	t_position;
+}	t_pos;
 
-typedef struct	s_coordinates
+typedef struct s_coordinates
 {
 	int	row;
 	int	column;
 	int wall;
 }	t_coordinate;
 
-typedef struct	s_matrices
+typedef struct s_matrices
 {
-	char		**passed_matrix;;
-	t_position	**full_matrix;
+	char		**char_info;;
+	t_pos		**pos_info;
 	int			path_exists;
 }	t_matrices;
 
-typedef struct	s_fileRead
+typedef struct s_fileRead
 {
 	int		fd;
 	int		sz;
@@ -41,12 +41,12 @@ typedef struct	s_fileRead
 
 // typedef struct s_group_of_coordinates
 // {
-// 	t_coordinate	current_cell;
+// 	t_coordinate	curr_cell;
 // 	t_coordinate	child_cell;
 // 	t_coordinate	Es;
 // }	t_struct_of_coordinates;
 
-typedef struct	s_inside_checked
+typedef struct s_inside_checked
 {
 	t_matrices		matrices;
 	t_coordinate	dimensions;
@@ -71,28 +71,30 @@ int				check_path(t_matrices *matrices, t_coordinate dimensions, t_coordinate Es
 
 // CHECKER UTILS
 int				check_dimensions_map(int fd, t_coordinate *dimensions);
-int				check_visited(t_position **matrix, t_coordinate dimensions);
+int				check_visited(t_pos **matrix, t_coordinate dimensions);
 void			check_exit(int child_row, int child_column, int E_row, int E_column, int *exit_exists);
 int				check_wall(int wall, int exit_exists, int coin_count, t_matrices *matrices);
 
 // GETTER UTILS
 int				get_fd(char *file);
 int				get_coin_count(char **matrix, t_coordinate dimensions);
-t_coordinate	get_minimum(t_position **node, t_coordinate dimensions, char **matrix);
+t_coordinate	get_min(t_pos **node, t_coordinate dimensions, char **matrix);
 int				get_len(char *sentence);
 int ft_strncmp(char *str1, char *str2, int n);
 
 // INITIALIZE UTILS
 void			letters_initializer(char *letters);
-void			initialize_directions(int *directions, t_matrices *matrices, t_coordinate current_cell);
-void			direction_init(char **maze, t_position **matrix, int row, int col);
+void			initialize_directions(int *directions, t_matrices *matrices, t_coordinate curr_cell);
+void			direction_init(char **maze, t_pos **matrix, int row, int col);
 void			initialize_NSEW(t_matrices *matrices, t_coordinate dimensions, t_coordinate e);
 void			initialize_insides(t_inside *insides, t_matrices *matrices, t_coordinate dims, t_coordinate e);
 
 // UPDATER UTILS
-void			change_weights(t_matrices *matrices, t_coordinate dimensions, t_coordinate *current_cell, t_coordinate *Es, t_coordinate *child_cell, int *coin_count, int *exit_exists);
-void			fix_coordinates(int k, t_coordinate *child_cell, t_coordinate current_cell);
-void			update_weights(t_matrices *matrices, t_coordinate *current_cell, t_coordinate *child_cell, int *coin_count, int *temp_dist);
-void			assign_cell(int k, t_coordinate *child_cell, t_coordinate *current_cell);
+void			change_weights(t_matrices *matrices, t_coordinate dimensions, t_coordinate *curr_cell, t_coordinate *Es, t_coordinate *child_cell, int *coin_count, int *exit_exists);
+void			fix_coordinates(int k, t_coordinate *child_cell, t_coordinate curr_cell);
+void			update_weights(t_matrices *matrices, t_coordinate *curr_cell, t_coordinate *child_cell, int *coin_count, int *temp_dist);
+void			assign_cell(int k, t_coordinate *child_cell, t_coordinate *curr_cell);
+
+// PRINT UTILS
 
 #endif

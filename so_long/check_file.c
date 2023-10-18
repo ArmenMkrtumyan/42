@@ -24,14 +24,16 @@ int	check_letters(char letter, char *array, t_coordinate *e, t_coordinate *i_k)
 	}
 	else if (letter == 'P')
 		array[2]++;
-	if (letter == 'C' || letter == 'E' || letter == 'P')
+	else if (letter == 'M')
+		array[3]++;
+	if (letter == 'C' || letter == 'E' || letter == 'P' || letter == 'M')
 		return (1);
 	return (0);
 }
 
 void	count_check(t_matrices *matrices, t_coordinate dims, t_inside *insides)
 {
-	char			letters[4];
+	char			letters[5];
 	t_coordinate	e;
 	t_coordinate	i_k;
 	char			element;
@@ -43,12 +45,17 @@ void	count_check(t_matrices *matrices, t_coordinate dims, t_inside *insides)
 		i_k.column = 0;
 		while (++i_k.column < dims.column)
 		{
-			element = matrices->passed_matrix[i_k.row][i_k.column];
-			if(check_letters(element, letters, &e, &i_k))
-				continue;
-			else if (((element != '1') && (i_k.column == 0 || i_k.column == dims.column - 1 \
-			|| i_k.row == 0 || i_k.row == dims.row-1)) || element != '1' && element != '0')
+			element = matrices->char_info[i_k.row][i_k.column];
+			if (check_letters(element, letters, &e, &i_k))
+				continue ;
+			else if ((element != '1') && ((i_k.column == 0 || \
+			i_k.column == dims.column - 1 || i_k.row == 0 || \
+			i_k.row == dims.row - 1) || element != '0')){
 				free_matrix(matrices, dims.row, insides);
+				printf("\n\nWRONG INSIDES, BUT EXIT HAS TO BE FIXED\n\n");
+				// PRINT SOMETHING
+				exit(1);
+			}
 		}
 	}
 	if (letters[0] == '0' || letters[1] != '1' || letters[2] != '1')
@@ -56,59 +63,59 @@ void	count_check(t_matrices *matrices, t_coordinate dims, t_inside *insides)
 	initialize_insides(insides, matrices, dims, e);
 }
 
-void	fill_matrices(t_matrices* matrices, t_coordinate* dimensions, t_fileRead* file_read_info)
+void	fill_matrices(t_matrices *matrices, t_coordinate *dims, t_fileRead *fd)
 {
-	file_read_info->sz = 1;
-	while (file_read_info->sz != 0)
+	fd->sz = 1;
+	while (fd->sz != 0)
 	{
-		file_read_info->sz = read(file_read_info->fd, file_read_info->symbol, 1);
-		file_read_info->symbol[file_read_info->sz] = '\0';
-		if (file_read_info->sz == 0)
-			matrices->passed_matrix[dimensions->row][dimensions->column] = '\0';
+		fd->sz = read(fd->fd, fd->symbol, 1);
+		fd->symbol[fd->sz] = '\0';
+		if (fd->sz == 0)
+			matrices->char_info[dims->row][dims->column] = '\0';
 		else
 		{
-			matrices->passed_matrix[dimensions->row][dimensions->column] = file_read_info->symbol[0];
-			matrices->full_matrix[dimensions->row][dimensions->column].cost = INT_MAX - 1;
-			(matrices->full_matrix[dimensions->row][dimensions->column]).visited = 1;
-			if (file_read_info->symbol[0] == 'P')
-				(matrices->full_matrix[dimensions->row][dimensions->column]).cost = 0;
+			matrices->char_info[dims->row][dims->column] = fd->symbol[0];
+			matrices->pos_info[dims->row][dims->column].cost = INT_MAX - 1;
+			(matrices->pos_info[dims->row][dims->column]).visited = 1;
+			if (fd->symbol[0] == 'P')
+				(matrices->pos_info[dims->row][dims->column]).cost = 0;
 		}
-		printf ("%c", file_read_info->symbol[0]);
-		dimensions->column++;
-		if (file_read_info->symbol[0] == '\n' || file_read_info->sz == 0)
+		printf ("%c", fd->symbol[0]);
+		dims->column++;
+		if (fd->symbol[0] == '\n' || fd->sz == 0)
 		{
-			dimensions->row		+=	1;
-			dimensions->column	=	0;
+			dims->row += 1;
+			dims->column = 0;
 		}
 	}
 }
 
-void	create_matrices(t_coordinate dimensions, t_matrices* matrices)
+void	create_matrices(t_coordinate dim, t_matrices *matrix)
 {
 	int	k;
 
-	matrices->passed_matrix = (char **)malloc((dimensions.row + 1) * sizeof(char*));
-	if (!(matrices->passed_matrix))
+	matrix->char_info = (char **)malloc((dim.row + 1) * sizeof(char *));
+	if (!(matrix->char_info))
 	{
 		printf("Memory allocation failed");
 		exit (1);
 	}
-	matrices->full_matrix = (t_position **)malloc((dimensions.row + 1) * sizeof(t_position));
-	if (!(matrices->full_matrix))
+	matrix->pos_info = (t_pos **)malloc((dim.row + 1) * sizeof(t_pos));
+	if (!(matrix->pos_info))
 	{
 		printf("Memory allocation failed");
 		exit(1);
 	}
 	k = 0;
-	while (k < dimensions.row)
+	while (k < dim.row)
 	{
-		matrices->full_matrix[k] = (t_position *)malloc((dimensions.column + 1) * sizeof(t_position));
-		matrices->passed_matrix[k] = (char *)malloc((dimensions.column + 1) * sizeof(char));
+		matrix->pos_info[k] = (t_pos *)malloc((dim.column + 1) * sizeof(t_pos));
+		matrix->char_info[k] = (char *)malloc((dim.column + 1) * sizeof(char));
 		k++;
 	}
 }
 
-int	check_insides_map(int fd, t_coordinate dimensions, t_inside* insides)
+int	check_insides_map(int fd, t_coordinate dimensions, t_inside *insides)
 {
 	t_coordinate	temp_dimensions;
 	t_matrices		matrices;
@@ -126,3 +133,4 @@ int	check_insides_map(int fd, t_coordinate dimensions, t_inside* insides)
 //letters[0] - C
 //letters[1] - E
 //letters[2] - P
+//letters[3] - M

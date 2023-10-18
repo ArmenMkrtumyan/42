@@ -1,6 +1,6 @@
 #include "so_long.h"
 
-int	check_visited(t_position **matrix, t_coordinate dimensions)
+int	check_visited(t_pos **matrix, t_coordinate dimensions)
 {
 	int i;
 	int k;
