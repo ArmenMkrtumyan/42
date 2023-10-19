@@ -14,6 +14,8 @@
 
 int	check_letters(char letter, char *array, t_coordinate *e, t_coordinate *i_k)
 {
+	if (letter == '1' || letter == '0')
+		return (1);
 	if (letter == 'C')
 		array[0]++;
 	else if (letter == 'E')
@@ -42,24 +44,22 @@ void	count_check(t_matrices *matrices, t_coordinate dims, t_inside *insides)
 	i_k.row = -1;
 	while (++i_k.row < dims.row)
 	{
-		i_k.column = 0;
+		i_k.column = -1;
 		while (++i_k.column < dims.column)
 		{
 			element = matrices->char_info[i_k.row][i_k.column];
-			if (check_letters(element, letters, &e, &i_k))
-				continue ;
-			else if ((element != '1') && ((i_k.column == 0 || \
+			if ((element != '1') && (i_k.column == 0 || \
 			i_k.column == dims.column - 1 || i_k.row == 0 || \
-			i_k.row == dims.row - 1) || element != '0')){
-				free_matrix(matrices, dims.row, insides);
-				printf("\n\nWRONG INSIDES, BUT EXIT HAS TO BE FIXED\n\n");
-				// PRINT SOMETHING
-				exit(1);
-			}
+			i_k.row == dims.row - 1))
+				on_exit("Wrong insides!");
+			else if (check_letters(element, letters, &e, &i_k))
+				continue ;
+			else
+				on_exit("Wrong insides!");
 		}
 	}
 	if (letters[0] == '0' || letters[1] != '1' || letters[2] != '1')
-		return (free_matrix(matrices, dims.row, insides));
+		on_exit("Wrong insides!");
 	initialize_insides(insides, matrices, dims, e);
 }
 

@@ -42,14 +42,14 @@ int	check_path(t_matrices *matrix, t_coordinate dimensions, t_coordinate e)
 			printf("%d", matrix->pos_info[i2][k2].visited);
 		printf("\n");
 	}
-	printf("\n\n\nNumber of remaining coins to collect: %d\n\n", coins);
+//	printf("\n\n\nNumber of remaining coins to collect: %d\n\n", coins);
 	i2 = -1;
 	while (++i2 < dimensions.row)
 	{
 		k2 = -1;
 		while (++k2 < dimensions.column)
 		{
-			printf("               ");
+			printf("    ");
 			if (matrix->pos_info[i2][k2].cost == INT_MAX - 1)
 				printf("X");
 			else

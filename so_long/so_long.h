@@ -55,7 +55,7 @@ typedef struct s_inside_checked
 }	t_inside;
 
 // MAIN FUNCTIONS
-void			free_matrix(t_matrices *matrices, int row, t_inside *insides);
+//void			free_matrix(t_matrices *matrices, int row, t_inside *insides);
 void			checkings(int fd1, int fd2, t_coordinate dimensions);
 int				check_file_name(char *file_name);
 
@@ -96,5 +96,7 @@ void			update_weights(t_matrices *matrices, t_coordinate *curr_cell, t_coordinat
 void			assign_cell(int k, t_coordinate *child_cell, t_coordinate *curr_cell);
 
 // PRINT UTILS
+
+void			on_exit(char *error_message);
 
 #endif

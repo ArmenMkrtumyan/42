@@ -12,20 +12,20 @@
 
 #include "so_long.h"
 
-void	free_matrix(t_matrices *matrices, int row, t_inside *insides)
-{
-	int	i;
+// void	free_matrix(t_matrices *matrices, int row, t_inside *insides)
+// {
+// 	int	i;
 
-	i = 0;
-	while (i < row)
-		free(matrices->char_info[i++]);
-	free(matrices->char_info);
-	i = 0;
-	while (i < row)
-		free(matrices->pos_info[i++]);
-	free(matrices->pos_info);
-	insides->freed = 1;
-}
+// 	i = 0;
+// 	while (i < row)
+// 		free(matrices->char_info[i++]);
+// 	free(matrices->char_info);
+// 	i = 0;
+// 	while (i < row)
+// 		free(matrices->pos_info[i++]);
+// 	free(matrices->pos_info);
+// 	insides->freed = 1;
+// }
 
 void	checkings(int fd1, int fd2, t_coordinate dimensions)
 {
@@ -43,13 +43,8 @@ void	checkings(int fd1, int fd2, t_coordinate dimensions)
 			if (insides.matrices.path_exists == 1)
 				printf("\n\nCORRECT PATHS...Launching the game\n\n");
 			else
-			{
-				printf("\n\nISSUE WITH PATHS\n\n");
-				free_matrix(&insides.matrices, dimensions.row, &insides);
-			}
+				on_exit("Issue with paths!");
 		}
-		else
-			printf("\n\nWRONG INSIDES\n\n");
 	}
 	else
 		printf("\n\nWRONG DIMENSIONS\n\n");
