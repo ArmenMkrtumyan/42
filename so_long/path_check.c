@@ -14,26 +14,25 @@
 
 int	check_path(t_matrices *matrix, t_xy dims, t_xy e)
 {
-	t_xy	curr_cell;
-	t_xy	child_cell;
-	int				coins;
-	int				exit_exists;
-	t_coords		coords;
+	t_xy		curr_cell;
+	t_xy		child_cell;
+	t_const		constants;
+	t_coords	coords;
 
 	init_NSEW(matrix, dims, e);
-	exit_exists = 0;
-	coins = get_coin_count(matrix->char_info, dims);
+	constants.exit_exists = 0;
+	constants.coin_count = get_coin_count(matrix->char_info, dims);
 	while (check_visited(matrix->pos_info, dims))
 	{
 		curr_cell = get_min(matrix->pos_info, dims, matrix->char_info);
 		matrix->pos_info[curr_cell.row][curr_cell.column].visited = 0;
-		if (check_wall(curr_cell.wall, exit_exists, coins, matrix))
+		if (check_wall(curr_cell.wall, &constants, matrix))
 			break ;
 		if (curr_cell.row == e.row && \
-		curr_cell.column == e.column && coins == 0)
-			exit_exists = 1;
+		curr_cell.column == e.column && constants.coin_count == 0)
+			constants.exit_exists = 1;
 		coords = pack_coorniates(dims, &curr_cell, &child_cell, e);
-		change_weights(matrix, &coords, &coins, &exit_exists);
+		change_weights(matrix, &coords, &constants);
 	}
 	return (matrix->path_exists);
 }

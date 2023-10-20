@@ -29,7 +29,7 @@ int check_dimensions_map(int fd, t_xy *dims)
 	return (1);
 }
 
-void	change_weights(t_matrices *matrices, t_coords *coords, int *coin_count, int *exit_exists)
+void	change_weights(t_matrices *matrices, t_coords *coords, t_const *constants)
 {
 	static int directions[5];
 	int k;
@@ -43,14 +43,14 @@ void	change_weights(t_matrices *matrices, t_coords *coords, int *coin_count, int
 		{
 			temp_dist = 0;
 			fix_coordinates(k, coords->child_cell, *coords->curr_cell);
-			check_exit(coords, exit_exists);
+			check_exit(coords, constants);
 			if (matrices->pos_info[coords->child_cell->row][coords->child_cell->column].visited == 0 ||
 				matrices->pos_info[coords->child_cell->row][coords->child_cell->column].cost != INT_MAX - 1)
 			{
 				k++;
 				continue;
 			}
-			update_weights(matrices, coords, coin_count, &temp_dist);
+			update_weights(matrices, coords, constants, &temp_dist);
 		}
 		k++;
 	}
@@ -80,13 +80,13 @@ void fix_coordinates(int k, t_xy *child_cell, t_xy curr_cell)
 	}
 }
 
-void update_weights(t_matrices *matrices, t_coords *coords, int *coin_count, int *temp_dist)
+void update_weights(t_matrices *matrices, t_coords *coords, t_const *constants, int *temp_dist)
 {
 	*temp_dist = matrices->pos_info[coords->curr_cell->row][coords->curr_cell->column].cost;
 	if (matrices->char_info[coords->child_cell->row][coords->child_cell->column] == 'C')
 	{
 		*temp_dist += 1;
-		*coin_count -= 1;
+		constants->coin_count -= 1;
 	}
 	else if (matrices->char_info[coords->child_cell->row][coords->child_cell->column] == 'M')
 		*temp_dist += 100;

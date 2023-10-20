@@ -18,27 +18,27 @@ int	check_visited(t_pos **matrix, t_xy dims)
 	return (0);
 }
 
-void	check_exit(t_coords *coords, int *exit_exists)
+void	check_exit(t_coords *coords, t_const *constants)
 {
 	if (coords->child_cell->row == coords->e_xy.row \
 	&& coords->child_cell->column == coords->e_xy.column)
-		*exit_exists = 1;
+		constants->exit_exists = 1;
 	// if (child_row == E_row && child_column == E_column)
 	// 	*exit_exists = 1;
 }
 
-int	check_wall(int wall, int exit_exists, int coin_count, t_matrices *matrices)
+int	check_wall(int wall, t_const *constants, t_matrices *matrices)
 {
 	if (wall)
 	{
-		if (exit_exists == 0)
+		if (constants->exit_exists == 0)
 		{
 			printf("\n\nCouldnt Find an EXIT!!!!\n\n");
 			matrices->path_exists = 0;
 		}
 		else
 		{
-			if (coin_count == 0)
+			if (constants->coin_count == 0)
 			{
 				printf("\n\nEXIT EXISTS AND COINS ARE ACCESSIBLE!!!!\n\n");
 				matrices->path_exists = 1;
