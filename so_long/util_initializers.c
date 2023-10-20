@@ -1,6 +1,6 @@
 #include "so_long.h"
 
-void	letters_initializer(char *letters)
+void	letters_init(char *letters)
 {
 	letters[0] = '0';
 	letters[1] = '0';
@@ -9,59 +9,59 @@ void	letters_initializer(char *letters)
 	letters[4] = '\0';
 }
 
-void	initialize_directions(int *directions, t_matrices *matrices, t_coordinate curr_cell)
+void	init_directions(int *directions, t_matrices *matrices, t_xy curr_cell)
 {
-	directions[0] = matrices->pos_info[curr_cell.row][curr_cell.column].N;
-	directions[1] = matrices->pos_info[curr_cell.row][curr_cell.column].S;
-	directions[2] = matrices->pos_info[curr_cell.row][curr_cell.column].E;
-	directions[3] = matrices->pos_info[curr_cell.row][curr_cell.column].W;
+	directions[0] = matrices->pos_info[curr_cell.row][curr_cell.column].n;
+	directions[1] = matrices->pos_info[curr_cell.row][curr_cell.column].s;
+	directions[2] = matrices->pos_info[curr_cell.row][curr_cell.column].e;
+	directions[3] = matrices->pos_info[curr_cell.row][curr_cell.column].w;
 	directions[4] = '\0';
 }
 
 void	direction_init(char **maze, t_pos **matrix, int row, int col)
 {
 	if (maze[row + 1][col] != '1')
-		(matrix[row][col]).S = 1;
+		(matrix[row][col]).s = 1;
 	if (maze[row - 1][col] != '1')
-		(matrix[row][col]).N = 1;
+		(matrix[row][col]).n = 1;
 	if (maze[row][col + 1] != '1')
-		(matrix[row][col]).E = 1;
+		(matrix[row][col]).e = 1;
 	if (maze[row][col - 1] != '1')
-		(matrix[row][col]).W = 1;
+		(matrix[row][col]).w = 1;
 }
 
-void	initialize_NSEW(t_matrices *matrices, t_coordinate dimensions, t_coordinate E)
+void	init_NSEW(t_matrices *matrices, t_xy dims, t_xy e)
 {
-	t_coordinate	i_k;
+	t_xy	i_k;
 
 	i_k.row = -1;
-	while (++i_k.row < dimensions.row)
+	while (++i_k.row < dims.row)
 	{
 		i_k.column = -1;
-		while (++i_k.column < dimensions.column)
+		while (++i_k.column < dims.column)
 		{
-			(matrices->pos_info[i_k.row][i_k.column]).N = 0;
-			(matrices->pos_info[i_k.row][i_k.column]).S = 0;
-			(matrices->pos_info[i_k.row][i_k.column]).E = 0;
-			(matrices->pos_info[i_k.row][i_k.column]).W = 0;
+			(matrices->pos_info[i_k.row][i_k.column]).n = 0;
+			(matrices->pos_info[i_k.row][i_k.column]).s = 0;
+			(matrices->pos_info[i_k.row][i_k.column]).e = 0;
+			(matrices->pos_info[i_k.row][i_k.column]).w = 0;
 			if (i_k.row == 0)
-				matrices->pos_info[i_k.row][i_k.column].N = 0;
-			else if (i_k.row == dimensions.row - 1)
-				matrices->pos_info[i_k.row][i_k.column].S = 0;
+				matrices->pos_info[i_k.row][i_k.column].n = 0;
+			else if (i_k.row == dims.row - 1)
+				matrices->pos_info[i_k.row][i_k.column].s = 0;
 			else if (i_k.column == 0)
-				matrices->pos_info[i_k.row][i_k.column].W = 0;
-			else if (i_k.column == dimensions.column - 1)
-				matrices->pos_info[i_k.row][i_k.column].E = 0;
+				matrices->pos_info[i_k.row][i_k.column].w = 0;
+			else if (i_k.column == dims.column - 1)
+				matrices->pos_info[i_k.row][i_k.column].e = 0;
 			else
 				direction_init(matrices->char_info, matrices->pos_info, i_k.row, i_k.column);
 		}
 	}
 }
 
-void initialize_insides(t_inside *insides, t_matrices *matrices, t_coordinate dims, t_coordinate e)
+void init_insides(t_inside *insides, t_matrices *matrices, t_xy dims, t_xy e)
 {
 	insides->matrices = *matrices;
-	insides->dimensions = dims;
-	insides->Es = e;
+	insides->dims = dims;
+	insides->e_xy = e;
 	insides->freed = 0;
 }

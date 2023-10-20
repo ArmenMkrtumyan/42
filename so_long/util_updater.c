@@ -1,6 +1,6 @@
 #include "so_long.h"
 
-int check_dimensions_map(int fd, t_coordinate *dimensions)
+int check_dimensions_map(int fd, t_xy *dims)
 {
 	int		sz;
 	char	symbol[2];
@@ -12,20 +12,20 @@ int check_dimensions_map(int fd, t_coordinate *dimensions)
 	{
 		sz = read(fd, symbol, 1);
 		symbol[sz] = '\0';
-		if ((dimensions->row) - 1 == 0)
+		if ((dims->row) - 1 == 0)
 			fix_columns++;
-		(dimensions->column)++;
+		(dims->column)++;
 		if (symbol[0] == '\n')
 		{
-			(dimensions->row)++;
-			if (dimensions->column != fix_columns)
+			(dims->row)++;
+			if (dims->column != fix_columns)
 				return(0);
-			dimensions->column = -1;
+			dims->column = -1;
 		}
 	}
-	if (dimensions->column != fix_columns || dimensions->row < 3)
+	if (dims->column != fix_columns || dims->row < 3)
 		return (0);
-	dimensions->column = fix_columns;
+	dims->column = fix_columns;
 	return (1);
 }
 
@@ -35,7 +35,7 @@ void	change_weights(t_matrices *matrices, t_coords *coords, int *coin_count, int
 	int k;
 	int temp_dist;
 
-	initialize_directions(directions, matrices, *coords->curr_cell);
+	init_directions(directions, matrices, *coords->curr_cell);
 	k = 0;
 	while (k < 4)
 	{
@@ -56,7 +56,7 @@ void	change_weights(t_matrices *matrices, t_coords *coords, int *coin_count, int
 	}
 }
 
-void fix_coordinates(int k, t_coordinate *child_cell, t_coordinate curr_cell)
+void fix_coordinates(int k, t_xy *child_cell, t_xy curr_cell)
 {
 	if (k == 0)
 	{
@@ -96,7 +96,7 @@ void update_weights(t_matrices *matrices, t_coords *coords, int *coin_count, int
 		matrices->pos_info[coords->child_cell->row][coords->child_cell->column].cost = *temp_dist;
 }
 
-void	assign_cell(int k, t_coordinate *child_cell, t_coordinate *curr_cell)
+void	assign_cell(int k, t_xy *child_cell, t_xy *curr_cell)
 {
 	if (k == 0)
 	{

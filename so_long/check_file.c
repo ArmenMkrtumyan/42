@@ -12,7 +12,7 @@
 
 #include "so_long.h"
 
-int	check_letters(char letter, char *array, t_coordinate *e, t_coordinate *i_k)
+int	check_letters(char letter, char *array, t_xy *e, t_xy *i_k)
 {
 	if (letter == '1' || letter == '0')
 		return (1);
@@ -33,14 +33,14 @@ int	check_letters(char letter, char *array, t_coordinate *e, t_coordinate *i_k)
 	return (0);
 }
 
-void	count_check(t_matrices *matrices, t_coordinate dims, t_inside *insides)
+void	count_check(t_matrices *matrices, t_xy dims, t_inside *insides)
 {
 	char			letters[5];
-	t_coordinate	e;
-	t_coordinate	i_k;
+	t_xy	e;
+	t_xy	i_k;
 	char			element;
 
-	letters_initializer(letters);
+	letters_init(letters);
 	i_k.row = -1;
 	while (++i_k.row < dims.row)
 	{
@@ -60,10 +60,10 @@ void	count_check(t_matrices *matrices, t_coordinate dims, t_inside *insides)
 	}
 	if (letters[0] == '0' || letters[1] != '1' || letters[2] != '1')
 		on_exit("Wrong insides!");
-	initialize_insides(insides, matrices, dims, e);
+	init_insides(insides, matrices, dims, e);
 }
 
-void	fill_matrices(t_matrices *matrices, t_coordinate *dims, t_fileRead *fd)
+void	fill_matrices(t_matrices *matrices, t_xy *dims, t_fileRead *fd)
 {
 	fd->sz = 1;
 	while (fd->sz != 0)
@@ -90,7 +90,7 @@ void	fill_matrices(t_matrices *matrices, t_coordinate *dims, t_fileRead *fd)
 	}
 }
 
-void	create_matrices(t_coordinate dim, t_matrices *matrix)
+void	create_matrices(t_xy dim, t_matrices *matrix)
 {
 	int	k;
 
@@ -115,18 +115,18 @@ void	create_matrices(t_coordinate dim, t_matrices *matrix)
 	}
 }
 
-int	check_insides_map(int fd, t_coordinate dimensions, t_inside *insides)
+int	check_insides_map(int fd, t_xy dims, t_inside *insides)
 {
-	t_coordinate	temp_dimensions;
+	t_xy	temp_dimensions;
 	t_matrices		matrices;
 	t_fileRead		file_read_info;
 
 	file_read_info.fd = fd;
 	temp_dimensions.row = 0;
 	temp_dimensions.column = 0;
-	create_matrices(dimensions, &matrices);
+	create_matrices(dims, &matrices);
 	fill_matrices(&matrices, &temp_dimensions, &file_read_info);
-	count_check(&matrices, dimensions, insides);
+	count_check(&matrices, dims, insides);
 	return (insides->freed);
 }
 

@@ -27,19 +27,19 @@
 // 	insides->freed = 1;
 // }
 
-void	checkings(int fd1, int fd2, t_coordinate dimensions)
+void	checkings(int fd1, int fd2, t_xy dims)
 {
 	t_inside		insides;
 
-	if (check_dimensions_map(fd1, &dimensions))
+	if (check_dimensions_map(fd1, &dims))
 	{
 		printf("\n\nCORRECT DIMENSIONS(%d, %d),CHECKING THE INSIDE...\n\n", \
-		dimensions.row, dimensions.column);
-		if (check_insides_map(fd2, dimensions, &insides) == 0)
+		dims.row, dims.column);
+		if (check_insides_map(fd2, dims, &insides) == 0)
 		{
 			printf("\n\nCORRECT MAP INSIDES, CHECKING PATHS...");
-			check_path(&insides.matrices, insides.dimensions, \
-			insides.Es);
+			check_path(&insides.matrices, insides.dims, \
+			insides.e_xy);
 			if (insides.matrices.path_exists == 1)
 				printf("\n\nCORRECT PATHS...Launching the game\n\n");
 			else
@@ -74,7 +74,7 @@ int	main(int argc, char	*argv[])
 {
 	int				fd1;
 	int				fd2;
-	t_coordinate	dimensions;
+	t_xy	dims;
 
 	if (argc != 2)
 	{
@@ -83,11 +83,11 @@ int	main(int argc, char	*argv[])
 	}
 	if (check_file_name(argv[1]) == 0)
 		return (0);
-	dimensions.row = 1;
-	dimensions.column = -1;
+	dims.row = 1;
+	dims.column = -1;
 	fd1 = get_fd(argv[1]);
 	fd2 = get_fd(argv[1]);
-	checkings(fd1, fd2, dimensions);
+	checkings(fd1, fd2, dims);
 }
 // while (1)
 // 	{}

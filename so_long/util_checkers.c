@@ -1,15 +1,15 @@
 #include "so_long.h"
 
-int	check_visited(t_pos **matrix, t_coordinate dimensions)
+int	check_visited(t_pos **matrix, t_xy dims)
 {
 	int i;
 	int k;
 
 	i = -1;
-	while (++i < dimensions.row)
+	while (++i < dims.row)
 	{
 		k = -1;
-		while (++k < dimensions.column)
+		while (++k < dims.column)
 		{
 			if (matrix[i][k].visited == 1)
 				return (1);
@@ -20,8 +20,8 @@ int	check_visited(t_pos **matrix, t_coordinate dimensions)
 
 void	check_exit(t_coords *coords, int *exit_exists)
 {
-	if (coords->child_cell->row == coords->Es.row \
-	&& coords->child_cell->column == coords->Es.column)
+	if (coords->child_cell->row == coords->e_xy.row \
+	&& coords->child_cell->column == coords->e_xy.column)
 		*exit_exists = 1;
 	// if (child_row == E_row && child_column == E_column)
 	// 	*exit_exists = 1;
