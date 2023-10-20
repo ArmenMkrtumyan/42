@@ -72,8 +72,8 @@ int	check_file_name(char *file_name)
 
 int	main(int argc, char	*argv[])
 {
-	int				fd1;
-	int				fd2;
+	int		fd1;
+	int		fd2;
 	t_xy	dims;
 
 	if (argc != 2)

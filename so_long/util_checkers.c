@@ -2,8 +2,8 @@
 
 int	check_visited(t_pos **matrix, t_xy dims)
 {
-	int i;
-	int k;
+	int	i;
+	int	k;
 
 	i = -1;
 	while (++i < dims.row)
@@ -18,13 +18,11 @@ int	check_visited(t_pos **matrix, t_xy dims)
 	return (0);
 }
 
-void	check_exit(t_coords *coords, t_const *constants)
+void	check_exit(t_xys *coords, t_const *constants)
 {
 	if (coords->child_cell->row == coords->e_xy.row \
 	&& coords->child_cell->column == coords->e_xy.column)
 		constants->exit_exists = 1;
-	// if (child_row == E_row && child_column == E_column)
-	// 	*exit_exists = 1;
 }
 
 int	check_wall(int wall, t_const *constants, t_matrices *matrices)
@@ -54,9 +52,9 @@ int	check_wall(int wall, t_const *constants, t_matrices *matrices)
 	return (0);
 }
 
-int ft_strncmp(char *str1, char *str2, int n)
+int	ft_strncmp(char *str1, char *str2, int n)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (get_len(str1) != 4)

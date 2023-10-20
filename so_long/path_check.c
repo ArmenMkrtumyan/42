@@ -14,12 +14,12 @@
 
 int	check_path(t_matrices *matrix, t_xy dims, t_xy e)
 {
-	t_xy		curr_cell;
-	t_xy		child_cell;
-	t_const		constants;
-	t_coords	coords;
+	t_xy	curr_cell;
+	t_xy	child_cell;
+	t_const	constants;
+	t_xys	coords;
 
-	init_NSEW(matrix, dims, e);
+	init_nsew(matrix, dims, e);
 	constants.exit_exists = 0;
 	constants.coin_count = get_coin_count(matrix->char_info, dims);
 	while (check_visited(matrix->pos_info, dims))

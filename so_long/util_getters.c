@@ -15,9 +15,9 @@ int	get_fd(char *file)
 
 int	get_coin_count(char **matrix, t_xy dims)
 {
-	int i;
-	int k;
-	int coin_count;
+	int	i;
+	int	k;
+	int	coin_count;
 
 	i = -1;
 	coin_count = 0;
@@ -35,27 +35,26 @@ int	get_coin_count(char **matrix, t_xy dims)
 
 t_xy	get_min(t_pos **node, t_xy dims, char **matrix)
 {
-	t_xy i_k;
-	int min;
-	t_xy min_coordinates;
+	t_xy	i_k;
+	int		min;
+	t_xy	min_coordinates;
 
 	min = INT_MAX;
-	i_k.row = 0;
+	i_k.row = -1;
 	min_coordinates.wall = 0;
-	while (i_k.row < dims.row)
+	while (++i_k.row < dims.row)
 	{
-		i_k.column = 0;
-		while (i_k.column < dims.column)
+		i_k.column = -1;
+		while (++i_k.column < dims.column)
 		{
-			if (node[i_k.row][i_k.column].visited == 1 && node[i_k.row][i_k.column].cost < min)
+			if (node[i_k.row][i_k.column].visited == 1 && \
+			node[i_k.row][i_k.column].cost < min)
 			{
 				min = node[i_k.row][i_k.column].cost;
 				min_coordinates.row = i_k.row;
 				min_coordinates.column = i_k.column;
 			}
-			i_k.column++;
 		}
-		i_k.row++;
 	}
 	if (matrix[min_coordinates.row][min_coordinates.column] == '1')
 		min_coordinates.wall = 1;
@@ -64,7 +63,7 @@ t_xy	get_min(t_pos **node, t_xy dims, char **matrix)
 
 int	get_len(char *sentence)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (sentence[i] != '\0')

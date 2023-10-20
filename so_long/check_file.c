@@ -60,7 +60,7 @@ void	count_check(t_matrices *matrices, t_xy dims, t_inside *insides)
 	}
 	if (letters[0] == '0' || letters[1] != '1' || letters[2] != '1')
 		on_exit("Wrong insides!");
-	init_insides(insides, matrices, dims, e);
+	init_inside(insides, matrices, dims, e);
 }
 
 void	fill_matrices(t_matrices *matrices, t_xy *dims, t_fileRead *fd)
