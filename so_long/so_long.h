@@ -39,12 +39,13 @@ typedef struct s_fileRead
 	char	symbol[2];
 }	t_fileRead;
 
-// typedef struct s_group_of_coordinates
-// {
-// 	t_coordinate	curr_cell;
-// 	t_coordinate	child_cell;
-// 	t_coordinate	Es;
-// }	t_struct_of_coordinates;
+typedef struct s_group_of_coordinates
+{
+	t_coordinate	dims;
+	t_coordinate	*curr_cell;
+	t_coordinate	*child_cell;
+	t_coordinate	Es;
+}					t_coords;
 
 typedef struct s_inside_checked
 {
@@ -72,7 +73,7 @@ int				check_path(t_matrices *matrices, t_coordinate dimensions, t_coordinate Es
 // CHECKER UTILS
 int				check_dimensions_map(int fd, t_coordinate *dimensions);
 int				check_visited(t_pos **matrix, t_coordinate dimensions);
-void			check_exit(int child_row, int child_column, int E_row, int E_column, int *exit_exists);
+void			check_exit(t_coords *coords, int *exit_exists);
 int				check_wall(int wall, int exit_exists, int coin_count, t_matrices *matrices);
 
 // GETTER UTILS
@@ -90,13 +91,17 @@ void			initialize_NSEW(t_matrices *matrices, t_coordinate dimensions, t_coordina
 void			initialize_insides(t_inside *insides, t_matrices *matrices, t_coordinate dims, t_coordinate e);
 
 // UPDATER UTILS
-void			change_weights(t_matrices *matrices, t_coordinate dimensions, t_coordinate *curr_cell, t_coordinate *Es, t_coordinate *child_cell, int *coin_count, int *exit_exists);
+void			change_weights(t_matrices *matrices, t_coords *coords, int *coin_count, int *exit_exists);
 void			fix_coordinates(int k, t_coordinate *child_cell, t_coordinate curr_cell);
-void			update_weights(t_matrices *matrices, t_coordinate *curr_cell, t_coordinate *child_cell, int *coin_count, int *temp_dist);
+void			update_weights(t_matrices *matrices, t_coords *coords, int *coin_count, int *temp_dist);
 void			assign_cell(int k, t_coordinate *child_cell, t_coordinate *curr_cell);
 
 // PRINT UTILS
 
 void			on_exit(char *error_message);
+
+// PACK UTILS
+
+t_coords		pack_coorniates(t_coordinate dims, t_coordinate *curr, t_coordinate *child, t_coordinate Es);
 
 #endif

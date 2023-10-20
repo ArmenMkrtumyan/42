@@ -29,28 +29,28 @@ int check_dimensions_map(int fd, t_coordinate *dimensions)
 	return (1);
 }
 
-void	change_weights(t_matrices *matrices, t_coordinate dimensions, t_coordinate *curr_cell, t_coordinate *Es, t_coordinate *child_cell, int *coin_count, int *exit_exists)
+void	change_weights(t_matrices *matrices, t_coords *coords, int *coin_count, int *exit_exists)
 {
 	static int directions[5];
 	int k;
 	int temp_dist;
 
-	initialize_directions(directions, matrices, *curr_cell);
+	initialize_directions(directions, matrices, *coords->curr_cell);
 	k = 0;
 	while (k < 4)
 	{
 		if (directions[k] == 1)
 		{
 			temp_dist = 0;
-			fix_coordinates(k, child_cell, *curr_cell);
-			check_exit(child_cell->row, child_cell->column, Es->row, Es->column, exit_exists);
-			if (matrices->pos_info[child_cell->row][child_cell->column].visited == 0 ||
-				matrices->pos_info[child_cell->row][child_cell->column].cost != INT_MAX - 1)
+			fix_coordinates(k, coords->child_cell, *coords->curr_cell);
+			check_exit(coords, exit_exists);
+			if (matrices->pos_info[coords->child_cell->row][coords->child_cell->column].visited == 0 ||
+				matrices->pos_info[coords->child_cell->row][coords->child_cell->column].cost != INT_MAX - 1)
 			{
 				k++;
 				continue;
 			}
-			update_weights(matrices, curr_cell, child_cell, coin_count, &temp_dist);
+			update_weights(matrices, coords, coin_count, &temp_dist);
 		}
 		k++;
 	}
@@ -80,20 +80,20 @@ void fix_coordinates(int k, t_coordinate *child_cell, t_coordinate curr_cell)
 	}
 }
 
-void update_weights(t_matrices *matrices, t_coordinate *curr_cell, t_coordinate *child_cell, int *coin_count, int *temp_dist)
+void update_weights(t_matrices *matrices, t_coords *coords, int *coin_count, int *temp_dist)
 {
-	*temp_dist = matrices->pos_info[curr_cell->row][curr_cell->column].cost;
-	if (matrices->char_info[child_cell->row][child_cell->column] == 'C')
+	*temp_dist = matrices->pos_info[coords->curr_cell->row][coords->curr_cell->column].cost;
+	if (matrices->char_info[coords->child_cell->row][coords->child_cell->column] == 'C')
 	{
 		*temp_dist += 1;
 		*coin_count -= 1;
 	}
-	else if (matrices->char_info[child_cell->row][child_cell->column] == 'M')
+	else if (matrices->char_info[coords->child_cell->row][coords->child_cell->column] == 'M')
 		*temp_dist += 100;
 	else
-		*temp_dist = matrices->pos_info[curr_cell->row][curr_cell->column].cost + 10;
-	if (*temp_dist < matrices->pos_info[child_cell->row][child_cell->column].cost)
-		matrices->pos_info[child_cell->row][child_cell->column].cost = *temp_dist;
+		*temp_dist = matrices->pos_info[coords->curr_cell->row][coords->curr_cell->column].cost + 10;
+	if (*temp_dist < matrices->pos_info[coords->child_cell->row][coords->child_cell->column].cost)
+		matrices->pos_info[coords->child_cell->row][coords->child_cell->column].cost = *temp_dist;
 }
 
 void	assign_cell(int k, t_coordinate *child_cell, t_coordinate *curr_cell)

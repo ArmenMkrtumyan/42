@@ -18,6 +18,7 @@ int	check_path(t_matrices *matrix, t_coordinate dimensions, t_coordinate e)
 	t_coordinate	child_cell;
 	int				coins;
 	int				exit_exists;
+	t_coords		coords;
 
 	initialize_NSEW(matrix, dimensions, e);
 	exit_exists = 0;
@@ -31,31 +32,32 @@ int	check_path(t_matrices *matrix, t_coordinate dimensions, t_coordinate e)
 		if (curr_cell.row == e.row && \
 		curr_cell.column == e.column && coins == 0)
 			exit_exists = 1;
-		change_weights(matrix, dimensions, &curr_cell, &e, &child_cell, &coins, &exit_exists);
-	}
-	int i2 = -1, k2;
-	printf("\n");
-	while (++i2 < dimensions.row)
-	{
-		k2 = -1;
-		while (++k2 < dimensions.column)
-			printf("%d", matrix->pos_info[i2][k2].visited);
-		printf("\n");
-	}
-//	printf("\n\n\nNumber of remaining coins to collect: %d\n\n", coins);
-	i2 = -1;
-	while (++i2 < dimensions.row)
-	{
-		k2 = -1;
-		while (++k2 < dimensions.column)
-		{
-			printf("    ");
-			if (matrix->pos_info[i2][k2].cost == INT_MAX - 1)
-				printf("X");
-			else
-				printf("%d", matrix->pos_info[i2][k2].cost);
-		}
-		printf("\n");
+		coords = pack_coorniates(dimensions, &curr_cell, &child_cell, e);
+		change_weights(matrix, &coords, &coins, &exit_exists);
 	}
 	return (matrix->path_exists);
 }
+// 	int i2 = -1, k2;
+// 	printf("\n");
+// 	while (++i2 < dimensions.row)
+// 	{
+// 		k2 = -1;
+// 		while (++k2 < dimensions.column)
+// 			printf("%d", matrix->pos_info[i2][k2].visited);
+// 		printf("\n");
+// 	}
+// //	printf("\n\n\nNumber of remaining coins to collect: %d\n\n", coins);
+// 	i2 = -1;
+// 	while (++i2 < dimensions.row)
+// 	{
+// 		k2 = -1;
+// 		while (++k2 < dimensions.column)
+// 		{
+// 			printf("    ");
+// 			if (matrix->pos_info[i2][k2].cost == INT_MAX - 1)
+// 				printf("X");
+// 			else
+// 				printf("%d", matrix->pos_info[i2][k2].cost);
+// 		}
+// 		printf("\n");
+// 	}

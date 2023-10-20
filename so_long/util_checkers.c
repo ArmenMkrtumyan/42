@@ -18,10 +18,13 @@ int	check_visited(t_pos **matrix, t_coordinate dimensions)
 	return (0);
 }
 
-void	check_exit(int child_row, int child_column, int E_row, int E_column, int *exit_exists)
+void	check_exit(t_coords *coords, int *exit_exists)
 {
-	if (child_row == E_row && child_column == E_column)
+	if (coords->child_cell->row == coords->Es.row \
+	&& coords->child_cell->column == coords->Es.column)
 		*exit_exists = 1;
+	// if (child_row == E_row && child_column == E_column)
+	// 	*exit_exists = 1;
 }
 
 int	check_wall(int wall, int exit_exists, int coin_count, t_matrices *matrices)
