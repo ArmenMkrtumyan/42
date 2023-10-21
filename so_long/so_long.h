@@ -62,6 +62,19 @@ typedef struct s_constants
 	int		temp_dist;
 }			t_const;
 
+typedef struct s_mlx
+{
+	int		xy;
+	void	*door_open;
+	void 	*door_closed;
+	void	*enemy;
+	void	*coin;
+	void 	*pacman_ate;
+	void	*pacman_eating;
+	void	*wall;
+	void	*empty_space;
+}	t_mlx;
+
 // MAIN FUNCTIONS
 //void			free_matrix(t_matrices *matrices, int row, t_inside *insides);
 void	checkings(int fd1, int fd2, t_xy dims);

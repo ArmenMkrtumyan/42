@@ -75,6 +75,30 @@ int	main(int argc, char	*argv[])
 	int		fd1;
 	int		fd2;
 	t_xy	dims;
+	void	*mlx_ptr;
+	void	*mlx_win;
+	t_mlx	mlx;
+
+	mlx_ptr = mlx_init();
+	mlx_win = mlx_new_window(mlx_ptr, 512, 512, "Pacman");
+	mlx.door_open = mlx_xpm_file_to_image(mlx_ptr, "open_door.xpm", &mlx.xy, &mlx.xy);
+	mlx.door_closed = mlx_xpm_file_to_image(mlx_ptr, "closed_door.xpm", &mlx.xy, &mlx.xy);
+	mlx.enemy = mlx_xpm_file_to_image(mlx_ptr, "enemy.xpm", &mlx.xy, &mlx.xy);
+	mlx.coin = mlx_xpm_file_to_image(mlx_ptr, "coin.xpm", &mlx.xy, &mlx.xy);
+	mlx.pacman_ate = mlx_xpm_file_to_image(mlx_ptr, "pacman_ate.xpm", &mlx.xy, &mlx.xy);
+	mlx.pacman_eating = mlx_xpm_file_to_image(mlx_ptr, "pacman_eating.xpm", &mlx.xy, &mlx.xy);
+	mlx.wall = mlx_xpm_file_to_image(mlx_ptr, "wall.xpm", &mlx.xy, &mlx.xy);
+	mlx.empty_space = mlx_xpm_file_to_image(mlx_ptr, "empty_space.xpm", &mlx.xy, &mlx.xy);
+	mlx_put_image_to_window(mlx_ptr, mlx_win, mlx.door_open, 0, 0);
+	mlx_put_image_to_window(mlx_ptr, mlx_win, mlx.door_closed, 64, 0);
+	mlx_put_image_to_window(mlx_ptr, mlx_win, mlx.enemy, 128, 0);
+	mlx_put_image_to_window(mlx_ptr, mlx_win, mlx.coin, 192, 0);
+	mlx_put_image_to_window(mlx_ptr, mlx_win, mlx.pacman_ate, 256, 0);
+	mlx_put_image_to_window(mlx_ptr, mlx_win, mlx.pacman_eating, 320, 0);
+	mlx_put_image_to_window(mlx_ptr, mlx_win, mlx.wall, 384, 0);
+	mlx_put_image_to_window(mlx_ptr, mlx_win, mlx.empty_space, 448, 0);
+
+	mlx_loop(mlx_ptr);
 
 	if (argc != 2)
 	{
@@ -86,6 +110,7 @@ int	main(int argc, char	*argv[])
 	dims.row = 1;
 	dims.column = -1;
 	fd1 = get_fd(argv[1]);
+
 	fd2 = get_fd(argv[1]);
 	checkings(fd1, fd2, dims);
 }
