@@ -8,6 +8,16 @@
 # include <stdio.h>
 # include <limits.h>
 
+# define ESC 53
+# define UP 13
+# define DOWN 1
+# define LEFT 0
+# define RIGHT 2
+# define UP_A 126
+# define DOWN_A 125
+# define LEFT_A 123
+# define RIGHT_A 124
+
 typedef struct s_placement
 {
 	int	n;
@@ -73,11 +83,16 @@ typedef struct s_mlx
 	void	*pacman_eating;
 	void	*wall;
 	void	*empty_space;
-}	t_mlx;
+	char	**char_mat;
+	t_pos	**pos_mat;
+	t_xy	p_xy;
+	t_xy	dims;
+
+}			t_mlx;
 
 // MAIN FUNCTIONS
 //void			free_matrix(t_matrices *matrices, int row, t_inside *insides);
-void	checkings(int fd1, int fd2, t_xy dims);
+void	checkings(int fd1, int fd2, t_xy dims, t_mlx *mlx);
 int		check_file_name(char *file_name);
 
 // FILE CHECKER
@@ -88,7 +103,7 @@ void	create_matrices(t_xy dims, t_matrices *matrices);
 int		check_insides_map(int fd, t_xy dims, t_inside *insides);
 
 // PATH CHECKER
-int		check_path(t_matrices *matrices, t_xy dims, t_xy e_xy);
+int		check_path(t_matrices *matrix, t_xy dims, t_xy e, t_mlx *mlx);
 
 // CHECKER UTILS
 int		check_dimensions_map(int fd, t_xy *dims);
@@ -108,12 +123,12 @@ void	letters_init(char *letters);
 void	init_directions(int *dir, t_matrices *matrices, t_xy curr_cell);
 void	direction_init(char **maze, t_pos **matrix, int row, int col);
 void	init_nsew(t_matrices *matrices, t_xy dims, t_xy e);
-void	init_inside(t_inside *insides, t_matrices *matrices, t_xy dims, t_xy e);
+void	init_inside(t_inside *ins, t_matrices *matx, t_xy dims, t_xy e);
 
 // UPDATER UTILS
-void	change_weights(t_matrices *matrices, t_xys *coords, t_const *constants);
+void	change_weights(t_matrices *matrices, t_xys *coords, t_const *const);
 void	fix_coordinates(int k, t_xy *child_cell, t_xy curr_cell);
-void	update_weights(t_matrices *matrices, t_xys *coords, t_const *constants);
+void	update_weights(t_matrices *matrices, t_xys *coords, t_const *const);
 void	assign_cell(int k, t_xy *child_cell, t_xy *curr_cell);
 
 // PRINT UTILS

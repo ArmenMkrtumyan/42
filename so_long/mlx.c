@@ -27,7 +27,41 @@
 // 	insides->freed = 1;
 // }
 
-void	checkings(int fd1, int fd2, t_xy dims)
+void	change_matrix(int direction, t_mlx mlx)
+{
+	continue ;
+}
+
+int key_hook(int key_code, void *mlx_struct)
+{
+	printf("Key is: %d\n", key_code);
+
+	if (key_code == UP || key_code == UP_A)
+	{
+		change_matrix(UP, mlx_struct);
+		printf("\n\nGO UP\n\n");
+	}
+	else if (key_code == DOWN || key_code == DOWN_A)
+	{
+		printf("\n\nGO DOWN\n\n");
+	}
+	else if (key_code == LEFT || key_code == LEFT_A)
+	{
+		printf("\n\nGO LEFT\n\n");
+	}
+		else if (key_code == RIGHT || key_code == RIGHT_A)
+	{
+		printf("\n\nGO LEFT\n\n");
+	}
+	else if (key_code == ESC)
+	{
+		on_exit("\nClosing the game");
+	}
+
+	return (1);
+}
+
+void	checkings(int fd1, int fd2, t_xy dims, t_mlx *mlx)
 {
 	t_inside		insides;
 
@@ -39,7 +73,7 @@ void	checkings(int fd1, int fd2, t_xy dims)
 		{
 			printf("\n\nCORRECT MAP INSIDES, CHECKING PATHS...");
 			check_path(&insides.matrices, insides.dims, \
-			insides.e_xy);
+			insides.e_xy, mlx);
 			if (insides.matrices.path_exists == 1)
 				printf("\n\nCORRECT PATHS...Launching the game\n\n");
 			else
@@ -47,7 +81,7 @@ void	checkings(int fd1, int fd2, t_xy dims)
 		}
 	}
 	else
-		printf("\n\nWRONG DIMENSIONS\n\n");
+		on_exit("\n\nWRONG DIMENSIONS\n\n");
 }
 
 int	check_file_name(char *file_name)
@@ -72,33 +106,14 @@ int	check_file_name(char *file_name)
 
 int	main(int argc, char	*argv[])
 {
-	int		fd1;
-	int		fd2;
-	t_xy	dims;
-	void	*mlx_ptr;
-	void	*mlx_win;
-	t_mlx	mlx;
-
-	mlx_ptr = mlx_init();
-	mlx_win = mlx_new_window(mlx_ptr, 512, 512, "Pacman");
-	mlx.door_open = mlx_xpm_file_to_image(mlx_ptr, "open_door.xpm", &mlx.xy, &mlx.xy);
-	mlx.door_closed = mlx_xpm_file_to_image(mlx_ptr, "closed_door.xpm", &mlx.xy, &mlx.xy);
-	mlx.enemy = mlx_xpm_file_to_image(mlx_ptr, "enemy.xpm", &mlx.xy, &mlx.xy);
-	mlx.coin = mlx_xpm_file_to_image(mlx_ptr, "coin.xpm", &mlx.xy, &mlx.xy);
-	mlx.pacman_ate = mlx_xpm_file_to_image(mlx_ptr, "pacman_ate.xpm", &mlx.xy, &mlx.xy);
-	mlx.pacman_eating = mlx_xpm_file_to_image(mlx_ptr, "pacman_eating.xpm", &mlx.xy, &mlx.xy);
-	mlx.wall = mlx_xpm_file_to_image(mlx_ptr, "wall.xpm", &mlx.xy, &mlx.xy);
-	mlx.empty_space = mlx_xpm_file_to_image(mlx_ptr, "empty_space.xpm", &mlx.xy, &mlx.xy);
-	mlx_put_image_to_window(mlx_ptr, mlx_win, mlx.door_open, 0, 0);
-	mlx_put_image_to_window(mlx_ptr, mlx_win, mlx.door_closed, 64, 0);
-	mlx_put_image_to_window(mlx_ptr, mlx_win, mlx.enemy, 128, 0);
-	mlx_put_image_to_window(mlx_ptr, mlx_win, mlx.coin, 192, 0);
-	mlx_put_image_to_window(mlx_ptr, mlx_win, mlx.pacman_ate, 256, 0);
-	mlx_put_image_to_window(mlx_ptr, mlx_win, mlx.pacman_eating, 320, 0);
-	mlx_put_image_to_window(mlx_ptr, mlx_win, mlx.wall, 384, 0);
-	mlx_put_image_to_window(mlx_ptr, mlx_win, mlx.empty_space, 448, 0);
-
-	mlx_loop(mlx_ptr);
+	int			fd1;
+	int			fd2;
+	t_xy		dims;
+	void		*mlx_ptr;
+	void		*mlx_win;
+	t_mlx		mlx;
+	t_inside	mat_info;
+	char		**char_matrix;
 
 	if (argc != 2)
 	{
@@ -112,7 +127,48 @@ int	main(int argc, char	*argv[])
 	fd1 = get_fd(argv[1]);
 
 	fd2 = get_fd(argv[1]);
-	checkings(fd1, fd2, dims);
+	checkings(fd1, fd2, dims, &mlx);
+
+	mlx_ptr = mlx_init();
+	mlx.door_open = mlx_xpm_file_to_image(mlx_ptr, "open_door.xpm", &mlx.xy, &mlx.xy);
+	mlx.door_closed = mlx_xpm_file_to_image(mlx_ptr, "closed_door.xpm", &mlx.xy, &mlx.xy);
+	mlx.enemy = mlx_xpm_file_to_image(mlx_ptr, "enemy.xpm", &mlx.xy, &mlx.xy);
+	mlx.coin = mlx_xpm_file_to_image(mlx_ptr, "coin.xpm", &mlx.xy, &mlx.xy);
+	mlx.pacman_ate = mlx_xpm_file_to_image(mlx_ptr, "pacman_ate.xpm", &mlx.xy, &mlx.xy);
+	mlx.pacman_eating = mlx_xpm_file_to_image(mlx_ptr, "pacman_eating.xpm", &mlx.xy, &mlx.xy);
+	mlx.wall = mlx_xpm_file_to_image(mlx_ptr, "wall.xpm", &mlx.xy, &mlx.xy);
+	mlx.empty_space = mlx_xpm_file_to_image(mlx_ptr, "empty_space.xpm", &mlx.xy, &mlx.xy);
+	mlx_win = mlx_new_window(mlx_ptr, mlx.dims.column * mlx.xy, mlx.dims.row * mlx.xy, "Pacman");
+
+	int k;
+	int i;
+
+	k = 0;
+	i = 0;
+	printf("\nDIMS ARE: %d, %d\n", mlx.dims.row, mlx.dims.column);
+	while(mlx.char_mat[k])
+	{
+		i = 0;
+		while(mlx.char_mat[k][i])
+		{
+			if (mlx.char_mat[k][i] == '0')
+				mlx_put_image_to_window(mlx_ptr, mlx_win, mlx.empty_space,  i*mlx.xy, k*mlx.xy);
+			else if (mlx.char_mat[k][i] == '1')
+				mlx_put_image_to_window(mlx_ptr, mlx_win, mlx.wall, i*mlx.xy, k*mlx.xy);
+			else if (mlx.char_mat[k][i] == 'C')
+				mlx_put_image_to_window(mlx_ptr, mlx_win, mlx.coin, i*mlx.xy, k*mlx.xy);
+			else if (mlx.char_mat[k][i] == 'M')
+				mlx_put_image_to_window(mlx_ptr, mlx_win, mlx.enemy, i*mlx.xy, k*mlx.xy);
+			else if (mlx.char_mat[k][i] == 'P')
+				mlx_put_image_to_window(mlx_ptr, mlx_win, mlx.pacman_eating, i*mlx.xy, k*mlx.xy);
+
+			printf("%c", mlx.char_mat[k][i]);
+			i++;
+		}
+		printf("\n");
+		k++;
+	}
+	mlx_hook(mlx_win, 2, 0, key_hook, &mlx);
+
+	mlx_loop(mlx_ptr);
 }
-// while (1)
-// 	{}

@@ -84,6 +84,7 @@ void	fill_matrices(t_matrices *matrices, t_xy *dims, t_fileRead *fd)
 		dims->column++;
 		if (fd->symbol[0] == '\n' || fd->sz == 0)
 		{
+			matrices->char_info[dims->row][dims->column - 1] = 0;
 			dims->row += 1;
 			dims->column = 0;
 		}
@@ -94,13 +95,14 @@ void	create_matrices(t_xy dim, t_matrices *matrix)
 {
 	int	k;
 
-	matrix->char_info = (char **)malloc((dim.row + 1) * sizeof(char *));
+	matrix->char_info = malloc((dim.row + 1) * sizeof(char *));
 	if (!(matrix->char_info))
 	{
 		printf("Memory allocation failed");
 		exit (1);
 	}
-	matrix->pos_info = (t_pos **)malloc((dim.row + 1) * sizeof(t_pos));
+	matrix->char_info[dim.row] = NULL;
+	matrix->pos_info = malloc((dim.row + 1) * sizeof(t_pos));
 	if (!(matrix->pos_info))
 	{
 		printf("Memory allocation failed");
@@ -109,8 +111,8 @@ void	create_matrices(t_xy dim, t_matrices *matrix)
 	k = 0;
 	while (k < dim.row)
 	{
-		matrix->pos_info[k] = (t_pos *)malloc((dim.column + 1) * sizeof(t_pos));
-		matrix->char_info[k] = (char *)malloc((dim.column + 1) * sizeof(char));
+		matrix->pos_info[k] = malloc((dim.column + 1) * sizeof(t_pos));
+		matrix->char_info[k] = malloc((dim.column + 1) * sizeof(char));
 		k++;
 	}
 }
