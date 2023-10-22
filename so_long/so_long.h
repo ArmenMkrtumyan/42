@@ -74,6 +74,8 @@ typedef struct s_constants
 
 typedef struct s_mlx
 {
+	void	*mlx_ptr;
+	void	*mlx_win;
 	int		xy;
 	void	*door_open;
 	void 	*door_closed;
@@ -98,9 +100,9 @@ int		check_file_name(char *file_name);
 // FILE CHECKER
 int		check_letters(char letter, char *letters, t_xy *e, t_xy *i_k);
 void	count_check(t_matrices *matrices, t_xy dims, t_inside *insides);
-void	fill_matrices(t_matrices *matrices, t_xy *dims, t_fileRead *fd);
+void	fill_matrices(t_matrices *matrices, t_xy *dims, t_fileRead *fd, t_mlx *mlx);
 void	create_matrices(t_xy dims, t_matrices *matrices);
-int		check_insides_map(int fd, t_xy dims, t_inside *insides);
+int		check_insides_map(int fd, t_xy dims, t_inside *insides, t_mlx *mlx);
 
 // PATH CHECKER
 int		check_path(t_matrices *matrix, t_xy dims, t_xy e, t_mlx *mlx);

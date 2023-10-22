@@ -63,7 +63,7 @@ void	count_check(t_matrices *matrices, t_xy dims, t_inside *insides)
 	init_inside(insides, matrices, dims, e);
 }
 
-void	fill_matrices(t_matrices *matrices, t_xy *dims, t_fileRead *fd)
+void	fill_matrices(t_matrices *matrices, t_xy *dims, t_fileRead *fd, t_mlx *mlx)
 {
 	fd->sz = 1;
 	while (fd->sz != 0)
@@ -78,7 +78,11 @@ void	fill_matrices(t_matrices *matrices, t_xy *dims, t_fileRead *fd)
 			matrices->pos_info[dims->row][dims->column].cost = INT_MAX - 1;
 			(matrices->pos_info[dims->row][dims->column]).visited = 1;
 			if (fd->symbol[0] == 'P')
+			{
 				(matrices->pos_info[dims->row][dims->column]).cost = 0;
+				mlx->p_xy.row = dims->row;
+				mlx->p_xy.column = dims->column;
+			}
 		}
 		printf ("%c", fd->symbol[0]);
 		dims->column++;
@@ -117,7 +121,7 @@ void	create_matrices(t_xy dim, t_matrices *matrix)
 	}
 }
 
-int	check_insides_map(int fd, t_xy dims, t_inside *insides)
+int	check_insides_map(int fd, t_xy dims, t_inside *insides, t_mlx *mlx)
 {
 	t_xy	temp_dimensions;
 	t_matrices		matrices;
@@ -127,7 +131,7 @@ int	check_insides_map(int fd, t_xy dims, t_inside *insides)
 	temp_dimensions.row = 0;
 	temp_dimensions.column = 0;
 	create_matrices(dims, &matrices);
-	fill_matrices(&matrices, &temp_dimensions, &file_read_info);
+	fill_matrices(&matrices, &temp_dimensions, &file_read_info, mlx);
 	count_check(&matrices, dims, insides);
 	return (insides->freed);
 }
