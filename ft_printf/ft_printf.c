@@ -6,7 +6,7 @@
 /*   By: amkrtumy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 18:09:18 by amkrtumy          #+#    #+#             */
-/*   Updated: 2023/04/29 17:38:35 by amkrtumy         ###   ########.fr       */
+/*   Updated: 2023/05/21 12:45:37 by amkrtumy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,30 +32,58 @@ int	print_string(char *word)
 	return (ft_strlen(word));
 }
 
-int	switch_case(char letter, void *argument)
+int	switch_case(char letter, va_list args)
 {
+	unsigned int	dummy;
+
 	if (letter == 's')
-		return (print_string((char *)argument));
+		return (print_string(va_arg(args, char *)));
 	else if (letter == 'p')
-		return (print_pointer(argument));
+		return (print_pointer(va_arg(args, void *)));
 	else if (letter == 'd' || letter == 'i')
-		return (print_number((int) argument));
+		return (print_number(va_arg(args, int)));
 	else if (letter == 'c')
-		return (print_char((char) argument));
+		return (print_char(va_arg(args, int)));
 	else if (letter == 'u')
 	{
-		if ((unsigned int)argument == 0)
+		dummy = (va_arg(args, unsigned int));
+		if (dummy == 0)
 			return (write(1, "0", 1));
-		return (print_unsigned(((unsigned int) argument)));
+		return (print_unsigned(dummy));
 	}
 	else if (letter == 'x')
-		return (print_hexadecimal((unsigned int) argument, 0));
+		return (print_hexadecimal((va_arg(args, unsigned int)), 0));
 	else if (letter == 'X')
-		return (print_hexadecimal((unsigned int) argument, 1));
+		return (print_hexadecimal((va_arg(args, unsigned int)), 1));
 	else if (letter == '%')
 		return (print_char('%'));
 	return (0);
 }
+
+// int	switch_case(char letter, void *argument)
+// {
+// 	if (letter == 's')
+// 		return (print_string((char *)argument));
+// 	else if (letter == 'p')
+// 		return (print_pointer(argument));
+// 	else if (letter == 'd' || letter == 'i')
+// 		return (print_number((int) argument));
+// 	else if (letter == 'c')
+// 		return (print_char((char) argument));
+// 	else if (letter == 'u')
+// 	{
+// 		if ((unsigned int)argument == 0)
+// 			return (write(1, "0", 1));
+// 		return (print_unsigned(((unsigned int) argument)));
+// 	}
+// 	else if (letter == 'x')
+// 		return (print_hexadecimal((unsigned int) argument, 0));
+// 	else if (letter == 'X')
+// 		return (print_hexadecimal((unsigned int) argument, 1));
+// 	else if (letter == '%')
+// 		return (print_char('%'));
+// 	return (0);
+// }
 
 int	ft_printf(const char *sentence, ...)
 {
@@ -73,8 +101,7 @@ int	ft_printf(const char *sentence, ...)
 		if ((sentence[i] == '%') && (len != i))
 		{
 			if (sentence[i + 1] != '%')
-				full_length += switch_case(sentence[i + 1], \
-				va_arg(args, void *));
+				full_length += switch_case(sentence[i + 1], args);
 			else
 				full_length += switch_case(sentence[i + 1], NULL);
 			i++;
@@ -86,18 +113,18 @@ int	ft_printf(const char *sentence, ...)
 	return (full_length);
 }
 
+// #include <stdio.h>
 // int main()
 // {
-
 //   //int number = 429496295;
-//   char * name = "ARmen";
-//   char * add = "address";
-//   int number = 8;
-
+// //   char * name = "ARmen";
+// //   char * add = "address";
+// //   int number = 8;
+// 	int a = 0;
+// 	// print_hexadecimal(123, 0);
 // 	// printf("%d %d\n", a, b);
-// 	// ft_printf("%u\n", LONG_MIN);
-// 	// printf("Length: %d\n", ft_printf("A RANDOM TEXT"));
-// 	printf("\nLength: %d\n", ft_printf("\nA RANDOM %s TEXT NULL", NULL));
-//   return 0;
+// 	 = ft_printf("%u %u %u\n", UINT_MAX, 123, 456);
+// ", ft_printf("\nA RANDOM %s TEXT NULL", NULL));
+// // //   return 0;
 
-// }
+// // }

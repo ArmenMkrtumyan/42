@@ -30,19 +30,15 @@ int	print_number(int number)
 
 int	print_unsigned(unsigned int number)
 {
-	static int	len;
+	int	len;
 
 	len = 0;
-	if (number == 0)
+	if (number >= 10)
 	{
-		return (1);
+		len += print_unsigned(number / 10);
 	}
-	else
-	{
-		print_unsigned(number / 10);
-		ft_putnbr_fd(number % 10, 1);
-		len ++;
-	}
+	len += 1;
+	ft_putchar_fd(number % 10 + 48, 1);
 	return (len);
 }
 
@@ -57,20 +53,17 @@ char	get_char(int number, int capitalize)
 
 int	print_hexadecimal(uintptr_t number, int capitalize)
 {
-	static int	summary;
+	int		summary;
+	char	*a;
 
-	summary = 1;
-	if (number >= 16)
-	{
-		print_hexadecimal (number / 16, capitalize);
-		ft_putchar_fd(get_char(number % 16, capitalize), 1);
-		summary += 1;
-	}
+	summary = 0;
+	if (capitalize)
+		a = "0123456789ABCDEF";
 	else
-	{
-		ft_putchar_fd (get_char (number, capitalize), 1);
-		return (1);
-	}
+		a = "0123456789abcdef";
+	if (number >= 16)
+		summary += print_hexadecimal(number / 16, capitalize);
+	summary += write(1, &(a[number % 16]), 1);
 	return (summary);
 }
 

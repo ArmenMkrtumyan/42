@@ -88,7 +88,9 @@ typedef struct s_mlx
 	char	**char_mat;
 	t_pos	**pos_mat;
 	t_xy	p_xy;
+	t_xy	e_xy;
 	t_xy	dims;
+	int		coin_count;
 
 }			t_mlx;
 

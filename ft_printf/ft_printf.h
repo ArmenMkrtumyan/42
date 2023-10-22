@@ -22,7 +22,7 @@
 
 /*		FUNCTIONS				*/
 int		print_string(char *word);
-int		switch_case(char letter, void *argument);
+int		switch_case(char letter, va_list args);
 int		ft_printf(const char *sentence, ...);
 size_t	ft_strlen(const char *word);
 void	ft_putstr_fd(char *s, int fd);

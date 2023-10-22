@@ -77,6 +77,11 @@ void	fill_matrices(t_matrices *matrices, t_xy *dims, t_fileRead *fd, t_mlx *mlx)
 			matrices->char_info[dims->row][dims->column] = fd->symbol[0];
 			matrices->pos_info[dims->row][dims->column].cost = INT_MAX - 1;
 			(matrices->pos_info[dims->row][dims->column]).visited = 1;
+			if (fd->symbol[0] == 'E')
+			{
+				mlx->e_xy.row = dims->row;
+				mlx->e_xy.column = dims->column;
+			}
 			if (fd->symbol[0] == 'P')
 			{
 				(matrices->pos_info[dims->row][dims->column]).cost = 0;
