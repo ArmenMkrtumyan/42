@@ -29,7 +29,7 @@ int	check_dimensions_map(int fd, t_xy *dims)
 	return (1);
 }
 
-void	change_weights(t_matrices *matrices, t_xys *coords, t_const *constants)
+void	change_weights(t_matrices *matrices, t_xys *coords, t_const *constants, t_mlx *mlx)
 {
 	static int	dir[5];
 	int			k;
@@ -52,7 +52,7 @@ void	change_weights(t_matrices *matrices, t_xys *coords, t_const *constants)
 				k++;
 				continue ;
 			}
-			update_weights(matrices, coords, constants);
+			update_weights(matrices, coords, constants, mlx);
 		}
 		k++;
 	}
@@ -82,17 +82,18 @@ void	fix_coordinates(int k, t_xy *child_cell, t_xy curr_cell)
 	}
 }
 
-void	update_weights(t_matrices *matrices, t_xys *coords, t_const *constants)
+void	update_weights(t_matrices *matrices, t_xys *coords, t_const *constants, t_mlx *mlx)
 {
-	t_xy	child;
-	t_xy	curr;
+	t_xy		child;
+	t_xy		curr;
+	t_key_value	content;
 
 	curr.row = coords->curr_cell->row;
 	curr.column = coords->curr_cell->column;
 	child.row = coords->child_cell->row;
 	child.column = coords->child_cell->column;
 	constants->temp_dist = matrices->pos_info[curr.row][curr.column].cost;
-	if (matrices->char_info[child.row][child.column] == 'C')
+	if (matrices->char_info[child.row][child.column] == 'C' && mlx->enemy_perspective == 0)
 	{
 		constants->temp_dist += 1;
 		constants->coin_count -= 1;
@@ -103,7 +104,16 @@ void	update_weights(t_matrices *matrices, t_xys *coords, t_const *constants)
 		constants->temp_dist = \
 		matrices->pos_info[curr.row][curr.column].cost + 10;
 	if (constants->temp_dist < matrices->pos_info[child.row][child.column].cost)
+	{
 		matrices->pos_info[child.row][child.column].cost = constants->temp_dist;
+		content.key.row = child.row;
+		content.key.column = child.column;
+		content.value.row = curr.row;
+		content.value.column = curr.column;
+		ft_lstadd_back(&(mlx->lst), ft_lstnew(content));
+		printf("\nKey: (%d, %d)  Value: (%d, %d) Cost: %d\n",
+		child.row, child.column, curr.row, curr.column, matrices->pos_info[child.row][child.column].cost);
+	}
 }
 
 void	assign_cell(int k, t_xy *child_cell, t_xy *curr_cell)

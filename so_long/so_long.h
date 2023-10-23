@@ -72,6 +72,18 @@ typedef struct s_constants
 	int		temp_dist;
 }			t_const;
 
+typedef struct s_key_value
+{
+	t_xy	key;
+	t_xy	value;
+}			t_key_value;
+
+typedef struct s_list
+{
+	t_key_value		content;
+	struct s_list	*next;
+}	t_list;
+
 typedef struct s_mlx
 {
 	void	*mlx_ptr;
@@ -91,8 +103,12 @@ typedef struct s_mlx
 	t_xy	e_xy;
 	t_xy	dims;
 	int		coin_count;
-
+	int		enemy_count;
+	t_xy	*enemies;
+	int		enemy_perspective;
+	t_list	*lst;
 }			t_mlx;
+
 
 // MAIN FUNCTIONS
 //void			free_matrix(t_matrices *matrices, int row, t_inside *insides);
@@ -101,7 +117,7 @@ int		check_file_name(char *file_name);
 
 // FILE CHECKER
 int		check_letters(char letter, char *letters, t_xy *e, t_xy *i_k);
-void	count_check(t_matrices *matrices, t_xy dims, t_inside *insides);
+void	count_check(t_matrices *matrices, t_xy dims, t_inside *insides, t_mlx *mlx);
 void	fill_matrices(t_matrices *matrices, t_xy *dims, t_fileRead *fd, t_mlx *mlx);
 void	create_matrices(t_xy dims, t_matrices *matrices);
 int		check_insides_map(int fd, t_xy dims, t_inside *insides, t_mlx *mlx);
@@ -130,9 +146,9 @@ void	init_nsew(t_matrices *matrices, t_xy dims, t_xy e);
 void	init_inside(t_inside *ins, t_matrices *matx, t_xy dims, t_xy e);
 
 // UPDATER UTILS
-void	change_weights(t_matrices *matrices, t_xys *coords, t_const *const);
+void	change_weights(t_matrices *matrices, t_xys *coords, t_const *constants, t_mlx *mlx);
 void	fix_coordinates(int k, t_xy *child_cell, t_xy curr_cell);
-void	update_weights(t_matrices *matrices, t_xys *coords, t_const *const);
+void	update_weights(t_matrices *matrices, t_xys *coords, t_const *constants, t_mlx *mlx);
 void	assign_cell(int k, t_xy *child_cell, t_xy *curr_cell);
 
 // PRINT UTILS
@@ -142,5 +158,15 @@ void	on_exit(char *error_message);
 // PACK UTILS
 
 t_xys	pack_coorniates(t_xy dims, t_xy *curr, t_xy *child, t_xy e_xy);
+
+// LIST UTILS
+
+void	ft_lstadd_back(t_list **lst, t_list *new);
+void	ft_lstclear(t_list **lst);
+void	ft_lstdelone(t_list *lst);
+t_list	*ft_lstlast(t_list *lst);
+t_list	*ft_lstnew(t_key_value content);
+int		ft_lstsize(t_list *lst);
+
 
 #endif

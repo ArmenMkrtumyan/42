@@ -15,6 +15,7 @@ SRCS	=	check_file.c	\
 			util_getters.c	\
 			util_printer.c	\
 			util_packers.c	\
+			util_list.c		\
 
 OBJS = $(SRCS:.c=.o)
 

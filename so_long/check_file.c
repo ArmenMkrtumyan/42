@@ -33,7 +33,7 @@ int	check_letters(char letter, char *array, t_xy *e, t_xy *i_k)
 	return (0);
 }
 
-void	count_check(t_matrices *matrices, t_xy dims, t_inside *insides)
+void	count_check(t_matrices *matrices, t_xy dims, t_inside *insides, t_mlx *mlx)
 {
 	char			letters[5];
 	t_xy	e;
@@ -58,6 +58,8 @@ void	count_check(t_matrices *matrices, t_xy dims, t_inside *insides)
 				on_exit("Wrong insides!");
 		}
 	}
+	mlx->enemy_count = letters[3] - '0';
+	// printf("Enemy count: %d\n", mlx->enemy_count);
 	if (letters[0] == '0' || letters[1] != '1' || letters[2] != '1')
 		on_exit("Wrong insides!");
 	init_inside(insides, matrices, dims, e);
@@ -137,7 +139,7 @@ int	check_insides_map(int fd, t_xy dims, t_inside *insides, t_mlx *mlx)
 	temp_dimensions.column = 0;
 	create_matrices(dims, &matrices);
 	fill_matrices(&matrices, &temp_dimensions, &file_read_info, mlx);
-	count_check(&matrices, dims, insides);
+	count_check(&matrices, dims, insides, mlx);
 	return (insides->freed);
 }
 
