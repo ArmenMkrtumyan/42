@@ -116,6 +116,7 @@ typedef struct s_mlx
 
 // MAIN FUNCTIONS
 //void			free_matrix(t_matrices *matrices, int row, t_inside *insides);
+int		hit_enemy(t_mlx mlx);
 void	checkings(int fd1, int fd2, t_xy dims, t_mlx *mlx);
 int		check_file_name(char *file_name);
 

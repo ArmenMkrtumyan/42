@@ -27,6 +27,20 @@
 // 	insides->freed = 1;
 // }
 
+int	hit_enemy(t_mlx mlx)
+{
+	int	i;
+
+	i = 0;
+	while (i < mlx.enemy_count)
+	{
+		if (mlx.enemies[i].row == mlx.p_xy.row && mlx.enemies[i].column == mlx.p_xy.column)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 void	redraw_map(int pos, t_mlx mlx, int p_row, int p_column)
 {
 	if (!(p_row == mlx.e_xy.row && p_column == mlx.e_xy.column))
@@ -116,10 +130,11 @@ void	move_enemy(t_list *enemy_path, t_mlx *mlx, int enemy_num)
 	t_list	*last;
 	int		pos;
 
+	if (hit_enemy(*mlx))
+		on_exit("You lost!");
 	ft_lstdellast(&enemy_path);
 	last = ft_lstlast(enemy_path);
 	printf("Move enemy to (%d, %d)\n", last->content.value.row, last->content.value.column);
-
 
 	if (mlx->enemies[enemy_num].row != last->content.value.row)
 	{
@@ -135,12 +150,12 @@ void	move_enemy(t_list *enemy_path, t_mlx *mlx, int enemy_num)
 		else
 			pos = RIGHT;
 	}
-	printf("-----------------%d\n", pos);
 	mlx->enemies[enemy_num].row = last->content.value.row;
 	mlx->enemies[enemy_num].column = last->content.value.column;
-
 	redraw_map_enemy(pos, *mlx, mlx->enemies[enemy_num].row, mlx->enemies[enemy_num].column);
 	ft_lstdellast(&enemy_path);
+	if (hit_enemy(*mlx))
+		on_exit("You lost!");
 }
 
 void	update_weights_after_move(t_mlx *mlx)

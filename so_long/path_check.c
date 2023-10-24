@@ -41,6 +41,7 @@ int	check_path(t_matrices *matrix, t_xy dims, t_xy e, t_mlx *mlx, int enemy_num)
 		coords = pack_coorniates(dims, &curr_cell, &child_cell, e);
 		change_weights(matrix, &coords, &constants, mlx);
 	}
+
 	// printf("printing the list:\n");
 	// temp = mlx->lst;
 	// while (temp != NULL)
