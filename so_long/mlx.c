@@ -35,7 +35,13 @@ int	hit_enemy(t_mlx mlx)
 	while (i < mlx.enemy_count)
 	{
 		if (mlx.enemies[i].row == mlx.p_xy.row && mlx.enemies[i].column == mlx.p_xy.column)
+		{
+			mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.empty_space, mlx.xy * mlx.p_xy.column, mlx.xy * mlx.p_xy.row);
+			mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.coin, mlx.xy * mlx.p_xy.column, mlx.xy * mlx.p_xy.row);
+			for(int i = 0; i < 10000000000; i++)
+				continue;
 			return (1);
+		}
 		i++;
 	}
 	return (0);
@@ -74,13 +80,34 @@ void	redraw_map_enemy(int pos, t_mlx mlx, int e_row, int e_column)
 	else
 		mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.enemy, mlx.xy * e_column, mlx.xy * e_row);
 	if (pos == UP && !(e_column == mlx.e_xy.column && e_row + 1 == mlx.e_xy.row))
+	{
+		if (mlx.char_mat[e_row + 1][e_column] == 'C')
+			mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.coin, e_column * mlx.xy, (e_row + 1) * mlx.xy);
+		else
+			mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.empty_space, e_column * mlx.xy, (e_row + 1) * mlx.xy);
 		mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.empty_space, e_column * mlx.xy, (e_row + 1) * mlx.xy);
+	}
 	else if (pos == DOWN && !(e_column == mlx.e_xy.column && e_row -1 == mlx.e_xy.row))
-		mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.empty_space, e_column * mlx.xy, (e_row - 1) * mlx.xy);
+	{
+		if (mlx.char_mat[e_row - 1][e_column] == 'C')
+			mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.coin, e_column * mlx.xy, (e_row - 1) * mlx.xy);
+		else
+			mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.empty_space, e_column * mlx.xy, (e_row - 1) * mlx.xy);
+	}
 	else if (pos == LEFT && !(e_column + 1 == mlx.e_xy.column && e_row == mlx.e_xy.row))
-		mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.empty_space, (e_column + 1) * mlx.xy, e_row * mlx.xy);
+	{
+		if (mlx.char_mat[e_row][e_column + 1] == 'C')
+			mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.coin, (e_column + 1)* mlx.xy, e_row * mlx.xy);
+		else
+			mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.empty_space, (e_column + 1) * mlx.xy, e_row * mlx.xy);
+	}
 	else if (pos == RIGHT && !(e_column - 1 == mlx.e_xy.column && e_row == mlx.e_xy.row))
-		mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.empty_space, (e_column - 1) * mlx.xy, e_row * mlx.xy);
+	{
+		if (mlx.char_mat[e_row][e_column - 1] == 'C')
+			mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.coin, (e_column - 1) * mlx.xy, e_row * mlx.xy);
+		else
+			mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.empty_space, (e_column - 1) * mlx.xy, e_row * mlx.xy);
+	}
 }
 
 void	update_visited_and_costs(t_mlx *mlx, t_xy zero_position)
@@ -213,7 +240,6 @@ void	switch_places(int pos, t_mlx *mlx, int row, int column)
 	if (mlx->coin_count == 0 && mlx->p_xy.row == mlx->e_xy.row && mlx->p_xy.column == mlx->e_xy.column)
 		on_exit("Good job!");
 	redraw_map(pos, *mlx, mlx->p_xy.row, mlx->p_xy.column);
-	update_weights_after_move(mlx);
 }
 int exit_program(void *mlx_ptr)
 {
@@ -309,6 +335,8 @@ int	pacman_animate(t_mlx *mlx)
 		mlx_put_image_to_window(mlx->mlx_ptr, mlx->mlx_win, texture, \
 		mlx->xy * mlx->p_xy.column, mlx->xy * mlx->p_xy.row);
 	}
+	if (timer % 8000 == 0)
+		update_weights_after_move(mlx);
 	timer ++;
 	return (1);
 }
@@ -381,6 +409,7 @@ int	main(int argc, char	*argv[])
 	mlx.pacman_eating = mlx_xpm_file_to_image(mlx.mlx_ptr, "pacman_eating.xpm", &mlx.xy, &mlx.xy);
 	mlx.wall = mlx_xpm_file_to_image(mlx.mlx_ptr, "wall.xpm", &mlx.xy, &mlx.xy);
 	mlx.empty_space = mlx_xpm_file_to_image(mlx.mlx_ptr, "empty_space.xpm", &mlx.xy, &mlx.xy);
+	mlx.boom = mlx_xpm_file_to_image(mlx.mlx_ptr, "boom.xpm", &mlx.xy, &mlx.xy);
 	mlx.mlx_win = mlx_new_window(mlx.mlx_ptr, mlx.dims.column * mlx.xy, mlx.dims.row * mlx.xy, "Pacman");
 
 

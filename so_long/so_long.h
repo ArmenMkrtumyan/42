@@ -100,6 +100,7 @@ typedef struct s_mlx
 	void	*pacman_eating;
 	void	*wall;
 	void	*empty_space;
+	void	*boom;
 	char	**char_mat;
 	t_pos	**pos_mat;
 	t_xy	p_xy;
