@@ -28,12 +28,27 @@ typedef struct s_placement
 	int	visited;
 }	t_pos;
 
+typedef struct s_list t_list;
+
 typedef struct s_coordinates
 {
-	int	row;
-	int	column;
-	int	wall;
+	int		row;
+	int		column;
+	int		wall;
+	t_list	*enemy_path;
 }	t_xy;
+
+typedef struct s_key_value
+{
+	t_xy	key;
+	t_xy	value;
+}			t_key_value;
+
+typedef struct s_list
+{
+	t_key_value		content;
+	struct s_list	*next;
+}	t_list;
 
 typedef struct s_matrices
 {
@@ -72,18 +87,6 @@ typedef struct s_constants
 	int		temp_dist;
 }			t_const;
 
-typedef struct s_key_value
-{
-	t_xy	key;
-	t_xy	value;
-}			t_key_value;
-
-typedef struct s_list
-{
-	t_key_value		content;
-	struct s_list	*next;
-}	t_list;
-
 typedef struct s_mlx
 {
 	void	*mlx_ptr;
@@ -106,6 +109,7 @@ typedef struct s_mlx
 	int		enemy_count;
 	t_xy	*enemies;
 	int		enemy_perspective;
+	t_xy	start_xy;
 	t_list	*lst;
 }			t_mlx;
 
@@ -123,7 +127,7 @@ void	create_matrices(t_xy dims, t_matrices *matrices);
 int		check_insides_map(int fd, t_xy dims, t_inside *insides, t_mlx *mlx);
 
 // PATH CHECKER
-int		check_path(t_matrices *matrix, t_xy dims, t_xy e, t_mlx *mlx);
+int		check_path(t_matrices *matrix, t_xy dims, t_xy e, t_mlx *mlx, int enemy_num);
 
 // CHECKER UTILS
 int		check_dimensions_map(int fd, t_xy *dims);

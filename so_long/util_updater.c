@@ -111,8 +111,8 @@ void	update_weights(t_matrices *matrices, t_xys *coords, t_const *constants, t_m
 		content.value.row = curr.row;
 		content.value.column = curr.column;
 		ft_lstadd_back(&(mlx->lst), ft_lstnew(content));
-		printf("\nKey: (%d, %d)  Value: (%d, %d) Cost: %d\n",
-		child.row, child.column, curr.row, curr.column, matrices->pos_info[child.row][child.column].cost);
+		//printf("\nKey: (%d, %d)  Value: (%d, %d) Cost: %d\n",
+		//child.row, child.column, curr.row, curr.column, matrices->pos_info[child.row][child.column].cost);
 	}
 }
 

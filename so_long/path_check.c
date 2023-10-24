@@ -12,13 +12,17 @@
 
 #include "so_long.h"
 
-int	check_path(t_matrices *matrix, t_xy dims, t_xy e, t_mlx *mlx)
+int	check_path(t_matrices *matrix, t_xy dims, t_xy e, t_mlx *mlx, int enemy_num)
 {
 	t_xy	curr_cell;
 	t_xy	child_cell;
 	t_const	constants;
 	t_xys	coords;
-	t_xy	tmp_xy;
+	t_xy	dest_xy;
+	t_xy	start_xy;
+	t_list	*temp;
+	t_list	*enemy_path;
+	t_key_value	last_xy;
 
 	ft_lstclear(&mlx->lst);
 	mlx->lst = NULL;
@@ -37,23 +41,51 @@ int	check_path(t_matrices *matrix, t_xy dims, t_xy e, t_mlx *mlx)
 		coords = pack_coorniates(dims, &curr_cell, &child_cell, e);
 		change_weights(matrix, &coords, &constants, mlx);
 	}
-	printf("Printing the path:\n");
-	t_list	*temp;
-	temp = mlx->lst;
-	tmp_xy = mlx->e_xy;
-	while(tmp_xy.row != mlx->p_xy.row || tmp_xy.column != mlx->p_xy.column)
+	// printf("printing the list:\n");
+	// temp = mlx->lst;
+	// while (temp != NULL)
+	// {
+	// 	printf("(%d, %d) -> ", temp->content.key.row, temp->content.key.column);
+	// 	printf("(%d, %d)\n", temp->content.value.row, temp->content.value.column);
+	// 	temp = temp->next;
+	// }
+	if (mlx->enemy_perspective == 1)
 	{
+		printf("Printing the path:\n");
+		// enemy_path = mlx->enemies[0].enemy_path;
+		// mlx->start_xy.enemy_path = NULL;
+		dest_xy = mlx->p_xy;
+		start_xy = mlx->enemies[enemy_num];
+		last_xy.value.row = mlx->p_xy.row;
+		last_xy.value.column = mlx->p_xy.column;
+		ft_lstadd_back(&mlx->enemies[enemy_num].enemy_path, ft_lstnew(last_xy));
+		while(dest_xy.row != start_xy.row || dest_xy.column != start_xy.column)
+		{
+			temp = mlx->lst;
+			while (temp != NULL)
+			{
+				if (temp->content.key.row == dest_xy.row && temp->content.key.column == dest_xy.column)
+				{
+					ft_lstadd_back(&(mlx->enemies[enemy_num].enemy_path), ft_lstnew(temp->content));
+					dest_xy = temp->content.value;
+				}
+				temp = temp->next;
+			}
+		}
+		printf("printing the enemy path for enemy (%d, %d):\n", start_xy.row, start_xy.column);
+		temp = mlx->enemies[enemy_num].enemy_path;
 		while (temp != NULL)
 		{
-			if (temp->content.key.row == tmp_xy.row && temp->content.key.column == tmp_xy.column)
-			{
-				printf("(%d, %d)\n", temp->content.key.row, temp->content.key.column);
-				printf("(%d, %d)\n", temp->content.value.row, temp->content.value.column);
-			}
+			printf("(%d, %d)\n", temp->content.value.row, temp->content.value.column);
 			temp = temp->next;
-			tmp_xy = temp->content.value;
 		}
 	}
+
+	// else
+	// {
+	// 	tmp_xy = mlx->e_xy;
+
+	// }
 
 	int i2 = -1, k2;
 	// printf("\n");
@@ -65,20 +97,20 @@ int	check_path(t_matrices *matrix, t_xy dims, t_xy e, t_mlx *mlx)
 	// 	printf("\n");
 	// }
 //	printf("\n\n\nNumber of remaining coins to collect: %d\n\n", coins);
-	i2 = -1;
-	while (++i2 < dims.row)
-	{
-		k2 = -1;
-		while (++k2 < dims.column)
-		{
-			printf("    ");
-			if (matrix->pos_info[i2][k2].cost == INT_MAX - 1)
-				printf("X");
-			else
-				printf("%d", matrix->pos_info[i2][k2].cost);
-		}
-		printf("\n");
-	}
+	// i2 = -1;
+	// while (++i2 < dims.row)
+	// {
+	// 	k2 = -1;
+	// 	while (++k2 < dims.column)
+	// 	{
+	// 		printf("    ");
+	// 		if (matrix->pos_info[i2][k2].cost == INT_MAX - 1)
+	// 			printf("X");
+	// 		else
+	// 			printf("%d", matrix->pos_info[i2][k2].cost);
+	// 	}
+	// 	printf("\n");
+	// }
 	mlx->dims = dims;
 	mlx->char_mat = matrix->char_info;
 	mlx->pos_mat = matrix->pos_info;

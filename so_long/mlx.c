@@ -48,6 +48,27 @@ void	redraw_map(int pos, t_mlx mlx, int p_row, int p_column)
 		mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.empty_space, (p_column - 1) * mlx.xy, p_row * mlx.xy);
 }
 
+void	redraw_map_enemy(int pos, t_mlx mlx, int e_row, int e_column)
+{
+	if (!(e_row == mlx.e_xy.row && e_column == mlx.e_xy.column))
+	{
+		mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.empty_space, mlx.xy * mlx.e_xy.column, mlx.xy * mlx.e_xy.row);
+		mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.door_closed, mlx.xy * mlx.e_xy.column, mlx.xy * mlx.e_xy.row);
+		mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.empty_space, mlx.xy * e_column, mlx.xy * e_row);
+		mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.enemy, mlx.xy * e_column, mlx.xy * e_row);
+	}
+	else
+		mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.enemy, mlx.xy * e_column, mlx.xy * e_row);
+	if (pos == UP && !(e_column == mlx.e_xy.column && e_row + 1 == mlx.e_xy.row))
+		mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.empty_space, e_column * mlx.xy, (e_row + 1) * mlx.xy);
+	else if (pos == DOWN && !(e_column == mlx.e_xy.column && e_row -1 == mlx.e_xy.row))
+		mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.empty_space, e_column * mlx.xy, (e_row - 1) * mlx.xy);
+	else if (pos == LEFT && !(e_column + 1 == mlx.e_xy.column && e_row == mlx.e_xy.row))
+		mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.empty_space, (e_column + 1) * mlx.xy, e_row * mlx.xy);
+	else if (pos == RIGHT && !(e_column - 1 == mlx.e_xy.column && e_row == mlx.e_xy.row))
+		mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.empty_space, (e_column - 1) * mlx.xy, e_row * mlx.xy);
+}
+
 void	update_visited_and_costs(t_mlx *mlx, t_xy zero_position)
 {
 	int	k2;
@@ -65,65 +86,83 @@ void	update_visited_and_costs(t_mlx *mlx, t_xy zero_position)
 	mlx->pos_mat[zero_position.row][zero_position.column].cost = 0;
 }
 
-// void	move_enemy(t_mlx *mlx, t_xy enemy_pos)
-// {
-// 	int	costs[4];
-// 	int	i;
-// 	int	min;
+void	ft_lstdellast(t_list **list)
+{
+	t_list	*prev;
+	t_list	*initial;
 
-// 	costs[0] = mlx->pos_mat[enemy_pos.row - 1][enemy_pos.column].cost;
-// 	costs[1] = mlx->pos_mat[enemy_pos.row + 1][enemy_pos.column].cost;
-// 	costs[2] = mlx->pos_mat[enemy_pos.row][enemy_pos.column + 1].cost;
-// 	costs[3] = mlx->pos_mat[enemy_pos.row][enemy_pos.column - 1].cost;
-// 	i = 0;
-// 	min = costs[0];
-// 	while (i < 4)
-// 	{
-// 		if (costs[i] < min)
-// 			min = costs[i];
-// 		i++;
-// 	}
-// 	i = 0;
-// 	while (i < 4)
-// 	{
-// 		if ( [enemy_pos.column] != '1')
-// 			break ;
-// 		i++;
-// 	}
+	initial = *list;
+	if (!(*list))
+		return ;
+	if ((*list)->next)
+	{
+		while ((*list)->next->next)
+			*list = (*list)->next;
+		ft_lstdelone((*list)->next);
+		(*list)->next = NULL;
+	}
+	else
+	{
+		ft_lstdelone(*list);
+		*list = NULL;
+		return ;
+	}
+	*list = initial;
+}
 
-// }
+void	move_enemy(t_list *enemy_path, t_mlx *mlx, int enemy_num)
+{
+	t_list	*prev;
+	t_list	*last;
+	int		pos;
+
+	ft_lstdellast(&enemy_path);
+	last = ft_lstlast(enemy_path);
+	printf("Move enemy to (%d, %d)\n", last->content.value.row, last->content.value.column);
+
+
+	if (mlx->enemies[enemy_num].row != last->content.value.row)
+	{
+		if (mlx->enemies[enemy_num].row > last->content.value.row)
+			pos = UP;
+		else
+			pos = DOWN;
+	}
+	else if (mlx->enemies[enemy_num].column != last->content.value.column)
+	{
+		if (mlx->enemies[enemy_num].column > last->content.value.column)
+			pos = LEFT;
+		else
+			pos = RIGHT;
+	}
+	printf("-----------------%d\n", pos);
+	mlx->enemies[enemy_num].row = last->content.value.row;
+	mlx->enemies[enemy_num].column = last->content.value.column;
+
+	redraw_map_enemy(pos, *mlx, mlx->enemies[enemy_num].row, mlx->enemies[enemy_num].column);
+	ft_lstdellast(&enemy_path);
+}
 
 void	update_weights_after_move(t_mlx *mlx)
 {
 	t_matrices	matrix;
-
+	int			enemy_num;
 	// printf("\n\nEnemy 0: %d %d\n", mlx->enemies[0].row, mlx->enemies[0].column);
-	mlx->enemy_perspective = 0;
+
+	enemy_num = 0;
 	matrix.char_info = mlx->char_mat;
 	matrix.pos_info = mlx->pos_mat;
-	printf("\n\nWeights from Players perspective\n\n");
-	update_visited_and_costs(mlx, mlx->p_xy);
-	check_path(&matrix, mlx->dims, mlx->e_xy, mlx);
 	printf("\n\nWeights from Enemies perspective\n\n");
 	mlx->enemy_perspective = 1;
-	update_visited_and_costs(mlx, mlx->enemies[0] );
-	check_path(&matrix, mlx->dims, mlx->e_xy, mlx);
-	//move_enemy(mlx, mlx->enemies[0]);
-	// int k2, i2;
-	// i2 = -1;
-	// while (++i2 < mlx->dims.row)
-	// {
-	// 	k2 = -1;
-	// 	while (++k2 < mlx->dims.column)
-	// 	{
-	// 		printf("    ");
-	// 		if (mlx->pos_mat[i2][k2].cost == INT_MAX - 1)
-	// 			printf("X");
-	// 		else
-	// 			printf("%d", mlx->pos_mat[i2][k2].cost);
-	// 	}
-	// 	printf("\n");
-	// }
+	while(enemy_num < mlx->enemy_count)
+	{
+		mlx->enemies[enemy_num].enemy_path = NULL;
+		mlx->start_xy.enemy_path = mlx->enemies[enemy_num].enemy_path;
+		update_visited_and_costs(mlx, mlx->enemies[enemy_num]);
+		check_path(&matrix, mlx->dims, mlx->e_xy, mlx, enemy_num);
+		move_enemy(mlx->enemies[enemy_num].enemy_path, mlx, enemy_num);
+		enemy_num++;
+	}
 }
 
 void	switch_places(int pos, t_mlx *mlx, int row, int column)
@@ -204,7 +243,7 @@ void	checkings(int fd1, int fd2, t_xy dims, t_mlx *mlx)
 			mlx->enemy_perspective = 0;
 			printf("\n\nCORRECT MAP INSIDES, CHECKING PATHS...");
 			check_path(&insides.matrices, insides.dims, \
-			insides.e_xy, mlx);
+			insides.e_xy, mlx, 0);
 			if (insides.matrices.path_exists == 1)
 				printf("\n\nCORRECT PATHS...Launching the game\n\n");
 			else
