@@ -34,6 +34,7 @@ void	init_nsew(t_mlx *mlx, t_xy dims, t_xy e)
 {
 	t_xy	i_k;
 
+	(void)e;
 	i_k.row = -1;
 	while (++i_k.row < dims.row)
 	{
@@ -59,9 +60,12 @@ void	init_nsew(t_mlx *mlx, t_xy dims, t_xy e)
 	}
 }
 
-void	init_inside(t_inside *insides, t_matrices *matrices, t_xy dims, t_xy e)
+void	init_inside(t_inside *insides, t_mlx *mlx, t_xy dims, t_xy e)
 {
-	insides->matrices = *matrices;
+	mlx->matrices.pos_info = mlx->pos_mat;
+	mlx->matrices.char_info = mlx->char_mat;
+	mlx->matrices.path_exists = mlx->path_exists;
+	insides->matrices = mlx->matrices;
 	insides->dims = dims;
 	insides->e_xy = e;
 	insides->freed = 0;
@@ -86,6 +90,7 @@ void	init_enemies(t_mlx *mlx)
 			{
 				enemies[count].row = i;
 				enemies[count].col = k;
+				enemies[count].enemy_path = NULL;
 				count ++;
 			}
 		}
@@ -118,4 +123,5 @@ void	init_mlx(t_mlx *mlx)
 			"pictures/boom.xpm", &mlx->xy, &mlx->xy);
 	mlx->mlx_win = mlx_new_window(mlx->mlx_ptr, mlx->dims.col * mlx->xy,
 			mlx->dims.row * mlx->xy, "Armenian Pacman");
+	mlx->door_cur = mlx->door_closed;
 }

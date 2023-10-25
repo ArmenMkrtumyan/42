@@ -12,7 +12,7 @@
 
 #include "so_long.h"
 
-void	on_exit(char *error_message)
+void	on_exit_sl(char *error_message)
 {
 	printf("\n\n%s\n\n", error_message);
 	exit(1);
@@ -20,7 +20,8 @@ void	on_exit(char *error_message)
 
 int	exit_program(void *mlx_ptr)
 {
-	on_exit("\nClosed the game\n");
+	(void)mlx_ptr;
+	on_exit_sl("\nClosed the game\n");
 	return (1);
 }
 
@@ -50,7 +51,6 @@ int	hit_enemy(t_mlx *mlx)
 
 void	ft_lstdellast(t_list **list)
 {
-	t_list	*prev;
 	t_list	*initial;
 
 	initial = *list;
@@ -92,10 +92,12 @@ int	main(int argc, char	*argv[])
 	fd1 = get_fd(argv[1]);
 	fd2 = get_fd(argv[1]);
 	checkings(fd1, fd2, dims, &mlx);
+	ft_lstclear(&(mlx.lst));
+	mlx.lst = NULL;
 	init_enemies(&mlx);
 	init_mlx(&mlx);
 	draw_map(&mlx);
-	mlx_hook(mlx.mlx_win, 2, 0, key_hook, &mlx);
+	mlx_hook(mlx.mlx_win, 2, 1L << 0, key_hook, &mlx);
 	mlx_hook(mlx.mlx_win, 17, 0, exit_program, &mlx);
 	mlx_loop_hook(mlx.mlx_ptr, pacman_animate, &mlx);
 	mlx_loop(mlx.mlx_ptr);

@@ -70,15 +70,13 @@ void	update_weights(t_xys *coords, t_const *constants, t_mlx *mlx)
 
 void	update_weights_after_move(t_mlx *mlx)
 {
-	t_matrices	matrix;
 	int			enemy_num;
 
 	enemy_num = 0;
-	matrix.char_info = mlx->char_mat;
-	matrix.pos_info = mlx->pos_mat;
 	mlx->enemy_perspective = 1;
 	while (enemy_num < mlx->enemy_count)
 	{
+		ft_lstclear(&(mlx->enemies[enemy_num].enemy_path));
 		mlx->enemies[enemy_num].enemy_path = NULL;
 		mlx->start_xy.enemy_path = mlx->enemies[enemy_num].enemy_path;
 		update_visited_and_costs(mlx, mlx->enemies[enemy_num]);

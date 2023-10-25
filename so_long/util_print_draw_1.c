@@ -39,7 +39,7 @@ void	redraw_map(int pos, t_mlx mlx, int p_row, int p_col)
 	{
 		mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.empty_space, \
 		mlx.xy * mlx.e_xy.col, mlx.xy * mlx.e_xy.row);
-		mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.door_closed, \
+		mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.door_cur, \
 		mlx.xy * mlx.e_xy.col, mlx.xy * mlx.e_xy.row);
 		mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.empty_space, \
 		mlx.xy * p_col, mlx.xy * p_row);
@@ -64,7 +64,7 @@ void	redraw_map_enemy(int pos, t_mlx mlx, int e_row, int e_col)
 	{
 		mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.empty_space, \
 		mlx.xy * mlx.e_xy.col, mlx.xy * mlx.e_xy.row);
-		mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.door_closed, \
+		mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.door_cur, \
 		mlx.xy * mlx.e_xy.col, mlx.xy * mlx.e_xy.row);
 		mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.empty_space, \
 		mlx.xy * e_col, mlx.xy * e_row);

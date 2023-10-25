@@ -71,9 +71,9 @@ void	checkings(int fd1, int fd2, t_xy dims, t_mlx *mlx)
 			if (mlx->path_exists == 1)
 				printf("\n\nCORRECT PATHS...Launching the game\n\n");
 			else
-				on_exit("Issue with paths!");
+				on_exit_sl("Issue with paths!");
 		}
 	}
 	else
-		on_exit("\n\nWRONG DIMENSIONS\n\n");
+		on_exit_sl("\n\nWRONG DIMENSIONS\n\n");
 }

@@ -22,11 +22,11 @@ int	pacman_animate(t_mlx *mlx)
 	{
 		timer_dead++;
 		if (timer_dead == 10000)
-			on_exit("Game Over");
+			on_exit_sl("Game Over");
 		return (1);
 	}
 	if (hit_enemy(mlx))
-		on_exit("You lost!");
+		on_exit_sl("You lost!");
 	if (timer % 2000 == 0 || timer % 3000 == 0)
 	{
 		if (timer % 2000 == 0)
@@ -38,7 +38,7 @@ int	pacman_animate(t_mlx *mlx)
 		mlx_put_image_to_window(mlx->mlx_ptr, mlx->mlx_win, texture, \
 		mlx->xy * mlx->p_xy.col, mlx->xy * mlx->p_xy.row);
 	}
-	if (timer % 8000 == 0)
+	if (timer % 10000 == 0)
 		update_weights_after_move(mlx);
 	timer ++;
 	return (1);
@@ -51,7 +51,7 @@ int	key_hook(int key_code, void *mlx_ptr)
 	mlx = (t_mlx *)mlx_ptr;
 	if (key_code == ESC)
 	{
-		on_exit("\nClosing the game");
+		on_exit_sl("\nClosing the game");
 	}
 	if (mlx->is_dead)
 		return (0);

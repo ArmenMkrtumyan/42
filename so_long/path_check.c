@@ -28,6 +28,8 @@
 
 void	calculate_enemy_path(t_check_path *info, t_mlx *mlx, int enemy_num)
 {
+	ft_lstclear(&(mlx->enemies[enemy_num].enemy_path));
+	mlx->enemies[enemy_num].enemy_path = NULL;
 	info->dest_xy = mlx->p_xy;
 	info->start_xy = mlx->enemies[enemy_num];
 	info->last_xy.value.row = mlx->p_xy.row;
@@ -50,8 +52,8 @@ void	calculate_enemy_path(t_check_path *info, t_mlx *mlx, int enemy_num)
 		}
 	}
 	info->temp = mlx->enemies[enemy_num].enemy_path;
-	while (info->temp != NULL)
-		info->temp = info->temp->next;
+	// while (info->temp != NULL)
+	// 	info->temp = info->temp->next;
 }
 
 void	check_path(t_xy dims, t_xy e, t_mlx *mlx, int enemy_num)
@@ -62,7 +64,7 @@ void	check_path(t_xy dims, t_xy e, t_mlx *mlx, int enemy_num)
 	t_const			constants;
 	t_xys			coords;
 
-	ft_lstclear(&mlx->lst);
+	ft_lstclear(&(mlx->lst));
 	mlx->lst = NULL;
 	init_nsew(mlx, dims, e);
 	constants.exit_exists = 0;

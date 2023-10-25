@@ -8,15 +8,27 @@
 # include <stdio.h>
 # include <limits.h>
 
-# define ESC 53
-# define UP 13
-# define DOWN 1
-# define LEFT 0
-# define RIGHT 2
-# define UP_A 126
-# define DOWN_A 125
-# define LEFT_A 123
-# define RIGHT_A 124
+# ifdef LINUX
+#  define ESC 65307
+#  define UP 119
+#  define DOWN 115
+#  define LEFT 97
+#  define RIGHT 100
+#  define UP_A 65362
+#  define DOWN_A 65364
+#  define LEFT_A 65361
+#  define RIGHT_A 65363
+# else
+#  define ESC 53
+#  define UP 13
+#  define DOWN 1
+#  define LEFT 0
+#  define RIGHT 2
+#  define UP_A 126
+#  define DOWN_A 125
+#  define LEFT_A 123
+#  define RIGHT_A 124
+# endif
 
 typedef struct s_placement
 {
@@ -98,33 +110,35 @@ typedef struct s_check_path
 
 typedef struct s_mlx
 {
-	int		xy;
-	int		is_dead;
-	int		coin_count;
-	int		enemy_count;
-	int		enemy_perspective;
-	void	*mlx_ptr;
-	void	*mlx_win;
-	void	*door_open;
-	void 	*door_closed;
-	void	*enemy;
-	void	*coin;
-	void 	*pacman_ate;
-	void	*pacman_eating;
-	void	*wall;
-	void	*empty_space;
-	void	*boom;
-	char	**char_mat;
-	t_xy	p_xy;
-	t_xy	e_xy;
-	t_xy	dims;
-	t_xy	*enemies;
-	t_xy	start_xy;
-	t_pos	**pos_mat;
-	t_list	*lst;
-	t_xy	dest_xy;
-	t_xy	last_xy;
-	int		path_exists;
+	int			xy;
+	int			is_dead;
+	int			coin_count;
+	int			enemy_count;
+	int			enemy_perspective;
+	void		*mlx_ptr;
+	void		*mlx_win;
+	void		*door_cur;
+	void		*door_open;
+	void 		*door_closed;
+	void		*enemy;
+	void		*coin;
+	void 		*pacman_ate;
+	void		*pacman_eating;
+	void		*wall;
+	void		*empty_space;
+	void		*boom;
+	char		**char_mat;
+	t_xy		p_xy;
+	t_xy		e_xy;
+	t_xy		dims;
+	t_xy		*enemies;
+	t_xy		start_xy;
+	t_pos		**pos_mat;
+	t_list		*lst;
+	t_xy		dest_xy;
+	t_xy		last_xy;
+	t_matrices	matrices;
+	int			path_exists;
 }			t_mlx;
 
 
@@ -136,9 +150,9 @@ void	ft_lstdellast(t_list **list);
 
 // FILE CHECKER
 int		check_letters(char letter, char *letters, t_xy *e, t_xy *i_k);
-void	count_check(t_matrices *matrices, t_xy dims, t_inside *insides, t_mlx *mlx);
+void	count_check(t_xy dims, t_inside *insides, t_mlx *mlx);
 void	fill_matrices(t_xy *dims, t_fileRead *fd, t_mlx *mlx);
-void	create_matrices(t_xy dim, t_matrices *matrix, t_mlx *mlx);
+void	create_matrices(t_xy dim, t_mlx *mlx);
 int		check_insides_map(int fd, t_xy dims, t_inside *insides, t_mlx *mlx);
 
 // PATH CHECKER
@@ -163,7 +177,7 @@ void	letters_init(char *letters);
 void	init_directions(int *dir, t_mlx *mlx, t_xy curr_cell);
 void	direction_init(char **maze, t_pos **matrix, int row, int col);
 void	init_nsew(t_mlx *mlx, t_xy dims, t_xy e);
-void	init_inside(t_inside *ins, t_matrices *matx, t_xy dims, t_xy e);
+void	init_inside(t_inside *ins, t_mlx *mlx, t_xy dims, t_xy e);
 void	init_enemies(t_mlx *mlx);
 void	init_mlx(t_mlx *mlx);
 
@@ -181,7 +195,7 @@ void	update_visited_and_costs(t_mlx *mlx, t_xy zero_position);
 void	move_enemy(t_list *enemy_path, t_mlx *mlx, int enemy_num);
 
 // PRINT/DRAW UTILS
-void	on_exit(char *error_message);
+void	on_exit_sl(char *error_message);
 void	redraw_map(int pos, t_mlx mlx, int p_row, int p_col);
 void	redraw_map_enemy(int pos, t_mlx mlx, int e_row, int e_col);
 void	draw_map(t_mlx *mlx);

@@ -31,7 +31,7 @@ void	draw_map_images(t_mlx *mlx, int k, int i)
 		mlx->pacman_eating, i * mlx->xy, k * mlx->xy);
 	else if (mlx->char_mat[k][i] == 'E')
 		mlx_put_image_to_window(mlx->mlx_ptr, mlx->mlx_win, \
-		mlx->door_closed, i * mlx->xy, k * mlx->xy);
+		mlx->door_cur, i * mlx->xy, k * mlx->xy);
 }
 
 void	draw_map(t_mlx *mlx)

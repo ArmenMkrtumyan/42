@@ -32,9 +32,9 @@ void	switch_places(int pos, t_mlx *mlx, int row, int col)
 	check_pos(mlx, pos, row, col);
 	mlx->coin_count = get_coin_count(mlx->char_mat, mlx->dims);
 	if (mlx->coin_count == 0)
-		mlx->door_closed = mlx->door_open;
+		mlx->door_cur = mlx->door_open;
 	if (mlx->coin_count == 0 && mlx->p_xy.row == mlx->e_xy.row \
 	&& mlx->p_xy.col == mlx->e_xy.col)
-		on_exit("Good job!");
+		on_exit_sl("Good job!");
 	redraw_map(pos, *mlx, mlx->p_xy.row, mlx->p_xy.col);
 }

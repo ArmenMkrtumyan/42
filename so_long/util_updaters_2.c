@@ -30,12 +30,11 @@ void	check_enemy_pos(t_mlx *mlx, int *pos, t_list *last, int enemy_num)
 
 void	move_enemy(t_list *enemy_path, t_mlx *mlx, int enemy_num)
 {
-	t_list	*prev;
 	t_list	*last;
 	int		pos;
 
 	if (hit_enemy(mlx))
-		on_exit("You lost!");
+		on_exit_sl("You lost!");
 	ft_lstdellast(&enemy_path);
 	last = ft_lstlast(enemy_path);
 	check_enemy_pos(mlx, &pos, last, enemy_num);
@@ -45,7 +44,7 @@ void	move_enemy(t_list *enemy_path, t_mlx *mlx, int enemy_num)
 	mlx->enemies[enemy_num].col);
 	ft_lstdellast(&enemy_path);
 	if (hit_enemy(mlx))
-		on_exit("You lost!");
+		on_exit_sl("You lost!");
 }
 
 void	assign_cell(int k, t_xy *child_cell, t_xy *curr_cell)
