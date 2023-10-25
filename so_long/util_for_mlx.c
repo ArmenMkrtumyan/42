@@ -34,9 +34,9 @@ int	pacman_animate(t_mlx *mlx)
 		else if (timer % 3000 == 0)
 			texture = mlx->pacman_ate;
 		mlx_put_image_to_window(mlx->mlx_ptr, mlx->mlx_win, mlx->empty_space, \
-		mlx->xy * mlx->p_xy.column, mlx->xy * mlx->p_xy.row);
+		mlx->xy * mlx->p_xy.col, mlx->xy * mlx->p_xy.row);
 		mlx_put_image_to_window(mlx->mlx_ptr, mlx->mlx_win, texture, \
-		mlx->xy * mlx->p_xy.column, mlx->xy * mlx->p_xy.row);
+		mlx->xy * mlx->p_xy.col, mlx->xy * mlx->p_xy.row);
 	}
 	if (timer % 8000 == 0)
 		update_weights_after_move(mlx);
@@ -56,16 +56,16 @@ int	key_hook(int key_code, void *mlx_ptr)
 	if (mlx->is_dead)
 		return (0);
 	if ((key_code == UP || key_code == UP_A) && \
-	mlx->char_mat[mlx->p_xy.row - 1][mlx->p_xy.column] != '1')
-		switch_places(UP, mlx, mlx->p_xy.row, mlx->p_xy.column);
+	mlx->char_mat[mlx->p_xy.row - 1][mlx->p_xy.col] != '1')
+		switch_places(UP, mlx, mlx->p_xy.row, mlx->p_xy.col);
 	else if ((key_code == DOWN || key_code == DOWN_A) && \
-	mlx->char_mat[mlx->p_xy.row + 1][mlx->p_xy.column] != '1')
-		switch_places(DOWN, mlx, mlx->p_xy.row, mlx->p_xy.column);
+	mlx->char_mat[mlx->p_xy.row + 1][mlx->p_xy.col] != '1')
+		switch_places(DOWN, mlx, mlx->p_xy.row, mlx->p_xy.col);
 	else if ((key_code == LEFT || key_code == LEFT_A) && \
-	mlx->char_mat[mlx->p_xy.row][mlx->p_xy.column - 1] != '1')
-		switch_places(LEFT, mlx, mlx->p_xy.row, mlx->p_xy.column);
+	mlx->char_mat[mlx->p_xy.row][mlx->p_xy.col - 1] != '1')
+		switch_places(LEFT, mlx, mlx->p_xy.row, mlx->p_xy.col);
 	else if ((key_code == RIGHT || key_code == RIGHT_A) && \
-	mlx->char_mat[mlx->p_xy.row][mlx->p_xy.column + 1] != '1')
-		switch_places(RIGHT, mlx, mlx->p_xy.row, mlx->p_xy.column);
+	mlx->char_mat[mlx->p_xy.row][mlx->p_xy.col + 1] != '1')
+		switch_places(RIGHT, mlx, mlx->p_xy.row, mlx->p_xy.col);
 	return (1);
 }

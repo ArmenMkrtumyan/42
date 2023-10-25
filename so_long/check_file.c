@@ -22,7 +22,7 @@ int	check_letters(char letter, char *array, t_xy *e, t_xy *i_k)
 	{
 		array[1]++;
 		e->row = i_k->row;
-		e->column = i_k->column;
+		e->col = i_k->col;
 	}
 	else if (letter == 'P')
 		array[2]++;
@@ -33,8 +33,8 @@ int	check_letters(char letter, char *array, t_xy *e, t_xy *i_k)
 	return (0);
 }
 
-void	count_check(t_matrices *matrices, t_xy dims,
-	t_inside *insides, t_mlx *mlx)
+void	count_check(t_matrices *matrices, t_xy dims, \
+t_inside *insides, t_mlx *mlx)
 {
 	char			letters[5];
 	t_xy			e;
@@ -45,8 +45,8 @@ void	count_check(t_matrices *matrices, t_xy dims,
 	i_k.row = -1;
 	while (++i_k.row < dims.row)
 	{
-		i_k.column = -1;
-		while (++i_k.column < dims.column)
+		i_k.col = -1;
+		while (++i_k.col < dims.col)
 		{
 			element = mlx->char_mat[i_k.row][i_k.column];
 			if ((element != '1') && (i_k.column == 0 || \
@@ -83,21 +83,21 @@ void	fill_matrices(t_matrices *matrices,
 			if (fd->symbol[0] == 'E')
 			{
 				mlx->e_xy.row = dims->row;
-				mlx->e_xy.column = dims->column;
+				mlx->e_xy.col = dims->col;
 			}
 			if (fd->symbol[0] == 'P')
 			{
 				(mlx->pos_mat[dims->row][dims->column]).cost = 0;
 				mlx->p_xy.row = dims->row;
-				mlx->p_xy.column = dims->column;
+				mlx->p_xy.col = dims->col;
 			}
 		}
-		dims->column++;
+		dims->col++;
 		if (fd->symbol[0] == '\n' || fd->sz == 0)
 		{
 			mlx->char_mat[dims->row][dims->column - 1] = 0;
 			dims->row += 1;
-			dims->column = 0;
+			dims->col = 0;
 		}
 	}
 }

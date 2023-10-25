@@ -36,7 +36,7 @@ int	get_coin_count(char **matrix, t_xy dims)
 	while (++i < dims.row)
 	{
 		k = -1;
-		while (++k < dims.column)
+		while (++k < dims.col)
 		{
 			if (matrix[i][k] == 'C')
 				coin_count++;
@@ -56,19 +56,19 @@ t_xy	get_min(t_pos **node, t_xy dims, char **matrix)
 	min_coordinates.wall = 0;
 	while (++i_k.row < dims.row)
 	{
-		i_k.column = -1;
-		while (++i_k.column < dims.column)
+		i_k.col = -1;
+		while (++i_k.col < dims.col)
 		{
-			if (node[i_k.row][i_k.column].visited == 1 && \
-			node[i_k.row][i_k.column].cost < min)
+			if (node[i_k.row][i_k.col].visited == 1 && \
+			node[i_k.row][i_k.col].cost < min)
 			{
-				min = node[i_k.row][i_k.column].cost;
+				min = node[i_k.row][i_k.col].cost;
 				min_coordinates.row = i_k.row;
-				min_coordinates.column = i_k.column;
+				min_coordinates.col = i_k.col;
 			}
 		}
 	}
-	if (matrix[min_coordinates.row][min_coordinates.column] == '1')
+	if (matrix[min_coordinates.row][min_coordinates.col] == '1')
 		min_coordinates.wall = 1;
 	return (min_coordinates);
 }

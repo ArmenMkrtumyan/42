@@ -37,8 +37,8 @@ void	init_nsew(t_mlx *mlx, t_xy dims, t_xy e)
 	i_k.row = -1;
 	while (++i_k.row < dims.row)
 	{
-		i_k.column = -1;
-		while (++i_k.column < dims.column)
+		i_k.col = -1;
+		while (++i_k.col < dims.col)
 		{
 			(mlx->pos_mat[i_k.row][i_k.column]).n = 0;
 			(mlx->pos_mat[i_k.row][i_k.column]).s = 0;
@@ -80,12 +80,12 @@ void	init_enemies(t_mlx *mlx)
 	while (++i < mlx->dims.row)
 	{
 		k = -1;
-		while (++k < mlx->dims.column)
+		while (++k < mlx->dims.col)
 		{
 			if (mlx->char_mat[i][k] == 'M')
 			{
 				enemies[count].row = i;
-				enemies[count].column = k;
+				enemies[count].col = k;
 				count ++;
 			}
 		}
@@ -116,6 +116,6 @@ void	init_mlx(t_mlx *mlx)
 			"pictures/empty_space.xpm", &mlx->xy, &mlx->xy);
 	mlx->boom = mlx_xpm_file_to_image(mlx->mlx_ptr,
 			"pictures/boom.xpm", &mlx->xy, &mlx->xy);
-	mlx->mlx_win = mlx_new_window(mlx->mlx_ptr, mlx->dims.column * mlx->xy,
+	mlx->mlx_win = mlx_new_window(mlx->mlx_ptr, mlx->dims.col * mlx->xy,
 			mlx->dims.row * mlx->xy, "Armenian Pacman");
 }

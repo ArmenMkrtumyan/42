@@ -12,6 +12,12 @@
 
 #include "so_long.h"
 
+void	on_exit(char *error_message)
+{
+	printf("\n\n%s\n\n", error_message);
+	exit(1);
+}
+
 int	exit_program(void *mlx_ptr)
 {
 	on_exit("\nClosed the game\n");
@@ -26,13 +32,13 @@ int	hit_enemy(t_mlx *mlx)
 	while (i < mlx->enemy_count)
 	{
 		if (mlx->enemies[i].row == mlx->p_xy.row
-			&& mlx->enemies[i].column == mlx->p_xy.column)
+			&& mlx->enemies[i].col == mlx->p_xy.col)
 		{
 			mlx_put_image_to_window(mlx->mlx_ptr, mlx->mlx_win,
-				mlx->empty_space, mlx->xy * mlx->p_xy.column,
+				mlx->empty_space, mlx->xy * mlx->p_xy.col,
 				mlx->xy * mlx->p_xy.row);
 			mlx_put_image_to_window(mlx->mlx_ptr, mlx->mlx_win,
-				mlx->boom, mlx->xy * mlx->p_xy.column,
+				mlx->boom, mlx->xy * mlx->p_xy.col,
 				mlx->xy * mlx->p_xy.row);
 			mlx->is_dead = 1;
 			return (0);
@@ -81,7 +87,7 @@ int	main(int argc, char	*argv[])
 	if (check_file_name(argv[1]) == 0)
 		return (0);
 	dims.row = 1;
-	dims.column = -1;
+	dims.col = -1;
 	fd1 = get_fd(argv[1]);
 	fd2 = get_fd(argv[1]);
 	checkings(fd1, fd2, dims, &mlx);

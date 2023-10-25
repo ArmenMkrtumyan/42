@@ -28,53 +28,51 @@ void	move_enemy(t_list *enemy_path, t_mlx *mlx, int enemy_num)
 		else
 			pos = DOWN;
 	}
-	else if (mlx->enemies[enemy_num].column != last->content.value.column)
+	else if (mlx->enemies[enemy_num].col != last->content.value.col)
 	{
-		if (mlx->enemies[enemy_num].column > last->content.value.column)
+		if (mlx->enemies[enemy_num].col > last->content.value.col)
 			pos = LEFT;
 		else
 			pos = RIGHT;
 	}
 	mlx->enemies[enemy_num].row = last->content.value.row;
-	mlx->enemies[enemy_num].column = last->content.value.column;
-	redraw_map_enemy(pos, *mlx, mlx->enemies[enemy_num].row, mlx->enemies[enemy_num].column);
+	mlx->enemies[enemy_num].col = last->content.value.col;
+	redraw_map_enemy(pos, *mlx, mlx->enemies[enemy_num].row, mlx->enemies[enemy_num].col);
 	ft_lstdellast(&enemy_path);
 	if (hit_enemy(mlx))
 		on_exit("You lost!");
 }
 
-void	switch_places(int pos, t_mlx *mlx, int row, int column)
+void	switch_places(int pos, t_mlx *mlx, int row, int col)
 {
+	mlx->char_mat[row][col] = '0';
 	if (pos == UP)
 	{
-		mlx->char_mat[row][column] = '0';
-		mlx->char_mat[row - 1][column] = 'P';
+		mlx->char_mat[row - 1][col] = 'P';
 		mlx->p_xy.row = row - 1;
 	}
 	else if (pos == DOWN)
 	{
-		mlx->char_mat[row][column] = '0';
-		mlx->char_mat[row + 1][column] = 'P';
+		mlx->char_mat[row + 1][col] = 'P';
 		mlx->p_xy.row = row + 1;
 	}
 	else if (pos == LEFT)
 	{
-		mlx->char_mat[row][column] = '0';
-		mlx->char_mat[row][column - 1] = 'P';
-		mlx->p_xy.column = column - 1;
+		mlx->char_mat[row][col - 1] = 'P';
+		mlx->p_xy.col = col - 1;
 	}
 	else if (pos == RIGHT)
 	{
-		mlx->char_mat[row][column] = '0';
-		mlx->char_mat[row][column + 1] = 'P';
-		mlx->p_xy.column = column + 1;
+		mlx->char_mat[row][col + 1] = 'P';
+		mlx->p_xy.col = col + 1;
 	}
 	mlx->coin_count = get_coin_count(mlx->char_mat, mlx->dims);
 	if (mlx->coin_count == 0)
 		mlx->door_closed = mlx->door_open;
-	if (mlx->coin_count == 0 && mlx->p_xy.row == mlx->e_xy.row && mlx->p_xy.column == mlx->e_xy.column)
+	if (mlx->coin_count == 0 && mlx->p_xy.row == mlx->e_xy.row \
+	&& mlx->p_xy.col == mlx->e_xy.col)
 		on_exit("Good job!");
-	redraw_map(pos, *mlx, mlx->p_xy.row, mlx->p_xy.column);
+	redraw_map(pos, *mlx, mlx->p_xy.row, mlx->p_xy.col);
 }
 
 void	assign_cell(int k, t_xy *child_cell, t_xy *curr_cell)
@@ -82,22 +80,22 @@ void	assign_cell(int k, t_xy *child_cell, t_xy *curr_cell)
 	if (k == 0)
 	{
 		child_cell->row = curr_cell->row - 1;
-		child_cell->column = curr_cell->column;
+		child_cell->col = curr_cell->col;
 	}
 	else if (k == 1)
 	{
 		child_cell->row = curr_cell->row + 1;
-		child_cell->column = curr_cell->column;
+		child_cell->col = curr_cell->col;
 	}
 	else if (k == 2)
 	{
 		child_cell->row = curr_cell->row;
-		child_cell->column = curr_cell->column + 1;
+		child_cell->col = curr_cell->col + 1;
 	}
 	else if (k == 3)
 	{
 		child_cell->row = curr_cell->row;
-		child_cell->column = curr_cell->column - 1;
+		child_cell->col = curr_cell->col - 1;
 	}
 }
 
@@ -106,21 +104,21 @@ void	fix_coordinates(int k, t_xy *child_cell, t_xy curr_cell)
 	if (k == 0)
 	{
 		child_cell->row = curr_cell.row - 1;
-		child_cell->column = curr_cell.column;
+		child_cell->col = curr_cell.col;
 	}
 	else if (k == 1)
 	{
 		child_cell->row = curr_cell.row + 1;
-		child_cell->column = curr_cell.column;
+		child_cell->col = curr_cell.col;
 	}
 	else if (k == 2)
 	{
 		child_cell->row = curr_cell.row;
-		child_cell->column = curr_cell.column + 1;
+		child_cell->col = curr_cell.col + 1;
 	}
 	else if (k == 3)
 	{
 		child_cell->row = curr_cell.row;
-		child_cell->column = curr_cell.column - 1;
+		child_cell->col = curr_cell.col - 1;
 	}
 }
