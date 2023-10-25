@@ -48,7 +48,7 @@ void	count_check(t_matrices *matrices, t_xy dims,
 		i_k.column = -1;
 		while (++i_k.column < dims.column)
 		{
-			element = matrices->char_info[i_k.row][i_k.column];
+			element = mlx->char_mat[i_k.row][i_k.column];
 			if ((element != '1') && (i_k.column == 0 || \
 			i_k.column == dims.column - 1 || i_k.row == 0 || \
 			i_k.row == dims.row - 1))
@@ -74,12 +74,12 @@ void	fill_matrices(t_matrices *matrices,
 		fd->sz = read(fd->fd, fd->symbol, 1);
 		fd->symbol[fd->sz] = '\0';
 		if (fd->sz == 0)
-			matrices->char_info[dims->row][dims->column] = '\0';
+			mlx->char_mat[dims->row][dims->column] = '\0';
 		else
 		{
-			matrices->char_info[dims->row][dims->column] = fd->symbol[0];
-			matrices->pos_info[dims->row][dims->column].cost = INT_MAX - 1;
-			(matrices->pos_info[dims->row][dims->column]).visited = 1;
+			mlx->char_mat[dims->row][dims->column] = fd->symbol[0];
+			mlx->pos_mat[dims->row][dims->column].cost = INT_MAX - 1;
+			(mlx->pos_mat[dims->row][dims->column]).visited = 1;
 			if (fd->symbol[0] == 'E')
 			{
 				mlx->e_xy.row = dims->row;
@@ -87,7 +87,7 @@ void	fill_matrices(t_matrices *matrices,
 			}
 			if (fd->symbol[0] == 'P')
 			{
-				(matrices->pos_info[dims->row][dims->column]).cost = 0;
+				(mlx->pos_mat[dims->row][dims->column]).cost = 0;
 				mlx->p_xy.row = dims->row;
 				mlx->p_xy.column = dims->column;
 			}
@@ -95,18 +95,19 @@ void	fill_matrices(t_matrices *matrices,
 		dims->column++;
 		if (fd->symbol[0] == '\n' || fd->sz == 0)
 		{
-			matrices->char_info[dims->row][dims->column - 1] = 0;
+			mlx->char_mat[dims->row][dims->column - 1] = 0;
 			dims->row += 1;
 			dims->column = 0;
 		}
 	}
 }
 
-void	create_matrices(t_xy dim, t_matrices *matrix)
+void	create_matrices(t_xy dim, t_matrices *matrix, t_mlx *mlx)
 {
 	int	k;
 
 	matrix->char_info = malloc((dim.row + 1) * sizeof(char *));
+	mlx->char_mat = malloc((dim.row + 1) * sizeof(char *));
 	if (!(matrix->char_info))
 	{
 		printf("Memory allocation failed");
@@ -114,6 +115,8 @@ void	create_matrices(t_xy dim, t_matrices *matrix)
 	}
 	matrix->char_info[dim.row] = NULL;
 	matrix->pos_info = malloc((dim.row + 1) * sizeof(t_pos));
+	mlx->char_mat[dim.row] = NULL;
+	mlx->pos_mat = malloc((dim.row + 1) * sizeof(t_pos));
 	if (!(matrix->pos_info))
 	{
 		printf("Memory allocation failed");
@@ -124,6 +127,8 @@ void	create_matrices(t_xy dim, t_matrices *matrix)
 	{
 		matrix->pos_info[k] = malloc((dim.column + 1) * sizeof(t_pos));
 		matrix->char_info[k] = malloc((dim.column + 1) * sizeof(char));
+		mlx->pos_mat[k] = malloc((dim.column + 1) * sizeof(t_pos));
+		mlx->char_mat[k] = malloc((dim.column + 1) * sizeof(char));
 		k++;
 	}
 }
@@ -137,7 +142,7 @@ int	check_insides_map(int fd, t_xy dims, t_inside *insides, t_mlx *mlx)
 	file_read_info.fd = fd;
 	temp_dimensions.row = 0;
 	temp_dimensions.column = 0;
-	create_matrices(dims, &matrices);
+	create_matrices(dims, &matrices, mlx);
 	fill_matrices(&matrices, &temp_dimensions, &file_read_info, mlx);
 	count_check(&matrices, dims, insides, mlx);
 	return (insides->freed);

@@ -12,7 +12,7 @@
 
 #include "so_long.h"
 
-int	check_path(t_matrices *matrix, t_xy dims, t_xy e, t_mlx *mlx, int enemy_num)
+void	check_path(t_xy dims, t_xy e, t_mlx *mlx, int enemy_num)
 {
 	t_xy		curr_cell;
 	t_xy	child_cell;
@@ -26,20 +26,20 @@ int	check_path(t_matrices *matrix, t_xy dims, t_xy e, t_mlx *mlx, int enemy_num)
 
 	ft_lstclear(&mlx->lst);
 	mlx->lst = NULL;
-	init_nsew(matrix, dims, e);
+	init_nsew(mlx, dims, e);
 	constants.exit_exists = 0;
-	constants.coin_count = get_coin_count(matrix->char_info, dims);
-	while (check_visited(matrix->pos_info, dims))
+	constants.coin_count = get_coin_count(mlx->char_mat, dims);
+	while (check_visited(mlx->pos_mat, dims))
 	{
-		curr_cell = get_min(matrix->pos_info, dims, matrix->char_info);
-		matrix->pos_info[curr_cell.row][curr_cell.column].visited = 0;
-		if (check_wall(curr_cell.wall, &constants, matrix, mlx))
+		curr_cell = get_min(mlx->pos_mat, dims, mlx->char_mat);
+		mlx->pos_mat[curr_cell.row][curr_cell.column].visited = 0;
+		if (check_wall(curr_cell.wall, &constants, mlx))
 			break ;
 		if (curr_cell.row == e.row && \
 		curr_cell.column == e.column && constants.coin_count == 0)
 			constants.exit_exists = 1;
 		coords = pack_coorniates(dims, &curr_cell, &child_cell, e);
-		change_weights(matrix, &coords, &constants, mlx);
+		change_weights(&coords, &constants, mlx);
 	}
 	if (mlx->enemy_perspective == 1)
 	{
@@ -68,7 +68,4 @@ int	check_path(t_matrices *matrix, t_xy dims, t_xy e, t_mlx *mlx, int enemy_num)
 			temp = temp->next;
 	}
 	mlx->dims = dims;
-	mlx->char_mat = matrix->char_info;
-	mlx->pos_mat = matrix->pos_info;
-	return (matrix->path_exists);
 }

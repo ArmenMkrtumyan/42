@@ -115,6 +115,7 @@ typedef struct s_mlx
 	t_list	*lst;
 	t_xy	dest_xy;
 	t_xy	last_xy;
+	int		path_exists;
 }			t_mlx;
 
 
@@ -129,17 +130,17 @@ void	ft_lstdellast(t_list **list);
 int		check_letters(char letter, char *letters, t_xy *e, t_xy *i_k);
 void	count_check(t_matrices *matrices, t_xy dims, t_inside *insides, t_mlx *mlx);
 void	fill_matrices(t_matrices *matrices, t_xy *dims, t_fileRead *fd, t_mlx *mlx);
-void	create_matrices(t_xy dims, t_matrices *matrices);
+void	create_matrices(t_xy dim, t_matrices *matrix, t_mlx *mlx);
 int		check_insides_map(int fd, t_xy dims, t_inside *insides, t_mlx *mlx);
 
 // PATH CHECKER
-int		check_path(t_matrices *matrix, t_xy dims, t_xy e, t_mlx *mlx, int enemy_num);
+void	check_path(t_xy dims, t_xy e, t_mlx *mlx, int enemy_num);
 
 // CHECKER UTILS
 int		check_dimensions_map(int fd, t_xy *dims);
 int		check_visited(t_pos **matrix, t_xy dims);
 void	check_exit(t_xys *coords, t_const *constants);
-int		check_wall(int wall, t_const *constants, t_matrices *matrices, t_mlx *mlx);
+int		check_wall(int wall, t_const *constants, t_mlx *mlx);
 
 // GETTER UTILS
 int		get_fd(char *file);
@@ -150,18 +151,18 @@ int		ft_strncmp(char *str1, char *str2, int n);
 
 // INITIALIZE UTILS
 void	letters_init(char *letters);
-void	init_directions(int *dir, t_matrices *matrices, t_xy curr_cell);
+void	init_directions(int *dir, t_mlx *mlx, t_xy curr_cell);
 void	direction_init(char **maze, t_pos **matrix, int row, int col);
-void	init_nsew(t_matrices *matrices, t_xy dims, t_xy e);
+void	init_nsew(t_mlx *mlx, t_xy dims, t_xy e);
 void	init_inside(t_inside *ins, t_matrices *matx, t_xy dims, t_xy e);
 void	init_enemies(t_mlx *mlx);
 void	init_mlx(t_mlx *mlx);
 
 
 // UPDATER UTILS
-void	change_weights(t_matrices *matrices, t_xys *coords, t_const *constants, t_mlx *mlx);
+void	change_weights(t_xys *coords, t_const *constants, t_mlx *mlx);
 void	fix_coordinates(int k, t_xy *child_cell, t_xy curr_cell);
-void	update_weights(t_matrices *matrices, t_xys *coords, t_const *constants, t_mlx *mlx);
+void	update_weights(t_xys *coords, t_const *constants, t_mlx *mlx);
 void	assign_cell(int k, t_xy *child_cell, t_xy *curr_cell);
 void	switch_places(int pos, t_mlx *mlx, int row, int column);
 void	update_weights_after_move(t_mlx *mlx);

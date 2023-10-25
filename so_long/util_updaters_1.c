@@ -12,13 +12,13 @@
 
 #include "so_long.h"
 
-void	change_weights(t_matrices *matrices, t_xys *coords, t_const *constants, t_mlx *mlx)
+void	change_weights(t_xys *coords, t_const *constants, t_mlx *mlx)
 {
 	static int	dir[5];
 	int			k;
 	t_xy		child;
 
-	init_directions(dir, matrices, *coords->curr_cell);
+	init_directions(dir, mlx, *coords->curr_cell);
 	k = 0;
 	while (k < 4)
 	{
@@ -29,19 +29,19 @@ void	change_weights(t_matrices *matrices, t_xys *coords, t_const *constants, t_m
 			check_exit(coords, constants);
 			child.row = coords->child_cell->row;
 			child.column = coords->child_cell->column;
-			if (matrices->pos_info[child.row][child.column].visited == 0 || \
-			matrices->pos_info[child.row][child.column].cost != INT_MAX - 1)
+			if (mlx->pos_mat[child.row][child.column].visited == 0 || \
+			mlx->pos_mat[child.row][child.column].cost != INT_MAX - 1)
 			{
 				k++;
 				continue ;
 			}
-			update_weights(matrices, coords, constants, mlx);
+			update_weights(coords, constants, mlx);
 		}
 		k++;
 	}
 }
 
-void	update_weights(t_matrices *matrices, t_xys *coords, t_const *constants, t_mlx *mlx)
+void	update_weights(t_xys *coords, t_const *constants, t_mlx *mlx)
 {
 	t_xy		child;
 	t_xy		curr;
@@ -51,20 +51,20 @@ void	update_weights(t_matrices *matrices, t_xys *coords, t_const *constants, t_m
 	curr.column = coords->curr_cell->column;
 	child.row = coords->child_cell->row;
 	child.column = coords->child_cell->column;
-	constants->temp_dist = matrices->pos_info[curr.row][curr.column].cost;
-	if (matrices->char_info[child.row][child.column] == 'C' && mlx->enemy_perspective == 0)
+	constants->temp_dist = mlx->pos_mat[curr.row][curr.column].cost;
+	if (mlx->char_mat[child.row][child.column] == 'C' && mlx->enemy_perspective == 0)
 	{
 		constants->temp_dist += 1;
 		constants->coin_count -= 1;
 	}
-	else if (matrices->char_info[child.row][child.column] == 'M')
+	else if (mlx->char_mat[child.row][child.column] == 'M')
 		constants->temp_dist += 100;
 	else
 		constants->temp_dist = \
-		matrices->pos_info[curr.row][curr.column].cost + 10;
-	if (constants->temp_dist < matrices->pos_info[child.row][child.column].cost)
+		mlx->pos_mat[curr.row][curr.column].cost + 10;
+	if (constants->temp_dist < mlx->pos_mat[child.row][child.column].cost)
 	{
-		matrices->pos_info[child.row][child.column].cost = constants->temp_dist;
+		mlx->pos_mat[child.row][child.column].cost = constants->temp_dist;
 		content.key.row = child.row;
 		content.key.column = child.column;
 		content.value.row = curr.row;
@@ -87,7 +87,7 @@ void	update_weights_after_move(t_mlx *mlx)
 		mlx->enemies[enemy_num].enemy_path = NULL;
 		mlx->start_xy.enemy_path = mlx->enemies[enemy_num].enemy_path;
 		update_visited_and_costs(mlx, mlx->enemies[enemy_num]);
-		check_path(&matrix, mlx->dims, mlx->e_xy, mlx, enemy_num);
+		check_path(mlx->dims, mlx->e_xy, mlx, enemy_num);
 		move_enemy(mlx->enemies[enemy_num].enemy_path, mlx, enemy_num);
 		enemy_num++;
 	}

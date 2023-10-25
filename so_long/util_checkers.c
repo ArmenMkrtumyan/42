@@ -37,14 +37,14 @@ void	check_exit(t_xys *coords, t_const *constants)
 		constants->exit_exists = 1;
 }
 
-int	check_wall(int wall, t_const *constants, t_matrices *matrices, t_mlx *mlx)
+int	check_wall(int wall, t_const *constants, t_mlx *mlx)
 {
 	if (wall)
 	{
 		if (constants->exit_exists == 0)
 		{
 			printf("\n\nCouldnt Find an EXIT!!!!\n\n");
-			matrices->path_exists = 0;
+			mlx->path_exists = 0;
 		}
 		else
 		{
@@ -52,13 +52,13 @@ int	check_wall(int wall, t_const *constants, t_matrices *matrices, t_mlx *mlx)
 			{
 				if (mlx->enemy_perspective != 1)
 					printf("\n\nEXIT EXISTS AND COINS ARE ACCESSIBLE!!!!\n\n");
-				matrices->path_exists = 1;
+				mlx->path_exists = 1;
 			}
 			else
 			{
 				if (mlx->enemy_perspective != 1)
 					printf("\n\nEXIT EXISTS BUT COINS ARE UNAVAILABLE!!!!\n\n");
-				matrices->path_exists = 0;
+				mlx->path_exists = 0;
 			}
 		}
 		return (1);
@@ -141,9 +141,8 @@ void	checkings(int fd1, int fd2, t_xy dims, t_mlx *mlx)
 		{
 			mlx->enemy_perspective = 0;
 			printf("\n\nCORRECT MAP INSIDES, CHECKING PATHS...");
-			check_path(&insides.matrices, insides.dims, \
-			insides.e_xy, mlx, 0);
-			if (insides.matrices.path_exists == 1)
+			check_path(insides.dims, insides.e_xy, mlx, 0);
+			if (mlx->path_exists == 1)
 				printf("\n\nCORRECT PATHS...Launching the game\n\n");
 			else
 				on_exit("Issue with paths!");

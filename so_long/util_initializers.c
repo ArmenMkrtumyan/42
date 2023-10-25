@@ -9,12 +9,12 @@ void	letters_init(char *letters)
 	letters[4] = '\0';
 }
 
-void	init_directions(int *dir, t_matrices *matrices, t_xy curr_cell)
+void	init_directions(int *dir, t_mlx *mlx, t_xy curr_cell)
 {
-	dir[0] = matrices->pos_info[curr_cell.row][curr_cell.column].n;
-	dir[1] = matrices->pos_info[curr_cell.row][curr_cell.column].s;
-	dir[2] = matrices->pos_info[curr_cell.row][curr_cell.column].e;
-	dir[3] = matrices->pos_info[curr_cell.row][curr_cell.column].w;
+	dir[0] = mlx->pos_mat[curr_cell.row][curr_cell.column].n;
+	dir[1] = mlx->pos_mat[curr_cell.row][curr_cell.column].s;
+	dir[2] = mlx->pos_mat[curr_cell.row][curr_cell.column].e;
+	dir[3] = mlx->pos_mat[curr_cell.row][curr_cell.column].w;
 	dir[4] = '\0';
 }
 
@@ -30,7 +30,7 @@ void	direction_init(char **maze, t_pos **matrix, int row, int col)
 		(matrix[row][col]).w = 1;
 }
 
-void	init_nsew(t_matrices *matrices, t_xy dims, t_xy e)
+void	init_nsew(t_mlx *mlx, t_xy dims, t_xy e)
 {
 	t_xy	i_k;
 
@@ -40,20 +40,20 @@ void	init_nsew(t_matrices *matrices, t_xy dims, t_xy e)
 		i_k.column = -1;
 		while (++i_k.column < dims.column)
 		{
-			(matrices->pos_info[i_k.row][i_k.column]).n = 0;
-			(matrices->pos_info[i_k.row][i_k.column]).s = 0;
-			(matrices->pos_info[i_k.row][i_k.column]).e = 0;
-			(matrices->pos_info[i_k.row][i_k.column]).w = 0;
+			(mlx->pos_mat[i_k.row][i_k.column]).n = 0;
+			(mlx->pos_mat[i_k.row][i_k.column]).s = 0;
+			(mlx->pos_mat[i_k.row][i_k.column]).e = 0;
+			(mlx->pos_mat[i_k.row][i_k.column]).w = 0;
 			if (i_k.row == 0)
-				matrices->pos_info[i_k.row][i_k.column].n = 0;
+				mlx->pos_mat[i_k.row][i_k.column].n = 0;
 			else if (i_k.row == dims.row - 1)
-				matrices->pos_info[i_k.row][i_k.column].s = 0;
+				mlx->pos_mat[i_k.row][i_k.column].s = 0;
 			else if (i_k.column == 0)
-				matrices->pos_info[i_k.row][i_k.column].w = 0;
+				mlx->pos_mat[i_k.row][i_k.column].w = 0;
 			else if (i_k.column == dims.column - 1)
-				matrices->pos_info[i_k.row][i_k.column].e = 0;
+				mlx->pos_mat[i_k.row][i_k.column].e = 0;
 			else
-				direction_init(matrices->char_info, matrices->pos_info, \
+				direction_init(mlx->char_mat, mlx->pos_mat, \
 				i_k.row, i_k.column);
 		}
 	}
