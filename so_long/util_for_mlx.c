@@ -18,6 +18,7 @@ int	pacman_animate(t_mlx *mlx)
 	static unsigned int	timer_dead = 0;
 	char				*texture;
 
+	texture = mlx->pacman_eating;
 	if (mlx->is_dead)
 	{
 		timer_dead++;

@@ -2,7 +2,7 @@ NAME = so_long
 UNAME = $(shell uname -s)
 
 CC = cc
-CFLAGS = -c -Wall -Wextra -ggdb3 #-Werror
+CFLAGS = -c -Wall -Wextra -ggdb3 -I mlx#-Werror
 
 MLX = -lmlx -L mlx -framework AppKit -framework OpenGL
 MLX_DIR = mlx
@@ -40,7 +40,7 @@ ftprintf:
 	@cd ft_printf && make
 
 lib:
-	@cd libft && make 
+	@cd libft && make
 
 clean:
 	rm -rf $(OBJDIR)
