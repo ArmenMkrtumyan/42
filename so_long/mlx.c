@@ -85,7 +85,6 @@ void	redraw_map_enemy(int pos, t_mlx mlx, int e_row, int e_column)
 			mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.coin, e_column * mlx.xy, (e_row + 1) * mlx.xy);
 		else
 			mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.empty_space, e_column * mlx.xy, (e_row + 1) * mlx.xy);
-		mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.empty_space, e_column * mlx.xy, (e_row + 1) * mlx.xy);
 	}
 	else if (pos == DOWN && !(e_column == mlx.e_xy.column && e_row -1 == mlx.e_xy.row))
 	{
