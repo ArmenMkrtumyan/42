@@ -11,10 +11,10 @@ void	letters_init(char *letters)
 
 void	init_directions(int *dir, t_mlx *mlx, t_xy curr_cell)
 {
-	dir[0] = mlx->pos_mat[curr_cell.row][curr_cell.column].n;
-	dir[1] = mlx->pos_mat[curr_cell.row][curr_cell.column].s;
-	dir[2] = mlx->pos_mat[curr_cell.row][curr_cell.column].e;
-	dir[3] = mlx->pos_mat[curr_cell.row][curr_cell.column].w;
+	dir[0] = mlx->pos_mat[curr_cell.row][curr_cell.col].n;
+	dir[1] = mlx->pos_mat[curr_cell.row][curr_cell.col].s;
+	dir[2] = mlx->pos_mat[curr_cell.row][curr_cell.col].e;
+	dir[3] = mlx->pos_mat[curr_cell.row][curr_cell.col].w;
 	dir[4] = '\0';
 }
 
@@ -40,21 +40,21 @@ void	init_nsew(t_mlx *mlx, t_xy dims, t_xy e)
 		i_k.col = -1;
 		while (++i_k.col < dims.col)
 		{
-			(mlx->pos_mat[i_k.row][i_k.column]).n = 0;
-			(mlx->pos_mat[i_k.row][i_k.column]).s = 0;
-			(mlx->pos_mat[i_k.row][i_k.column]).e = 0;
-			(mlx->pos_mat[i_k.row][i_k.column]).w = 0;
+			(mlx->pos_mat[i_k.row][i_k.col]).n = 0;
+			(mlx->pos_mat[i_k.row][i_k.col]).s = 0;
+			(mlx->pos_mat[i_k.row][i_k.col]).e = 0;
+			(mlx->pos_mat[i_k.row][i_k.col]).w = 0;
 			if (i_k.row == 0)
-				mlx->pos_mat[i_k.row][i_k.column].n = 0;
+				mlx->pos_mat[i_k.row][i_k.col].n = 0;
 			else if (i_k.row == dims.row - 1)
-				mlx->pos_mat[i_k.row][i_k.column].s = 0;
-			else if (i_k.column == 0)
-				mlx->pos_mat[i_k.row][i_k.column].w = 0;
-			else if (i_k.column == dims.column - 1)
-				mlx->pos_mat[i_k.row][i_k.column].e = 0;
+				mlx->pos_mat[i_k.row][i_k.col].s = 0;
+			else if (i_k.col == 0)
+				mlx->pos_mat[i_k.row][i_k.col].w = 0;
+			else if (i_k.col == dims.col - 1)
+				mlx->pos_mat[i_k.row][i_k.col].e = 0;
 			else
 				direction_init(mlx->char_mat, mlx->pos_mat, \
-				i_k.row, i_k.column);
+				i_k.row, i_k.col);
 		}
 	}
 }

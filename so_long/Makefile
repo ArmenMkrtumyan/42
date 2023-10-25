@@ -15,6 +15,7 @@ SRCS	=	check_file.c		\
 			util_getters.c		\
 			util_print_draw.c	\
 			util_updaters_2.c	\
+			util_updaters_3.c	\
 			util_list.c			\
 			util_for_mlx.c		\
 			util_print_draw_2.c	\

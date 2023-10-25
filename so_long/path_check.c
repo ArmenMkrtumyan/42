@@ -32,7 +32,7 @@ void	check_path(t_xy dims, t_xy e, t_mlx *mlx, int enemy_num)
 	while (check_visited(mlx->pos_mat, dims))
 	{
 		curr_cell = get_min(mlx->pos_mat, dims, mlx->char_mat);
-		mlx->pos_mat[curr_cell.row][curr_cell.column].visited = 0;
+		mlx->pos_mat[curr_cell.row][curr_cell.col].visited = 0;
 		if (check_wall(curr_cell.wall, &constants, mlx))
 			break ;
 		if (curr_cell.row == e.row && \
