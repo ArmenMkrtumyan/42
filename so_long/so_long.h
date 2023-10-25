@@ -33,7 +33,7 @@ typedef struct s_list t_list;
 typedef struct s_coordinates
 {
 	int		row;
-	int		column;
+	int		col;
 	int		wall;
 	t_list	*enemy_path;
 }	t_xy;
@@ -163,15 +163,15 @@ void	change_weights(t_matrices *matrices, t_xys *coords, t_const *constants, t_m
 void	fix_coordinates(int k, t_xy *child_cell, t_xy curr_cell);
 void	update_weights(t_matrices *matrices, t_xys *coords, t_const *constants, t_mlx *mlx);
 void	assign_cell(int k, t_xy *child_cell, t_xy *curr_cell);
-void	switch_places(int pos, t_mlx *mlx, int row, int column);
+void	switch_places(int pos, t_mlx *mlx, int row, int col);
 void	update_weights_after_move(t_mlx *mlx);
 void	update_visited_and_costs(t_mlx *mlx, t_xy zero_position);
 void	move_enemy(t_list *enemy_path, t_mlx *mlx, int enemy_num);
 
 // PRINT/DRAW UTILS
 void	on_exit(char *error_message);
-void	redraw_map(int pos, t_mlx mlx, int p_row, int p_column);
-void	redraw_map_enemy(int pos, t_mlx mlx, int e_row, int e_column);
+void	redraw_map(int pos, t_mlx mlx, int p_row, int p_col);
+void	redraw_map_enemy(int pos, t_mlx mlx, int e_row, int e_col);
 void	draw_map(t_mlx *mlx);
 
 

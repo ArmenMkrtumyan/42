@@ -32,11 +32,11 @@ int	check_path(t_matrices *matrix, t_xy dims, t_xy e, t_mlx *mlx, int enemy_num)
 	while (check_visited(matrix->pos_info, dims))
 	{
 		curr_cell = get_min(matrix->pos_info, dims, matrix->char_info);
-		matrix->pos_info[curr_cell.row][curr_cell.column].visited = 0;
+		matrix->pos_info[curr_cell.row][curr_cell.col].visited = 0;
 		if (check_wall(curr_cell.wall, &constants, matrix, mlx))
 			break ;
 		if (curr_cell.row == e.row && \
-		curr_cell.column == e.column && constants.coin_count == 0)
+		curr_cell.col == e.col && constants.coin_count == 0)
 			constants.exit_exists = 1;
 		coords = pack_coorniates(dims, &curr_cell, &child_cell, e);
 		change_weights(matrix, &coords, &constants, mlx);
@@ -46,15 +46,15 @@ int	check_path(t_matrices *matrix, t_xy dims, t_xy e, t_mlx *mlx, int enemy_num)
 		dest_xy = mlx->p_xy;
 		start_xy = mlx->enemies[enemy_num];
 		last_xy.value.row = mlx->p_xy.row;
-		last_xy.value.column = mlx->p_xy.column;
+		last_xy.value.col = mlx->p_xy.col;
 		ft_lstadd_back(&mlx->enemies[enemy_num].enemy_path, ft_lstnew(last_xy));
-		while (dest_xy.row != start_xy.row || dest_xy.column != start_xy.column)
+		while (dest_xy.row != start_xy.row || dest_xy.col != start_xy.col)
 		{
 			temp = mlx->lst;
 			while (temp != NULL)
 			{
 				if (temp->content.key.row == dest_xy.row
-					&& temp->content.key.column == dest_xy.column)
+					&& temp->content.key.col == dest_xy.col)
 				{
 					ft_lstadd_back(&(mlx->enemies[enemy_num].enemy_path),
 						ft_lstnew(temp->content));

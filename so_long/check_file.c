@@ -22,7 +22,7 @@ int	check_letters(char letter, char *array, t_xy *e, t_xy *i_k)
 	{
 		array[1]++;
 		e->row = i_k->row;
-		e->column = i_k->column;
+		e->col = i_k->col;
 	}
 	else if (letter == 'P')
 		array[2]++;
@@ -33,8 +33,8 @@ int	check_letters(char letter, char *array, t_xy *e, t_xy *i_k)
 	return (0);
 }
 
-void	count_check(t_matrices *matrices, t_xy dims,
-	t_inside *insides, t_mlx *mlx)
+void	count_check(t_matrices *matrices, t_xy dims, \
+t_inside *insides, t_mlx *mlx)
 {
 	char			letters[5];
 	t_xy			e;
@@ -45,13 +45,12 @@ void	count_check(t_matrices *matrices, t_xy dims,
 	i_k.row = -1;
 	while (++i_k.row < dims.row)
 	{
-		i_k.column = -1;
-		while (++i_k.column < dims.column)
+		i_k.col = -1;
+		while (++i_k.col < dims.col)
 		{
-			element = matrices->char_info[i_k.row][i_k.column];
-			if ((element != '1') && (i_k.column == 0 || \
-			i_k.column == dims.column - 1 || i_k.row == 0 || \
-			i_k.row == dims.row - 1))
+			element = matrices->char_info[i_k.row][i_k.col];
+			if ((element != '1') && (i_k.col == 0 || i_k.col == dims.col - 1 \
+			|| i_k.row == 0 || i_k.row == dims.row - 1))
 				on_exit("Wrong insides!");
 			else if (check_letters(element, letters, &e, &i_k))
 				continue ;
@@ -74,30 +73,30 @@ void	fill_matrices(t_matrices *matrices,
 		fd->sz = read(fd->fd, fd->symbol, 1);
 		fd->symbol[fd->sz] = '\0';
 		if (fd->sz == 0)
-			matrices->char_info[dims->row][dims->column] = '\0';
+			matrices->char_info[dims->row][dims->col] = '\0';
 		else
 		{
-			matrices->char_info[dims->row][dims->column] = fd->symbol[0];
-			matrices->pos_info[dims->row][dims->column].cost = INT_MAX - 1;
-			(matrices->pos_info[dims->row][dims->column]).visited = 1;
+			matrices->char_info[dims->row][dims->col] = fd->symbol[0];
+			matrices->pos_info[dims->row][dims->col].cost = INT_MAX - 1;
+			(matrices->pos_info[dims->row][dims->col]).visited = 1;
 			if (fd->symbol[0] == 'E')
 			{
 				mlx->e_xy.row = dims->row;
-				mlx->e_xy.column = dims->column;
+				mlx->e_xy.col = dims->col;
 			}
 			if (fd->symbol[0] == 'P')
 			{
-				(matrices->pos_info[dims->row][dims->column]).cost = 0;
+				(matrices->pos_info[dims->row][dims->col]).cost = 0;
 				mlx->p_xy.row = dims->row;
-				mlx->p_xy.column = dims->column;
+				mlx->p_xy.col = dims->col;
 			}
 		}
-		dims->column++;
+		dims->col++;
 		if (fd->symbol[0] == '\n' || fd->sz == 0)
 		{
-			matrices->char_info[dims->row][dims->column - 1] = 0;
+			matrices->char_info[dims->row][dims->col - 1] = 0;
 			dims->row += 1;
-			dims->column = 0;
+			dims->col = 0;
 		}
 	}
 }
@@ -122,8 +121,8 @@ void	create_matrices(t_xy dim, t_matrices *matrix)
 	k = 0;
 	while (k < dim.row)
 	{
-		matrix->pos_info[k] = malloc((dim.column + 1) * sizeof(t_pos));
-		matrix->char_info[k] = malloc((dim.column + 1) * sizeof(char));
+		matrix->pos_info[k] = malloc((dim.col + 1) * sizeof(t_pos));
+		matrix->char_info[k] = malloc((dim.col + 1) * sizeof(char));
 		k++;
 	}
 }
@@ -136,7 +135,7 @@ int	check_insides_map(int fd, t_xy dims, t_inside *insides, t_mlx *mlx)
 
 	file_read_info.fd = fd;
 	temp_dimensions.row = 0;
-	temp_dimensions.column = 0;
+	temp_dimensions.col = 0;
 	create_matrices(dims, &matrices);
 	fill_matrices(&matrices, &temp_dimensions, &file_read_info, mlx);
 	count_check(&matrices, dims, insides, mlx);

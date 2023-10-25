@@ -11,10 +11,10 @@ void	letters_init(char *letters)
 
 void	init_directions(int *dir, t_matrices *matrices, t_xy curr_cell)
 {
-	dir[0] = matrices->pos_info[curr_cell.row][curr_cell.column].n;
-	dir[1] = matrices->pos_info[curr_cell.row][curr_cell.column].s;
-	dir[2] = matrices->pos_info[curr_cell.row][curr_cell.column].e;
-	dir[3] = matrices->pos_info[curr_cell.row][curr_cell.column].w;
+	dir[0] = matrices->pos_info[curr_cell.row][curr_cell.col].n;
+	dir[1] = matrices->pos_info[curr_cell.row][curr_cell.col].s;
+	dir[2] = matrices->pos_info[curr_cell.row][curr_cell.col].e;
+	dir[3] = matrices->pos_info[curr_cell.row][curr_cell.col].w;
 	dir[4] = '\0';
 }
 
@@ -37,24 +37,24 @@ void	init_nsew(t_matrices *matrices, t_xy dims, t_xy e)
 	i_k.row = -1;
 	while (++i_k.row < dims.row)
 	{
-		i_k.column = -1;
-		while (++i_k.column < dims.column)
+		i_k.col = -1;
+		while (++i_k.col < dims.col)
 		{
-			(matrices->pos_info[i_k.row][i_k.column]).n = 0;
-			(matrices->pos_info[i_k.row][i_k.column]).s = 0;
-			(matrices->pos_info[i_k.row][i_k.column]).e = 0;
-			(matrices->pos_info[i_k.row][i_k.column]).w = 0;
+			(matrices->pos_info[i_k.row][i_k.col]).n = 0;
+			(matrices->pos_info[i_k.row][i_k.col]).s = 0;
+			(matrices->pos_info[i_k.row][i_k.col]).e = 0;
+			(matrices->pos_info[i_k.row][i_k.col]).w = 0;
 			if (i_k.row == 0)
-				matrices->pos_info[i_k.row][i_k.column].n = 0;
+				matrices->pos_info[i_k.row][i_k.col].n = 0;
 			else if (i_k.row == dims.row - 1)
-				matrices->pos_info[i_k.row][i_k.column].s = 0;
-			else if (i_k.column == 0)
-				matrices->pos_info[i_k.row][i_k.column].w = 0;
-			else if (i_k.column == dims.column - 1)
-				matrices->pos_info[i_k.row][i_k.column].e = 0;
+				matrices->pos_info[i_k.row][i_k.col].s = 0;
+			else if (i_k.col == 0)
+				matrices->pos_info[i_k.row][i_k.col].w = 0;
+			else if (i_k.col == dims.col - 1)
+				matrices->pos_info[i_k.row][i_k.col].e = 0;
 			else
 				direction_init(matrices->char_info, matrices->pos_info, \
-				i_k.row, i_k.column);
+				i_k.row, i_k.col);
 		}
 	}
 }
@@ -80,12 +80,12 @@ void	init_enemies(t_mlx *mlx)
 	while (++i < mlx->dims.row)
 	{
 		k = -1;
-		while (++k < mlx->dims.column)
+		while (++k < mlx->dims.col)
 		{
 			if (mlx->char_mat[i][k] == 'M')
 			{
 				enemies[count].row = i;
-				enemies[count].column = k;
+				enemies[count].col = k;
 				count ++;
 			}
 		}
@@ -116,6 +116,6 @@ void	init_mlx(t_mlx *mlx)
 			"pictures/empty_space.xpm", &mlx->xy, &mlx->xy);
 	mlx->boom = mlx_xpm_file_to_image(mlx->mlx_ptr,
 			"pictures/boom.xpm", &mlx->xy, &mlx->xy);
-	mlx->mlx_win = mlx_new_window(mlx->mlx_ptr, mlx->dims.column * mlx->xy,
+	mlx->mlx_win = mlx_new_window(mlx->mlx_ptr, mlx->dims.col * mlx->xy,
 			mlx->dims.row * mlx->xy, "Armenian Pacman");
 }

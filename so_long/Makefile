@@ -17,6 +17,7 @@ SRCS	=	check_file.c		\
 			util_updaters_2.c	\
 			util_list.c			\
 			util_for_mlx.c		\
+			util_print_draw_2.c	\
 
 OBJS = $(SRCS:.c=.o)
 

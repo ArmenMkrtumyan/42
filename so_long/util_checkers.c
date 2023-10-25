@@ -21,7 +21,7 @@ int	check_visited(t_pos **matrix, t_xy dims)
 	while (++i < dims.row)
 	{
 		k = -1;
-		while (++k < dims.column)
+		while (++k < dims.col)
 		{
 			if (matrix[i][k].visited == 1)
 				return (1);
@@ -33,7 +33,7 @@ int	check_visited(t_pos **matrix, t_xy dims)
 void	check_exit(t_xys *coords, t_const *constants)
 {
 	if (coords->child_cell->row == coords->e_xy.row \
-	&& coords->child_cell->column == coords->e_xy.column)
+	&& coords->child_cell->col == coords->e_xy.col)
 		constants->exit_exists = 1;
 }
 
@@ -86,28 +86,28 @@ int	check_dimensions_map(int fd, t_xy *dims)
 {
 	int		sz;
 	char	symbol[2];
-	int		fix_columns;
+	int		fix_cols;
 
-	fix_columns = -1;
+	fix_cols = -1;
 	sz = 1;
 	while (sz != 0)
 	{
 		sz = read(fd, symbol, 1);
 		symbol[sz] = '\0';
 		if ((dims->row) - 1 == 0)
-			fix_columns++;
-		(dims->column)++;
+			fix_cols++;
+		(dims->col)++;
 		if (symbol[0] == '\n')
 		{
 			(dims->row)++;
-			if (dims->column != fix_columns)
+			if (dims->col != fix_cols)
 				return (0);
-			dims->column = -1;
+			dims->col = -1;
 		}
 	}
-	if (dims->column != fix_columns || dims->row < 3)
+	if (dims->col != fix_cols || dims->row < 3)
 		return (0);
-	dims->column = fix_columns;
+	dims->col = fix_cols;
 	return (1);
 }
 

@@ -28,9 +28,9 @@ void	change_weights(t_matrices *matrices, t_xys *coords, t_const *constants, t_m
 			fix_coordinates(k, coords->child_cell, *coords->curr_cell);
 			check_exit(coords, constants);
 			child.row = coords->child_cell->row;
-			child.column = coords->child_cell->column;
-			if (matrices->pos_info[child.row][child.column].visited == 0 || \
-			matrices->pos_info[child.row][child.column].cost != INT_MAX - 1)
+			child.col = coords->child_cell->col;
+			if (matrices->pos_info[child.row][child.col].visited == 0 || \
+			matrices->pos_info[child.row][child.col].cost != INT_MAX - 1)
 			{
 				k++;
 				continue ;
@@ -48,27 +48,27 @@ void	update_weights(t_matrices *matrices, t_xys *coords, t_const *constants, t_m
 	t_key_value	content;
 
 	curr.row = coords->curr_cell->row;
-	curr.column = coords->curr_cell->column;
+	curr.col = coords->curr_cell->col;
 	child.row = coords->child_cell->row;
-	child.column = coords->child_cell->column;
-	constants->temp_dist = matrices->pos_info[curr.row][curr.column].cost;
-	if (matrices->char_info[child.row][child.column] == 'C' && mlx->enemy_perspective == 0)
+	child.col = coords->child_cell->col;
+	constants->temp_dist = matrices->pos_info[curr.row][curr.col].cost;
+	if (matrices->char_info[child.row][child.col] == 'C' && mlx->enemy_perspective == 0)
 	{
 		constants->temp_dist += 1;
 		constants->coin_count -= 1;
 	}
-	else if (matrices->char_info[child.row][child.column] == 'M')
+	else if (matrices->char_info[child.row][child.col] == 'M')
 		constants->temp_dist += 100;
 	else
 		constants->temp_dist = \
-		matrices->pos_info[curr.row][curr.column].cost + 10;
-	if (constants->temp_dist < matrices->pos_info[child.row][child.column].cost)
+		matrices->pos_info[curr.row][curr.col].cost + 10;
+	if (constants->temp_dist < matrices->pos_info[child.row][child.col].cost)
 	{
-		matrices->pos_info[child.row][child.column].cost = constants->temp_dist;
+		matrices->pos_info[child.row][child.col].cost = constants->temp_dist;
 		content.key.row = child.row;
-		content.key.column = child.column;
+		content.key.col = child.col;
 		content.value.row = curr.row;
-		content.value.column = curr.column;
+		content.value.col = curr.col;
 		ft_lstadd_back(&(mlx->lst), ft_lstnew(content));
 	}
 }
@@ -102,11 +102,11 @@ void	update_visited_and_costs(t_mlx *mlx, t_xy zero_position)
 	while (++i2 < mlx->dims.row)
 	{
 		k2 = -1;
-		while (++k2 < mlx->dims.column)
+		while (++k2 < mlx->dims.col)
 		{
 			mlx->pos_mat[i2][k2].cost = INT_MAX - 1;
 			mlx->pos_mat[i2][k2].visited = 1;
 		}
 	}
-	mlx->pos_mat[zero_position.row][zero_position.column].cost = 0;
+	mlx->pos_mat[zero_position.row][zero_position.col].cost = 0;
 }
