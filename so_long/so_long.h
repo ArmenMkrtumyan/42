@@ -87,6 +87,15 @@ typedef struct s_constants
 	int		temp_dist;
 }			t_const;
 
+typedef struct s_check_path
+{
+	t_xy		dest_xy;
+	t_xy		start_xy;
+	t_list		*temp;
+	t_list		*enemy_path;
+	t_key_value	last_xy;
+}				t_check_path;
+
 typedef struct s_mlx
 {
 	int		xy;
@@ -120,7 +129,6 @@ typedef struct s_mlx
 
 
 // MAIN FUNCTIONS
-//void			free_matrix(t_matrices *matrices, int row, t_inside *insides);
 int		hit_enemy(t_mlx *mlx);
 void	checkings(int fd1, int fd2, t_xy dims, t_mlx *mlx);
 int		check_file_name(char *file_name);
@@ -129,7 +137,7 @@ void	ft_lstdellast(t_list **list);
 // FILE CHECKER
 int		check_letters(char letter, char *letters, t_xy *e, t_xy *i_k);
 void	count_check(t_matrices *matrices, t_xy dims, t_inside *insides, t_mlx *mlx);
-void	fill_matrices(t_matrices *matrices, t_xy *dims, t_fileRead *fd, t_mlx *mlx);
+void	fill_matrices(t_xy *dims, t_fileRead *fd, t_mlx *mlx);
 void	create_matrices(t_xy dim, t_matrices *matrix, t_mlx *mlx);
 int		check_insides_map(int fd, t_xy dims, t_inside *insides, t_mlx *mlx);
 

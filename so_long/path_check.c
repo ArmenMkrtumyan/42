@@ -14,15 +14,11 @@
 
 void	check_path(t_xy dims, t_xy e, t_mlx *mlx, int enemy_num)
 {
+	t_check_path	check_path_info;
 	t_xy		curr_cell;
-	t_xy	child_cell;
-	t_const	constants;
-	t_xys	coords;
-	t_xy	dest_xy;
-	t_xy		start_xy;
-	t_list		*temp;
-	t_list		*enemy_path;
-	t_key_value	last_xy;
+	t_xy		child_cell;
+	t_const		constants;
+	t_xys		coords;
 
 	ft_lstclear(&mlx->lst);
 	mlx->lst = NULL;
@@ -32,7 +28,7 @@ void	check_path(t_xy dims, t_xy e, t_mlx *mlx, int enemy_num)
 	while (check_visited(mlx->pos_mat, dims))
 	{
 		curr_cell = get_min(mlx->pos_mat, dims, mlx->char_mat);
-		mlx->pos_mat[curr_cell.row][curr_cell.column].visited = 0;
+		mlx->pos_mat[curr_cell.row][curr_cell.col].visited = 0;
 		if (check_wall(curr_cell.wall, &constants, mlx))
 			break ;
 		if (curr_cell.row == e.row && \
@@ -43,29 +39,29 @@ void	check_path(t_xy dims, t_xy e, t_mlx *mlx, int enemy_num)
 	}
 	if (mlx->enemy_perspective == 1)
 	{
-		dest_xy = mlx->p_xy;
-		start_xy = mlx->enemies[enemy_num];
-		last_xy.value.row = mlx->p_xy.row;
-		last_xy.value.col = mlx->p_xy.col;
-		ft_lstadd_back(&mlx->enemies[enemy_num].enemy_path, ft_lstnew(last_xy));
-		while (dest_xy.row != start_xy.row || dest_xy.col != start_xy.col)
+		check_path_info.dest_xy = mlx->p_xy;
+		check_path_info.start_xy = mlx->enemies[enemy_num];
+		check_path_info.last_xy.value.row = mlx->p_xy.row;
+		check_path_info.last_xy.value.col = mlx->p_xy.col;
+		ft_lstadd_back(&mlx->enemies[enemy_num].enemy_path, ft_lstnew(check_path_info.last_xy));
+		while (check_path_info.dest_xy.row != check_path_info.start_xy.row || check_path_info.dest_xy.col != check_path_info.start_xy.col)
 		{
-			temp = mlx->lst;
-			while (temp != NULL)
+			check_path_info.temp = mlx->lst;
+			while (check_path_info.temp != NULL)
 			{
-				if (temp->content.key.row == dest_xy.row
-					&& temp->content.key.col == dest_xy.col)
+				if (check_path_info.temp->content.key.row == check_path_info.dest_xy.row
+					&& check_path_info.temp->content.key.col == check_path_info.dest_xy.col)
 				{
 					ft_lstadd_back(&(mlx->enemies[enemy_num].enemy_path),
-						ft_lstnew(temp->content));
-					dest_xy = temp->content.value;
+						ft_lstnew(check_path_info.temp->content));
+					check_path_info.dest_xy = check_path_info.temp->content.value;
 				}
-				temp = temp->next;
+				check_path_info.temp = check_path_info.temp->next;
 			}
 		}
-		temp = mlx->enemies[enemy_num].enemy_path;
-		while (temp != NULL)
-			temp = temp->next;
+		check_path_info.temp = mlx->enemies[enemy_num].enemy_path;
+		while (check_path_info.temp != NULL)
+			check_path_info.temp = check_path_info.temp->next;
 	}
 	mlx->dims = dims;
 }

@@ -28,9 +28,9 @@ void	change_weights(t_xys *coords, t_const *constants, t_mlx *mlx)
 			fix_coordinates(k, coords->child_cell, *coords->curr_cell);
 			check_exit(coords, constants);
 			child.row = coords->child_cell->row;
-			child.column = coords->child_cell->column;
-			if (mlx->pos_mat[child.row][child.column].visited == 0 || \
-			mlx->pos_mat[child.row][child.column].cost != INT_MAX - 1)
+			child.col = coords->child_cell->col;
+			if (mlx->pos_mat[child.row][child.col].visited == 0 || \
+			mlx->pos_mat[child.row][child.col].cost != INT_MAX - 1)
 			{
 				k++;
 				continue ;
@@ -50,21 +50,21 @@ void	update_weights(t_xys *coords, t_const *constants, t_mlx *mlx)
 	curr.row = coords->curr_cell->row;
 	curr.col = coords->curr_cell->col;
 	child.row = coords->child_cell->row;
-	child.column = coords->child_cell->column;
-	constants->temp_dist = mlx->pos_mat[curr.row][curr.column].cost;
-	if (mlx->char_mat[child.row][child.column] == 'C' && mlx->enemy_perspective == 0)
+	child.col = coords->child_cell->col;
+	constants->temp_dist = mlx->pos_mat[curr.row][curr.col].cost;
+	if (mlx->char_mat[child.row][child.col] == 'C' && mlx->enemy_perspective == 0)
 	{
 		constants->temp_dist += 1;
 		constants->coin_count -= 1;
 	}
-	else if (mlx->char_mat[child.row][child.column] == 'M')
+	else if (mlx->char_mat[child.row][child.col] == 'M')
 		constants->temp_dist += 100;
 	else
 		constants->temp_dist = \
-		mlx->pos_mat[curr.row][curr.column].cost + 10;
-	if (constants->temp_dist < mlx->pos_mat[child.row][child.column].cost)
+		mlx->pos_mat[curr.row][curr.col].cost + 10;
+	if (constants->temp_dist < mlx->pos_mat[child.row][child.col].cost)
 	{
-		mlx->pos_mat[child.row][child.column].cost = constants->temp_dist;
+		mlx->pos_mat[child.row][child.col].cost = constants->temp_dist;
 		content.key.row = child.row;
 		content.key.col = child.col;
 		content.value.row = curr.row;
