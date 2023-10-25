@@ -87,6 +87,7 @@ void	fill_matrices(t_xy *dims, t_fileRead *fd, t_mlx *mlx)
 			if (fd->symbol[0] == 'P')
 			{
 				(mlx->pos_mat[dims->row][dims->col]).cost = 0;
+				(mlx->pos_mat[dims->row][dims->col]).cost = 0;
 				mlx->p_xy.row = dims->row;
 				mlx->p_xy.col = dims->col;
 			}
@@ -94,6 +95,7 @@ void	fill_matrices(t_xy *dims, t_fileRead *fd, t_mlx *mlx)
 		dims->col++;
 		if (fd->symbol[0] == '\n' || fd->sz == 0)
 		{
+			mlx->char_mat[dims->row][dims->col - 1] = 0;
 			mlx->char_mat[dims->row][dims->col - 1] = 0;
 			dims->row += 1;
 			dims->col = 0;
@@ -128,6 +130,10 @@ void	create_matrices(t_xy dim, t_matrices *matrix, t_mlx *mlx)
 		matrix->char_info[k] = malloc((dim.col + 1) * sizeof(char));
 		mlx->pos_mat[k] = malloc((dim.col + 1) * sizeof(t_pos));
 		mlx->char_mat[k] = malloc((dim.col + 1) * sizeof(char));
+		matrix->pos_info[k] = malloc((dim.col + 1) * sizeof(t_pos));
+		matrix->char_info[k] = malloc((dim.col + 1) * sizeof(char));
+		mlx->pos_mat[k] = malloc((dim.col + 1) * sizeof(t_pos));
+		mlx->char_mat[k] = malloc((dim.col + 1) * sizeof(char));
 		k++;
 	}
 }
@@ -140,6 +146,7 @@ int	check_insides_map(int fd, t_xy dims, t_inside *insides, t_mlx *mlx)
 
 	file_read_info.fd = fd;
 	temp_dimensions.row = 0;
+	temp_dimensions.col = 0;
 	temp_dimensions.col = 0;
 	create_matrices(dims, &matrices, mlx);
 	fill_matrices(&temp_dimensions, &file_read_info, mlx);

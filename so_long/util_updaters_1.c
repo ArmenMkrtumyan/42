@@ -63,6 +63,8 @@ void	update_weights(t_xys *coords, t_const *constants, t_mlx *mlx)
 		constants->temp_dist = \
 		mlx->pos_mat[curr.row][curr.col].cost + 10;
 	if (constants->temp_dist < mlx->pos_mat[child.row][child.col].cost)
+		mlx->pos_mat[curr.row][curr.col].cost + 10;
+	if (constants->temp_dist < mlx->pos_mat[child.row][child.col].cost)
 	{
 		mlx->pos_mat[child.row][child.col].cost = constants->temp_dist;
 		content.key.row = child.row;

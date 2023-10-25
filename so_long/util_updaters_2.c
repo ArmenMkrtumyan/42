@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   util_updaters_2.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amkrtumy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/25 20:18:52 by amkrtumy          #+#    #+#             */
+/*   Updated: 2023/10/25 20:18:53 by amkrtumy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 t_xys	pack_coorniates(t_xy dims, t_xy *curr, t_xy *child, t_xy e_xy)
@@ -11,6 +23,22 @@ t_xys	pack_coorniates(t_xy dims, t_xy *curr, t_xy *child, t_xy e_xy)
 	return (coords);
 }
 
+void	check_enemy_pos(t_mlx *mlx, int *pos, t_list *last, int enemy_num)
+{
+	if (mlx->enemies[enemy_num].row != last->content.value.row)
+	{
+		*pos = DOWN;
+		if (mlx->enemies[enemy_num].row > last->content.value.row)
+			*pos = UP;
+	}
+	else if (mlx->enemies[enemy_num].col != last->content.value.col)
+	{
+		*pos = RIGHT;
+		if (mlx->enemies[enemy_num].col > last->content.value.col)
+			*pos = LEFT;
+	}
+}
+
 void	move_enemy(t_list *enemy_path, t_mlx *mlx, int enemy_num)
 {
 	t_list	*prev;
@@ -21,29 +49,17 @@ void	move_enemy(t_list *enemy_path, t_mlx *mlx, int enemy_num)
 		on_exit("You lost!");
 	ft_lstdellast(&enemy_path);
 	last = ft_lstlast(enemy_path);
-	if (mlx->enemies[enemy_num].row != last->content.value.row)
-	{
-		if (mlx->enemies[enemy_num].row > last->content.value.row)
-			pos = UP;
-		else
-			pos = DOWN;
-	}
-	else if (mlx->enemies[enemy_num].col != last->content.value.col)
-	{
-		if (mlx->enemies[enemy_num].col > last->content.value.col)
-			pos = LEFT;
-		else
-			pos = RIGHT;
-	}
+	check_enemy_pos(mlx, &pos, last, enemy_num);
 	mlx->enemies[enemy_num].row = last->content.value.row;
 	mlx->enemies[enemy_num].col = last->content.value.col;
-	redraw_map_enemy(pos, *mlx, mlx->enemies[enemy_num].row, mlx->enemies[enemy_num].col);
+	redraw_map_enemy(pos, *mlx, mlx->enemies[enemy_num].row, \
+	mlx->enemies[enemy_num].col);
 	ft_lstdellast(&enemy_path);
 	if (hit_enemy(mlx))
 		on_exit("You lost!");
 }
 
-void	switch_places(int pos, t_mlx *mlx, int row, int col)
+void	check_pos(t_mlx *mlx, int pos, int row, int col)
 {
 	mlx->char_mat[row][col] = '0';
 	if (pos == UP)
@@ -66,6 +82,11 @@ void	switch_places(int pos, t_mlx *mlx, int row, int col)
 		mlx->char_mat[row][col + 1] = 'P';
 		mlx->p_xy.col = col + 1;
 	}
+}
+
+void	switch_places(int pos, t_mlx *mlx, int row, int col)
+{
+	check_pos(mlx, pos, row, col);
 	mlx->coin_count = get_coin_count(mlx->char_mat, mlx->dims);
 	if (mlx->coin_count == 0)
 		mlx->door_closed = mlx->door_open;

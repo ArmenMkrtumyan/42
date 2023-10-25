@@ -168,6 +168,8 @@ void	init_mlx(t_mlx *mlx);
 
 
 // UPDATER UTILS
+void	set_row_cols(t_xy *curr, t_xy *child, t_xys *coords);
+void	set_content(t_key_value *content, t_xy child, t_xy curr);
 void	change_weights(t_xys *coords, t_const *constants, t_mlx *mlx);
 void	fix_coordinates(int k, t_xy *child_cell, t_xy curr_cell);
 void	update_weights(t_xys *coords, t_const *constants, t_mlx *mlx);
