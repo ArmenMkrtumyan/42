@@ -113,6 +113,8 @@ typedef struct s_mlx
 	t_xy	start_xy;
 	t_pos	**pos_mat;
 	t_list	*lst;
+	t_xy	dest_xy;
+	t_xy	last_xy;
 }			t_mlx;
 
 
