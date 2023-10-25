@@ -38,7 +38,7 @@ int	hit_enemy(t_mlx mlx)
 		{
 			mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.empty_space, mlx.xy * mlx.p_xy.column, mlx.xy * mlx.p_xy.row);
 			mlx_put_image_to_window(mlx.mlx_ptr, mlx.mlx_win, mlx.coin, mlx.xy * mlx.p_xy.column, mlx.xy * mlx.p_xy.row);
-			for(int i = 0; i < 10000000000; i++)
+			for(int i = 0; i < 1000000; i++)
 				continue;
 			return (1);
 		}
@@ -319,6 +319,8 @@ int	pacman_animate(t_mlx *mlx)
 	static unsigned int	timer = 0;
 	char				*texture;
 
+	if (hit_enemy(*mlx))
+		on_exit("You lost!");
 	if (timer %  2000 == 0 || timer % 3000 == 0)
 	{
 		if(timer %  2000 == 0)
@@ -400,16 +402,16 @@ int	main(int argc, char	*argv[])
 
 	init_enemies(&mlx);
 	mlx.mlx_ptr = mlx_init();
-	mlx.door_open = mlx_xpm_file_to_image(mlx.mlx_ptr, "open_door.xpm", &mlx.xy, &mlx.xy);
-	mlx.door_closed = mlx_xpm_file_to_image(mlx.mlx_ptr, "closed_door.xpm", &mlx.xy, &mlx.xy);
-	mlx.enemy = mlx_xpm_file_to_image(mlx.mlx_ptr, "enemy.xpm", &mlx.xy, &mlx.xy);
-	mlx.coin = mlx_xpm_file_to_image(mlx.mlx_ptr, "coin.xpm", &mlx.xy, &mlx.xy);
-	mlx.pacman_ate = mlx_xpm_file_to_image(mlx.mlx_ptr, "pacman_ate.xpm", &mlx.xy, &mlx.xy);
-	mlx.pacman_eating = mlx_xpm_file_to_image(mlx.mlx_ptr, "pacman_eating.xpm", &mlx.xy, &mlx.xy);
-	mlx.wall = mlx_xpm_file_to_image(mlx.mlx_ptr, "wall.xpm", &mlx.xy, &mlx.xy);
-	mlx.empty_space = mlx_xpm_file_to_image(mlx.mlx_ptr, "empty_space.xpm", &mlx.xy, &mlx.xy);
-	mlx.boom = mlx_xpm_file_to_image(mlx.mlx_ptr, "boom.xpm", &mlx.xy, &mlx.xy);
-	mlx.mlx_win = mlx_new_window(mlx.mlx_ptr, mlx.dims.column * mlx.xy, mlx.dims.row * mlx.xy, "Pacman");
+	mlx.door_open = mlx_xpm_file_to_image(mlx.mlx_ptr, "pictures/open_door.xpm", &mlx.xy, &mlx.xy);
+	mlx.door_closed = mlx_xpm_file_to_image(mlx.mlx_ptr, "pictures/closed_door.xpm", &mlx.xy, &mlx.xy);
+	mlx.enemy = mlx_xpm_file_to_image(mlx.mlx_ptr, "pictures/enemy.xpm", &mlx.xy, &mlx.xy);
+	mlx.coin = mlx_xpm_file_to_image(mlx.mlx_ptr, "pictures/coin.xpm", &mlx.xy, &mlx.xy);
+	mlx.pacman_ate = mlx_xpm_file_to_image(mlx.mlx_ptr, "pictures/pacman_ate.xpm", &mlx.xy, &mlx.xy);
+	mlx.pacman_eating = mlx_xpm_file_to_image(mlx.mlx_ptr, "pictures/pacman_eating.xpm", &mlx.xy, &mlx.xy);
+	mlx.wall = mlx_xpm_file_to_image(mlx.mlx_ptr, "pictures/wall.xpm", &mlx.xy, &mlx.xy);
+	mlx.empty_space = mlx_xpm_file_to_image(mlx.mlx_ptr, "pictures/empty_space.xpm", &mlx.xy, &mlx.xy);
+	mlx.boom = mlx_xpm_file_to_image(mlx.mlx_ptr, "pictures/boom.xpm", &mlx.xy, &mlx.xy);
+	mlx.mlx_win = mlx_new_window(mlx.mlx_ptr, mlx.dims.column * mlx.xy, mlx.dims.row * mlx.xy, "Armenian Pacman");
 
 
 	int k;
