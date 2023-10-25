@@ -12,13 +12,55 @@
 
 #include "so_long.h"
 
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   path_check.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amkrtumy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/06 16:19:14 by amkrtumy          #+#    #+#             */
+/*   Updated: 2023/10/06 16:19:15 by amkrtumy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "so_long.h"
+
+void	calculate_enemy_path(t_check_path *info, t_mlx *mlx, int enemy_num)
+{
+	info->dest_xy = mlx->p_xy;
+	info->start_xy = mlx->enemies[enemy_num];
+	info->last_xy.value.row = mlx->p_xy.row;
+	info->last_xy.value.col = mlx->p_xy.col;
+	ft_lstadd_back(&mlx->enemies[enemy_num].enemy_path,
+			ft_lstnew(info->last_xy));
+	while (info->dest_xy.row != info->start_xy.row || info->dest_xy.col != info->start_xy.col)
+	{
+		info->temp = mlx->lst;
+		while (info->temp != NULL)
+		{
+			if (info->temp->content.key.row == info->dest_xy.row
+				&& info->temp->content.key.col == info->dest_xy.col)
+			{
+				ft_lstadd_back(&(mlx->enemies[enemy_num].enemy_path),
+					ft_lstnew(info->temp->content));
+				info->dest_xy = info->temp->content.value;
+			}
+			info->temp = info->temp->next;
+		}
+	}
+	info->temp = mlx->enemies[enemy_num].enemy_path;
+	while (info->temp != NULL)
+		info->temp = info->temp->next;
+}
+
 void	check_path(t_xy dims, t_xy e, t_mlx *mlx, int enemy_num)
 {
 	t_check_path	check_path_info;
-	t_xy		curr_cell;
-	t_xy		child_cell;
-	t_const		constants;
-	t_xys		coords;
+	t_xy			curr_cell;
+	t_xy			child_cell;
+	t_const			constants;
+	t_xys			coords;
 
 	ft_lstclear(&mlx->lst);
 	mlx->lst = NULL;
@@ -38,30 +80,6 @@ void	check_path(t_xy dims, t_xy e, t_mlx *mlx, int enemy_num)
 		change_weights(&coords, &constants, mlx);
 	}
 	if (mlx->enemy_perspective == 1)
-	{
-		check_path_info.dest_xy = mlx->p_xy;
-		check_path_info.start_xy = mlx->enemies[enemy_num];
-		check_path_info.last_xy.value.row = mlx->p_xy.row;
-		check_path_info.last_xy.value.col = mlx->p_xy.col;
-		ft_lstadd_back(&mlx->enemies[enemy_num].enemy_path, ft_lstnew(check_path_info.last_xy));
-		while (check_path_info.dest_xy.row != check_path_info.start_xy.row || check_path_info.dest_xy.col != check_path_info.start_xy.col)
-		{
-			check_path_info.temp = mlx->lst;
-			while (check_path_info.temp != NULL)
-			{
-				if (check_path_info.temp->content.key.row == check_path_info.dest_xy.row
-					&& check_path_info.temp->content.key.col == check_path_info.dest_xy.col)
-				{
-					ft_lstadd_back(&(mlx->enemies[enemy_num].enemy_path),
-						ft_lstnew(check_path_info.temp->content));
-					check_path_info.dest_xy = check_path_info.temp->content.value;
-				}
-				check_path_info.temp = check_path_info.temp->next;
-			}
-		}
-		check_path_info.temp = mlx->enemies[enemy_num].enemy_path;
-		while (check_path_info.temp != NULL)
-			check_path_info.temp = check_path_info.temp->next;
-	}
+		calculate_enemy_path(&check_path_info, mlx, enemy_num);
 	mlx->dims = dims;
 }

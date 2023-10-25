@@ -79,6 +79,7 @@ int	main(int argc, char	*argv[])
 	t_xy		dims;
 	t_mlx		mlx;
 
+	mlx.lst = NULL;
 	if (argc != 2)
 	{
 		printf("Error\nInput only map name!\n");

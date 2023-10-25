@@ -145,6 +145,7 @@ int		check_insides_map(int fd, t_xy dims, t_inside *insides, t_mlx *mlx);
 void	check_path(t_xy dims, t_xy e, t_mlx *mlx, int enemy_num);
 
 // CHECKER UTILS
+void	check_pos(t_mlx *mlx, int pos, int row, int col);
 int		check_dimensions_map(int fd, t_xy *dims);
 int		check_visited(t_pos **matrix, t_xy dims);
 void	check_exit(t_xys *coords, t_const *constants);

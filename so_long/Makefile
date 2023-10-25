@@ -2,7 +2,7 @@ NAME = so_long
 
 CC = cc
 
-CFLAGS = -g -ggdb3 -fsanitize=address #-Wall -Wextra -Werror
+CFLAGS = -g -ggdb3# -fsanitize=address #-Wall -Wextra -Werror
 
 RM = rm -f
 
@@ -11,7 +11,8 @@ SRCS	=	check_file.c		\
 			path_check.c		\
 			util_initializers.c	\
 			util_updaters_1.c	\
-			util_checkers.c		\
+			util_checkers_1.c	\
+			util_checkers_2.c	\
 			util_getters.c		\
 			util_print_draw_1.c	\
 			util_updaters_2.c	\

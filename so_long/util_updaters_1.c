@@ -47,12 +47,10 @@ void	update_weights(t_xys *coords, t_const *constants, t_mlx *mlx)
 	t_xy		curr;
 	t_key_value	content;
 
-	curr.row = coords->curr_cell->row;
-	curr.col = coords->curr_cell->col;
-	child.row = coords->child_cell->row;
-	child.col = coords->child_cell->col;
+	set_row_cols(&curr, &child, coords);
 	constants->temp_dist = mlx->pos_mat[curr.row][curr.col].cost;
-	if (mlx->char_mat[child.row][child.col] == 'C' && mlx->enemy_perspective == 0)
+	if (mlx->char_mat[child.row][child.col] == 'C'
+		&& mlx->enemy_perspective == 0)
 	{
 		constants->temp_dist += 1;
 		constants->coin_count -= 1;
@@ -63,14 +61,9 @@ void	update_weights(t_xys *coords, t_const *constants, t_mlx *mlx)
 		constants->temp_dist = \
 		mlx->pos_mat[curr.row][curr.col].cost + 10;
 	if (constants->temp_dist < mlx->pos_mat[child.row][child.col].cost)
-		mlx->pos_mat[curr.row][curr.col].cost + 10;
-	if (constants->temp_dist < mlx->pos_mat[child.row][child.col].cost)
 	{
 		mlx->pos_mat[child.row][child.col].cost = constants->temp_dist;
-		content.key.row = child.row;
-		content.key.col = child.col;
-		content.value.row = curr.row;
-		content.value.col = curr.col;
+		set_content(&content, child, curr);
 		ft_lstadd_back(&(mlx->lst), ft_lstnew(content));
 	}
 }

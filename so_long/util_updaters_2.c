@@ -12,17 +12,6 @@
 
 #include "so_long.h"
 
-t_xys	pack_coorniates(t_xy dims, t_xy *curr, t_xy *child, t_xy e_xy)
-{
-	t_xys	coords;
-
-	coords.dims = dims;
-	coords.child_cell = child;
-	coords.curr_cell = curr;
-	coords.e_xy = e_xy;
-	return (coords);
-}
-
 void	check_enemy_pos(t_mlx *mlx, int *pos, t_list *last, int enemy_num)
 {
 	if (mlx->enemies[enemy_num].row != last->content.value.row)
@@ -57,43 +46,6 @@ void	move_enemy(t_list *enemy_path, t_mlx *mlx, int enemy_num)
 	ft_lstdellast(&enemy_path);
 	if (hit_enemy(mlx))
 		on_exit("You lost!");
-}
-
-void	check_pos(t_mlx *mlx, int pos, int row, int col)
-{
-	mlx->char_mat[row][col] = '0';
-	if (pos == UP)
-	{
-		mlx->char_mat[row - 1][col] = 'P';
-		mlx->p_xy.row = row - 1;
-	}
-	else if (pos == DOWN)
-	{
-		mlx->char_mat[row + 1][col] = 'P';
-		mlx->p_xy.row = row + 1;
-	}
-	else if (pos == LEFT)
-	{
-		mlx->char_mat[row][col - 1] = 'P';
-		mlx->p_xy.col = col - 1;
-	}
-	else if (pos == RIGHT)
-	{
-		mlx->char_mat[row][col + 1] = 'P';
-		mlx->p_xy.col = col + 1;
-	}
-}
-
-void	switch_places(int pos, t_mlx *mlx, int row, int col)
-{
-	check_pos(mlx, pos, row, col);
-	mlx->coin_count = get_coin_count(mlx->char_mat, mlx->dims);
-	if (mlx->coin_count == 0)
-		mlx->door_closed = mlx->door_open;
-	if (mlx->coin_count == 0 && mlx->p_xy.row == mlx->e_xy.row \
-	&& mlx->p_xy.col == mlx->e_xy.col)
-		on_exit("Good job!");
-	redraw_map(pos, *mlx, mlx->p_xy.row, mlx->p_xy.col);
 }
 
 void	assign_cell(int k, t_xy *child_cell, t_xy *curr_cell)
