@@ -20,9 +20,9 @@ SRCS	=	check_file.c		\
 
 OBJS = $(SRCS:.c=.o)
 
-all:	mlx	$(NAME)
+all:	mlx_run	$(NAME)
 
-mlx:
+mlx_run:
 	make -C mlx
 
 %.o: %.c Makefile so_long.h
@@ -32,6 +32,7 @@ $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -I mlx -L mlx -lmlx -lm -framework OpenGL -framework AppKit -o $(NAME)
 
 clean:
+			make clean -C mlx
 			$(RM) $(OBJS)
 
 fclean:		clean
