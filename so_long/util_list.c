@@ -77,18 +77,3 @@ t_list	*ft_lstnew(t_key_value content)
 	target->next = NULL;
 	return (target);
 }
-
-int	ft_lstsize(t_list *lst)
-{
-	int		i;
-	t_list	*temp;
-
-	i = 0;
-	temp = lst;
-	while (temp != NULL)
-	{
-		i++;
-		temp = temp->next;
-	}
-	return (i);
-}

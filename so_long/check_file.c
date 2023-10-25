@@ -33,11 +33,12 @@ int	check_letters(char letter, char *array, t_xy *e, t_xy *i_k)
 	return (0);
 }
 
-void	count_check(t_matrices *matrices, t_xy dims, t_inside *insides, t_mlx *mlx)
+void	count_check(t_matrices *matrices, t_xy dims,
+	t_inside *insides, t_mlx *mlx)
 {
 	char			letters[5];
-	t_xy	e;
-	t_xy	i_k;
+	t_xy			e;
+	t_xy			i_k;
 	char			element;
 
 	letters_init(letters);
@@ -59,13 +60,13 @@ void	count_check(t_matrices *matrices, t_xy dims, t_inside *insides, t_mlx *mlx)
 		}
 	}
 	mlx->enemy_count = letters[3] - '0';
-	// printf("Enemy count: %d\n", mlx->enemy_count);
 	if (letters[0] == '0' || letters[1] != '1' || letters[2] != '1')
 		on_exit("Wrong insides!");
 	init_inside(insides, matrices, dims, e);
 }
 
-void	fill_matrices(t_matrices *matrices, t_xy *dims, t_fileRead *fd, t_mlx *mlx)
+void	fill_matrices(t_matrices *matrices,
+	t_xy *dims, t_fileRead *fd, t_mlx *mlx)
 {
 	fd->sz = 1;
 	while (fd->sz != 0)
@@ -91,7 +92,6 @@ void	fill_matrices(t_matrices *matrices, t_xy *dims, t_fileRead *fd, t_mlx *mlx)
 				mlx->p_xy.column = dims->column;
 			}
 		}
-		printf ("%c", fd->symbol[0]);
 		dims->column++;
 		if (fd->symbol[0] == '\n' || fd->sz == 0)
 		{
@@ -130,7 +130,7 @@ void	create_matrices(t_xy dim, t_matrices *matrix)
 
 int	check_insides_map(int fd, t_xy dims, t_inside *insides, t_mlx *mlx)
 {
-	t_xy	temp_dimensions;
+	t_xy			temp_dimensions;
 	t_matrices		matrices;
 	t_fileRead		file_read_info;
 

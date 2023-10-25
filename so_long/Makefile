@@ -6,16 +6,17 @@ CFLAGS = -g -ggdb3 -fsanitize=address #-Wall -Wextra -Werror
 
 RM = rm -f
 
-SRCS	=	check_file.c	\
-			mlx.c			\
-			path_check.c	\
+SRCS	=	check_file.c		\
+			mlx.c				\
+			path_check.c		\
 			util_initializers.c	\
-			util_updater.c	\
-			util_checkers.c	\
-			util_getters.c	\
-			util_printer.c	\
-			util_packers.c	\
-			util_list.c		\
+			util_updaters_1.c	\
+			util_checkers.c		\
+			util_getters.c		\
+			util_print_draw.c	\
+			util_updaters_2.c	\
+			util_list.c			\
+			util_for_mlx.c		\
 
 OBJS = $(SRCS:.c=.o)
 
