@@ -1,8 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amkrtumy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/25 23:05:54 by amkrtumy          #+#    #+#             */
+/*   Updated: 2023/10/25 23:05:54 by amkrtumy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
 # include "mlx.h"
 # include <stdlib.h>
+# include "ft_printf.h"
 # include <fcntl.h>
 # include <unistd.h>
 # include <stdio.h>
@@ -40,13 +53,14 @@ typedef struct s_placement
 	int	visited;
 }	t_pos;
 
-typedef struct s_list t_list;
+typedef struct s_list	t_list;
 
 typedef struct s_coordinates
 {
 	int		row;
 	int		col;
 	int		wall;
+	int		path_exists;
 	t_list	*enemy_path;
 }	t_xy;
 
@@ -119,10 +133,10 @@ typedef struct s_mlx
 	void		*mlx_win;
 	void		*door_cur;
 	void		*door_open;
-	void 		*door_closed;
+	void		*door_closed;
 	void		*enemy;
 	void		*coin;
-	void 		*pacman_ate;
+	void		*pacman_ate;
 	void		*pacman_eating;
 	void		*wall;
 	void		*empty_space;
@@ -140,7 +154,6 @@ typedef struct s_mlx
 	t_matrices	matrices;
 	int			path_exists;
 }			t_mlx;
-
 
 // MAIN FUNCTIONS
 int		hit_enemy(t_mlx *mlx);
@@ -163,7 +176,7 @@ void	check_pos(t_mlx *mlx, int pos, int row, int col);
 int		check_dimensions_map(int fd, t_xy *dims);
 int		check_visited(t_pos **matrix, t_xy dims);
 void	check_exit(t_xys *coords, t_const *constants);
-int		check_wall(int wall, t_const *constants, t_mlx *mlx);
+int		check_wall(int wall, t_const *constants, t_mlx *mlx, int enemy_num);
 
 // GETTER UTILS
 int		get_fd(char *file);
@@ -176,11 +189,10 @@ int		ft_strncmp(char *str1, char *str2, int n);
 void	letters_init(char *letters);
 void	init_directions(int *dir, t_mlx *mlx, t_xy curr_cell);
 void	direction_init(char **maze, t_pos **matrix, int row, int col);
-void	init_nsew(t_mlx *mlx, t_xy dims, t_xy e);
+void	init_nsew(t_mlx *mlx, t_xy dims);
 void	init_inside(t_inside *ins, t_mlx *mlx, t_xy dims, t_xy e);
 void	init_enemies(t_mlx *mlx);
 void	init_mlx(t_mlx *mlx);
-
 
 // UPDATER UTILS
 void	set_row_cols(t_xy *curr, t_xy *child, t_xys *coords);
@@ -200,7 +212,6 @@ void	redraw_map(int pos, t_mlx mlx, int p_row, int p_col);
 void	redraw_map_enemy(int pos, t_mlx mlx, int e_row, int e_col);
 void	draw_map(t_mlx *mlx);
 
-
 // PACK UTILS
 t_xys	pack_coorniates(t_xy dims, t_xy *curr, t_xy *child, t_xy e_xy);
 
@@ -213,8 +224,7 @@ t_list	*ft_lstnew(t_key_value content);
 
 // MLX UTILS
 
-int	pacman_animate(t_mlx *mlx);
-int key_hook(int key_code, void *mlx_ptr);
-
+int		pacman_animate(t_mlx *mlx);
+int		key_hook(int key_code, void *mlx_ptr);
 
 #endif

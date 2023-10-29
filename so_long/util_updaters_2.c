@@ -37,6 +37,10 @@ void	move_enemy(t_list *enemy_path, t_mlx *mlx, int enemy_num)
 		on_exit_sl("You lost!");
 	ft_lstdellast(&enemy_path);
 	last = ft_lstlast(enemy_path);
+	if (!mlx->enemies[enemy_num].path_exists)
+	{
+		return ;
+	}
 	check_enemy_pos(mlx, &pos, last, enemy_num);
 	mlx->enemies[enemy_num].row = last->content.value.row;
 	mlx->enemies[enemy_num].col = last->content.value.col;

@@ -1,40 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   util_initializers.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amkrtumy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/25 22:51:17 by amkrtumy          #+#    #+#             */
+/*   Updated: 2023/10/25 22:51:18 by amkrtumy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
-void	letters_init(char *letters)
-{
-	letters[0] = '0';
-	letters[1] = '0';
-	letters[2] = '0';
-	letters[3] = '0';
-	letters[4] = '\0';
-}
-
-void	init_directions(int *dir, t_mlx *mlx, t_xy curr_cell)
-{
-	dir[0] = mlx->pos_mat[curr_cell.row][curr_cell.col].n;
-	dir[1] = mlx->pos_mat[curr_cell.row][curr_cell.col].s;
-	dir[2] = mlx->pos_mat[curr_cell.row][curr_cell.col].e;
-	dir[3] = mlx->pos_mat[curr_cell.row][curr_cell.col].w;
-	dir[4] = '\0';
-}
-
-void	direction_init(char **maze, t_pos **matrix, int row, int col)
-{
-	if (maze[row + 1][col] != '1')
-		(matrix[row][col]).s = 1;
-	if (maze[row - 1][col] != '1')
-		(matrix[row][col]).n = 1;
-	if (maze[row][col + 1] != '1')
-		(matrix[row][col]).e = 1;
-	if (maze[row][col - 1] != '1')
-		(matrix[row][col]).w = 1;
-}
-
-void	init_nsew(t_mlx *mlx, t_xy dims, t_xy e)
+void	init_nsew(t_mlx *mlx, t_xy dims)
 {
 	t_xy	i_k;
 
-	(void)e;
 	i_k.row = -1;
 	while (++i_k.row < dims.row)
 	{
@@ -60,17 +41,6 @@ void	init_nsew(t_mlx *mlx, t_xy dims, t_xy e)
 	}
 }
 
-void	init_inside(t_inside *insides, t_mlx *mlx, t_xy dims, t_xy e)
-{
-	mlx->matrices.pos_info = mlx->pos_mat;
-	mlx->matrices.char_info = mlx->char_mat;
-	mlx->matrices.path_exists = mlx->path_exists;
-	insides->matrices = mlx->matrices;
-	insides->dims = dims;
-	insides->e_xy = e;
-	insides->freed = 0;
-}
-
 void	init_enemies(t_mlx *mlx)
 {
 	t_xy	*enemies;
@@ -89,6 +59,7 @@ void	init_enemies(t_mlx *mlx)
 			if (mlx->char_mat[i][k] == 'M')
 			{
 				enemies[count].row = i;
+				enemies[count].path_exists = 1;
 				enemies[count].col = k;
 				enemies[count].enemy_path = NULL;
 				count ++;

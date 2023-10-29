@@ -14,7 +14,7 @@
 
 void	on_exit_sl(char *error_message)
 {
-	printf("\n\n%s\n\n", error_message);
+	ft_printf("\n\n%s\n\n", error_message);
 	exit(1);
 }
 
@@ -81,10 +81,7 @@ int	main(int argc, char	*argv[])
 
 	mlx.lst = NULL;
 	if (argc != 2)
-	{
-		printf("Error\nInput only map name!\n");
-		return (0);
-	}
+		on_exit_sl("Error\nInput only map name!\n");
 	if (check_file_name(argv[1]) == 0)
 		return (0);
 	dims.row = 1;

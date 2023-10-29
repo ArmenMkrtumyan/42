@@ -19,7 +19,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <limits.h>
-# include <stdint.h>
 
 /*		FUNCTIONS				*/
 int		print_string(char *word);

@@ -19,7 +19,7 @@ int	get_fd(char *file)
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 	{
-		printf("\n\nCould not read the file\n\n");
+		ft_printf("\n\nCould not read the file\n\n");
 		exit(1);
 	}
 	return (fd);

@@ -37,13 +37,19 @@ void	check_exit(t_xys *coords, t_const *constants)
 		constants->exit_exists = 1;
 }
 
-int	check_wall(int wall, t_const *constants, t_mlx *mlx)
+int	check_wall(int wall, t_const *constants, t_mlx *mlx, int enemy_num)
 {
 	if (wall)
 	{
 		if (constants->exit_exists == 0)
 		{
-			printf("\n\nCouldnt Find an EXIT!!!!\n\n");
+			if (mlx->enemy_perspective)
+			{
+				mlx->path_exists = 1;
+				mlx->enemies[enemy_num].path_exists = 0;
+				return (1);
+			}
+			ft_printf("\n\nCouldnt Find an EXIT!!!!\n\n");
 			mlx->path_exists = 0;
 		}
 		else
@@ -51,13 +57,13 @@ int	check_wall(int wall, t_const *constants, t_mlx *mlx)
 			if (constants->coin_count == 0)
 			{
 				if (mlx->enemy_perspective != 1)
-					printf("\n\nEXIT EXISTS AND COINS ARE ACCESSIBLE!!!!\n\n");
+					ft_printf("\n\nEXIT EXISTS AND COINS ARE ACCESSIBLE!!!!\n\n");
 				mlx->path_exists = 1;
 			}
 			else
 			{
 				if (mlx->enemy_perspective != 1)
-					printf("\n\nEXIT EXISTS BUT COINS ARE UNAVAILABLE!!!!\n\n");
+					ft_printf("\n\nEXIT EXISTS BUT COINS ARE UNAVAILABLE!!!!\n\n");
 				mlx->path_exists = 0;
 			}
 		}

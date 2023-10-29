@@ -12,6 +12,23 @@
 
 #include "so_long.h"
 
+void	timer_check(t_mlx *mlx, int timer, char *texture)
+{
+	if (timer % 2000 == 0 || timer % 3000 == 0)
+	{
+		if (timer % 2000 == 0)
+			texture = mlx->pacman_eating;
+		else if (timer % 3000 == 0)
+			texture = mlx->pacman_ate;
+		mlx_put_image_to_window(mlx->mlx_ptr, mlx->mlx_win, mlx->empty_space, \
+		mlx->xy * mlx->p_xy.col, mlx->xy * mlx->p_xy.row);
+		mlx_put_image_to_window(mlx->mlx_ptr, mlx->mlx_win, texture, \
+		mlx->xy * mlx->p_xy.col, mlx->xy * mlx->p_xy.row);
+	}
+	if (timer % 10000 == 0)
+		update_weights_after_move(mlx);
+}
+
 int	pacman_animate(t_mlx *mlx)
 {
 	static unsigned int	timer = 0;
@@ -28,19 +45,7 @@ int	pacman_animate(t_mlx *mlx)
 	}
 	if (hit_enemy(mlx))
 		on_exit_sl("You lost!");
-	if (timer % 2000 == 0 || timer % 3000 == 0)
-	{
-		if (timer % 2000 == 0)
-			texture = mlx->pacman_eating;
-		else if (timer % 3000 == 0)
-			texture = mlx->pacman_ate;
-		mlx_put_image_to_window(mlx->mlx_ptr, mlx->mlx_win, mlx->empty_space, \
-		mlx->xy * mlx->p_xy.col, mlx->xy * mlx->p_xy.row);
-		mlx_put_image_to_window(mlx->mlx_ptr, mlx->mlx_win, texture, \
-		mlx->xy * mlx->p_xy.col, mlx->xy * mlx->p_xy.row);
-	}
-	if (timer % 10000 == 0)
-		update_weights_after_move(mlx);
+	timer_check(mlx, timer, texture);
 	timer ++;
 	return (1);
 }

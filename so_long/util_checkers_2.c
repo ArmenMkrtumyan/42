@@ -21,12 +21,12 @@ int	check_file_name(char *file_name)
 		len--;
 	if (len == 0)
 	{
-		printf("Error\nInput correct map name!\n");
+		ft_printf("Error\nInput correct map name!\n");
 		return (0);
 	}
 	if (ft_strncmp(&file_name[len], ".ber", 4) != 0)
 	{
-		printf("Error\nInput correct map name!\n");
+		ft_printf("Error\nInput correct map name!\n");
 		return (0);
 	}
 	return (1);
@@ -66,14 +66,29 @@ void	checkings(int fd1, int fd2, t_xy dims, t_mlx *mlx)
 		if (check_insides_map(fd2, dims, &insides, mlx) == 0)
 		{
 			mlx->enemy_perspective = 0;
-			printf("\n\nCORRECT MAP INSIDES, CHECKING PATHS...");
+			ft_printf("\n\nCORRECT MAP INSIDES, CHECKING PATHS...");
 			check_path(insides.dims, insides.e_xy, mlx, 0);
 			if (mlx->path_exists == 1)
-				printf("\n\nCORRECT PATHS...Launching the game\n\n");
+				ft_printf("\n\nCORRECT PATHS...Launching the game\n\n");
 			else
 				on_exit_sl("Issue with paths!");
 		}
 	}
 	else
 		on_exit_sl("\n\nWRONG DIMENSIONS\n\n");
+}
+
+int	check_insides_map(int fd, t_xy dims, t_inside *insides, t_mlx *mlx)
+{
+	t_xy			temp_dimensions;
+	t_fileRead		file_read_info;
+
+	file_read_info.fd = fd;
+	temp_dimensions.row = 0;
+	temp_dimensions.col = 0;
+	temp_dimensions.col = 0;
+	create_matrices(dims, mlx);
+	fill_matrices(&temp_dimensions, &file_read_info, mlx);
+	count_check(dims, insides, mlx);
+	return (insides->freed);
 }
