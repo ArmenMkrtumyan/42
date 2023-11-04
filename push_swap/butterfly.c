@@ -16,7 +16,7 @@
 void	sort_a(t_node **stack_a, t_node **stack_b)
 {
 	int	counter;
-	t_node	*node;
+	//t_node	*node;
 	int	top;
 	int	bottom;
 
@@ -37,19 +37,31 @@ void	sort_a(t_node **stack_a, t_node **stack_b)
 		else
 			ra(stack_a);
 	}
-	node = (*stack_b);
-	while (node)
-	{
-		ft_printf("Data: %d\n", node->data);
-		node = node->next;
-	}
-	ft_printf("-----------------------\n");
+	// ft_printf("Stack B:\n");
+	// node = (*stack_b);
+	// while (node)
+	// {
+	// 	ft_printf("Data: %d\n", node->data);
+	// 	node = node->next;
+	// }
+	// ft_printf("-----------------------\n");
 	while (*stack_b)
 	{
-		top = stack_b.data;
-		bottom = ft_lstlast(stack_b)->data;
-
-		
+		top = (*stack_b)->data;
+		bottom = ft_lstlast(*stack_b)->data;
+		if (top > bottom || top == bottom)
+			pa(stack_a, stack_b);
+		else
+		{
+			rrb(stack_b);
+			pa(stack_a, stack_b);
+		}
 	}
-
+	// ft_printf("Sorted Stack A:\n");
+	// node = (*stack_a);
+	// while (node)
+	// {
+	// 	ft_printf("Data: %d\n", node->data);
+	// 	node = node->next;
+	// }
 }

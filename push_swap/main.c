@@ -129,25 +129,8 @@ int	main(int argc, char **argv)
 		check_duplicates(stack_a, element);
 		ft_lstadd_back(&stack_a, node);
 	}
-	argument = 0;
-	node = stack_a;
-	while (node)
-	{
-		node->index = argument;
-		node = node->next;
-		argument ++;
-	}
-
+	ft_printf("\n\nStack A\n\n");
 	stack_b = NULL;
-
-	node = stack_a;
-	ft_printf("Stack A\n");
-	while (node)
-	{
-		ft_printf("Data: %d, index: %d\n", node->data, node->index);
-		node = node->next;
-	}
-
 	sort_a(&stack_a, &stack_b);
 
 	// //Creating random stack_b

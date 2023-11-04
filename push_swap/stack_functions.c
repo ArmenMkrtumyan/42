@@ -30,6 +30,7 @@ void	sa(t_node **stack_a)
 		tmp->next = *stack_a;
 		tmp->prev = NULL;
 		*stack_a = tmp;
+		ft_printf("sa\n");
 	}
 }
 
@@ -45,6 +46,7 @@ void	sb(t_node **stack_b)
 		tmp->next = *stack_b;
 		tmp->prev = NULL;
 		*stack_b = tmp;
+		ft_printf("sb\n");
 	}
 }
 
@@ -52,6 +54,7 @@ void	ss(t_node **stack_a, t_node **stack_b)
 {
 	sa(stack_a);
 	sb(stack_b);
+	ft_printf("ss\n");
 }
 
 // pa (push a): Take the first element at the top of b and put it at the top of a.
@@ -85,6 +88,7 @@ void	pa(t_node **stack_a, t_node **stack_b)
 		first_element->next = *stack_a;
 		first_element->prev = NULL;
 		*stack_a = first_element;
+		ft_printf("pa\n");
 	}
 }
 
@@ -100,6 +104,7 @@ void	pb(t_node **stack_b, t_node **stack_a)
 		first_element->next = *stack_b;
 		first_element->prev = NULL;
 		*stack_b = first_element;
+		ft_printf("pb\n");
 	}
 }
 
@@ -114,13 +119,16 @@ void	ra(t_node **stack_a)
 	t_node	*tmp;
 	t_node	*last;
 
+	ft_printf("%d\n", (*stack_a)->data);
 	tmp = (*stack_a)->next;
 	last = ft_lstlast(*stack_a);
 	last->next = (*stack_a);
 	(*stack_a)->next = NULL;
 	(*stack_a)->prev = last;
-	tmp->prev = NULL;
+	if (tmp)
+		tmp->prev = NULL;
 	(*stack_a) = tmp;
+	ft_printf("ra\n");
 }
 
 void	rb(t_node **stack_b)
@@ -133,14 +141,17 @@ void	rb(t_node **stack_b)
 	last->next = (*stack_b);
 	(*stack_b)->next = NULL;
 	(*stack_b)->prev = last;
-	tmp->prev = NULL;
+	if (tmp)
+		tmp->prev = NULL;
 	(*stack_b) = tmp;
+	ft_printf("rb\n");
 }
 
 void	rr(t_node **stack_a, t_node **stack_b)
 {
 	ra(stack_a);
 	rb(stack_b);
+	ft_printf("rr\n");
 }
 
 // rra (reverse rotate a): Shift down all elements of stack a by 1.
@@ -154,11 +165,13 @@ void	rra(t_node **stack_a)
 	t_node	*last;
 
 	last = ft_lstlast(*stack_a);
-	last->prev->next = NULL;
+	if (last->prev)
+		last->prev->next = NULL;
 	(*stack_a)->prev = last;
 	last->next = (*stack_a);
 	last->prev = NULL;
 	(*stack_a) = last;
+	ft_printf("rra\n");
 }
 
 void	rrb(t_node **stack_b)
@@ -166,15 +179,18 @@ void	rrb(t_node **stack_b)
 	t_node	*last;
 
 	last = ft_lstlast(*stack_b);
-	last->prev->next = NULL;
+	if (last->prev)
+		last->prev->next = NULL;
 	(*stack_b)->prev = last;
 	last->next = (*stack_b);
 	last->prev = NULL;
 	(*stack_b) = last;
+	ft_printf("rrb\n");
 }
 
 void	rrr(t_node **stack_a, t_node **stack_b)
 {
 	rra(stack_a);
 	rrb(stack_b);
+	ft_printf("rrr\n");
 }
