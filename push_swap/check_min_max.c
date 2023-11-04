@@ -1,35 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amkrtumy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/24 17:52:21 by amkrtumy          #+#    #+#             */
-/*   Updated: 2023/11/01 20:20:42 by amkrtumy         ###   ########.fr       */
+/*   Created: 2023/11/01 20:23:20 by amkrtumy          #+#    #+#             */
+/*   Updated: 2023/11/01 20:35:28 by amkrtumy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "push_swap.h"
 
-char	*ft_substr(char const *s_1, unsigned int start, size_t len)
+int	check_min_max(char *string, char *critical_value)
 {
-	char	*s_2;
-	size_t	i;
+	size_t	k;
+	size_t	str_len;
 
-	if (len < ft_strlen(s_1))
-		s_2 = malloc((len + 1) * sizeof(char));
-	else
-		s_2 = malloc((ft_strlen(s_1) + 1) * sizeof(char));
-	if (!s_2)
-		return (NULL);
-	i = 0;
-	while (i < len && i < ft_strlen(s_1) && start < ft_strlen(s_1))
+	str_len = ft_strlen(string);
+	if (ft_strlen(string) > ft_strlen(critical_value))
+		return (-1);
+	if (ft_strlen(string) < ft_strlen(critical_value))
+		return (1);
+	k = -1;
+	while (++k < str_len)
 	{
-		s_2[i] = s_1[start];
-		i++;
-		start++;
+		if (string[k] > critical_value[k])
+			return (-1);
 	}
-	s_2[i] = '\0';
-	return (s_2);
+	return (1);
 }

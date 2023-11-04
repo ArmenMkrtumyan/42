@@ -1,35 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amkrtumy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/24 17:52:21 by amkrtumy          #+#    #+#             */
-/*   Updated: 2023/11/01 20:20:42 by amkrtumy         ###   ########.fr       */
+/*   Created: 2023/11/01 17:04:47 by amkrtumy          #+#    #+#             */
+/*   Updated: 2023/11/01 17:04:50 by amkrtumy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef PUSH_SWAP_H
+# define PUSH_SWAP_H
+
+// MAIN FUNCTION
+
 #include "libft.h"
+#include "ft_printf.h"
 
-char	*ft_substr(char const *s_1, unsigned int start, size_t len)
-{
-	char	*s_2;
-	size_t	i;
+#include <string.h>
 
-	if (len < ft_strlen(s_1))
-		s_2 = malloc((len + 1) * sizeof(char));
-	else
-		s_2 = malloc((ft_strlen(s_1) + 1) * sizeof(char));
-	if (!s_2)
-		return (NULL);
-	i = 0;
-	while (i < len && i < ft_strlen(s_1) && start < ft_strlen(s_1))
-	{
-		s_2[i] = s_1[start];
-		i++;
-		start++;
-	}
-	s_2[i] = '\0';
-	return (s_2);
-}
+void	on_exit(char* message);
+int		check_min_max(char *string, char *critical_value);
+#endif
