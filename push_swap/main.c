@@ -114,6 +114,7 @@ int	main(int argc, char **argv)
 	int		element;
 	int	argument;
 	t_node	*node;
+	t_node	*stack_b;
 
 	if (argc <= 1)
 		on_exit("No stack A received\n");
@@ -128,17 +129,114 @@ int	main(int argc, char **argv)
 		check_duplicates(stack_a, element);
 		ft_lstadd_back(&stack_a, node);
 	}
+	argument = 0;
 	node = stack_a;
 	while (node)
 	{
-		ft_printf("Data: %d\n", node->data);
+		node->index = argument;
 		node = node->next;
+		argument ++;
 	}
-	node = ft_lstlast(stack_a);
+
+	stack_b = NULL;
+
+	node = stack_a;
+	ft_printf("Stack A\n");
 	while (node)
 	{
-		ft_printf("Data: %d\n", node->data);
-		node = node->prev;
+		ft_printf("Data: %d, index: %d\n", node->data, node->index);
+		node = node->next;
 	}
+
+	sort_a(&stack_a, &stack_b);
+
+	// //Creating random stack_b
+
+	// ft_printf("\n\nGenerating random stack _b\n\n");
+	// stack_b = NULL;
+	// node = stack_a;
+	// while (node)
+	// {
+	// 	ft_lstadd_back(&stack_b, ft_lstnew((node->data) + 5));
+	// 	node = node->next;
+	// }
+	// node = stack_b;
+	// while (node)
+	// {
+	// 	ft_printf("Data: %d\n", node->data);
+	// 	node = node->next;
+	// }
+	// ft_printf("-----------------------\n");
+
+	// SA/SB TEST
+	// sa(&stack_a);
+	// ft_printf("\n\nAfter SA\n\n");
+	// node = stack_a;
+	// while (node)
+	// {
+	// 	ft_printf("Data: %d\n", node->data);
+	// 	node = node->next;
+	// }
+
+
+	// PA/PB TEST
+	// pa(&stack_a, &stack_b);
+	// ft_printf("\n\nMoving first element of b to a\n\n");
+	// ft_printf("\n\nStack A\n\n");
+	// node = stack_a;
+	// while (node)
+	// {
+	// 	ft_printf("Data: %d\n", node->data);
+	// 	node = node->next;
+	// }
+	// printf("-----------------------\n");
+	// ft_printf("\n\nStack B\n\n");
+	// node = stack_b;
+	// while (node)
+	// {
+	// 	ft_printf("Data: %d\n", node->data);
+	// 	node = node->next;
+	// }
+
+	// RA/RB TEST
+	// ft_printf("\n\nMoving first element of a to the end of a\n\n");
+	// ra(&stack_a);
+	// ft_printf("\n\nStack A\n\n");
+	// node = stack_a;
+	// while (node)
+	// {
+	// 	ft_printf("Data: %d\n", node->data);
+	// 	node = node->next;
+	// }
+	// printf("-----------------------\n");
+
+	// RRA/RRB TEST
+	// ft_printf("\n\nMoving last element of a to the beginning of a\n\n");
+	// rra(&stack_a);
+	// ft_printf("\n\nStack A\n\n");
+	// node = stack_a;
+	// while (node)
+	// {
+	// 	ft_printf("Data: %d\n", node->data);
+	// 	node = node->next;
+	// }
+
+
+
+	// ft_printf("-----------------------\n");
+	// ft_printf("\n\nReverse printing A\n\n");
+	// node = ft_lstlast(stack_a);
+	// while (node)
+	// {
+	// 	ft_printf("Data: %d\n", node->data);
+	// 	node = node->prev;
+	// }
+	// ft_printf("\n\nReverse printing B\n\n");
+	// node = ft_lstlast(stack_b);
+	// while (node)
+	// {
+	// 	ft_printf("Data: %d\n", node->data);
+	// 	node = node->prev;
+	// }
 
 }

@@ -2,6 +2,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -g -fsanitize=address #-Werror
 NAME = push_swap
 SOURCES = $(wildcard *.c)
+H_SOURCES = $(wildcard *.h)
 O_SOURCES = $(subst .c,.o, $(SOURCES))
 OBJ_DIRECTORY = object_dir
 DIR_O_SOURCES = $(addprefix $(OBJ_DIRECTORY)/,$(O_SOURCES))
@@ -21,7 +22,7 @@ call_printf:
 call_libft:
 	@make -C $(LIBFT_DIR)
 
-$(OBJ_DIRECTORY)/%.o: %.c
+$(OBJ_DIRECTORY)/%.o: %.c $(H_SOURCES)
 	$(CC) $(HEADERS) -c $(CFLAGS) $< -o $@
 
 $(NAME): $(DIR_O_SOURCES)
