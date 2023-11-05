@@ -119,7 +119,6 @@ void	ra(t_node **stack_a)
 	t_node	*tmp;
 	t_node	*last;
 
-	ft_printf("%d\n", (*stack_a)->data);
 	tmp = (*stack_a)->next;
 	last = ft_lstlast(*stack_a);
 	last->next = (*stack_a);

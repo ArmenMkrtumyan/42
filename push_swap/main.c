@@ -108,13 +108,50 @@ void	check_duplicates(t_node *stack_a, int element)
 	}
 }
 
+int	has_index(t_node **stack_a)
+{
+	t_node	*tmp;
+
+	tmp = *stack_a;
+	while(tmp)
+	{
+		if (tmp->index == -1)
+			return (0);
+		tmp = tmp->next;
+	}
+	return (1);
+}
+
+void	assign_index(t_node **stack_a, int next_index)
+{
+	int		min;
+	t_node	*tmp;
+
+	tmp = *stack_a;
+	min = INT_MAX;
+	while (tmp)
+	{
+		if (tmp->data <= min && tmp->index == -1)
+			min = tmp->data;
+		tmp = tmp->next;
+	}
+	tmp = *stack_a;
+	while (tmp)
+	{
+		if (tmp->data == min)
+			tmp->index = next_index;
+		tmp = tmp->next;
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_node	*stack_a;
 	int		element;
-	int	argument;
+	int		argument;
 	t_node	*node;
 	t_node	*stack_b;
+	int		next_index;
 
 	if (argc <= 1)
 		on_exit("No stack A received\n");
@@ -131,6 +168,20 @@ int	main(int argc, char **argv)
 	}
 	ft_printf("\n\nStack A\n\n");
 	stack_b = NULL;
+	next_index = 0;
+	while(!has_index(&stack_a))
+	{
+		assign_index(&stack_a, next_index);
+		next_index ++;
+	}
+	// print indeces
+	// node = stack_a;
+	// while (node)
+	// {
+	// 	ft_printf("Data: %d Index: %d \n", node->data, node->index);
+	// 	node = node->next;
+	// }
+
 	sort_a(&stack_a, &stack_b);
 
 	// //Creating random stack_b

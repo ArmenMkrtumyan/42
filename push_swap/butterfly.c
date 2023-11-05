@@ -23,13 +23,13 @@ void	sort_a(t_node **stack_a, t_node **stack_b)
 	counter = 0;
 	while (*stack_a)
 	{
-		if ((*stack_a)->data <= counter)
+		if ((*stack_a)->index <= counter)
 		{
 			pb(stack_b, stack_a);
 			rb(stack_b);
 			counter ++;
 		}
-		else if ((*stack_a)->data <= counter + 1)
+		else if ((*stack_a)->index <= counter + 1)
 		{
 			pb(stack_b, (stack_a));
 			counter ++;

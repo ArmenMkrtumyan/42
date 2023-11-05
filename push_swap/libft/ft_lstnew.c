@@ -22,5 +22,6 @@ t_node	*ft_lstnew(int data)
 	(*target).data = data;
 	target->next = NULL;
 	target->prev = NULL;
+	target->index = -1;
 	return (target);
 }
