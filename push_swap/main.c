@@ -166,7 +166,6 @@ int	main(int argc, char **argv)
 		check_duplicates(stack_a, element);
 		ft_lstadd_back(&stack_a, node);
 	}
-	ft_printf("\n\nStack A\n\n");
 	stack_b = NULL;
 	next_index = 0;
 	while(!has_index(&stack_a))
