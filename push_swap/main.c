@@ -12,264 +12,312 @@
 
 #include "push_swap.h"
 
-// void	ft_split_boosted(char *string)
-// {
-// 	int	start;
-// 	int	end;
-// 	int	item_count;
-// 	int	on_text;
-
-// 	start = 0;
-// 	end = 0;
-// 	item_count = 0;]
-// 	on_text = 0;
-// 	while (string[start])
-// 	{
-// 		if (string[start] == 45)
-
-// 		if (!on_text && ((string[start] > 47 && string[start] < 58)))
-// 		{
-// 			item_count ++;
-// 			on_text = 1;
-// 		}
-// 		if (on_text && ((string[start] > 8 && string[start] < 12) || (string[start] > 28 && string[start] < 33)))
-// 			on_text = 0;
-// 		start ++;
-// 	}
-// 	ft_printf("\nCounted items: %d\n", item_count);
-
-// }
-
-// void	check_argument(char *string)
-// {
-// 	int	i;
-
-// 	//ft_split_boosted(string);
-
-// 	i = -1;
-// 	// while (answer[++i])
-// 	// 	ft_printf("\nElement %d: %s\n", i, answer[i]);
-// }
-
-int	check_if_number(char *element)
+char	**ft_split_boosted(char *string)
 {
-	int	i;
-	int	minus_count;
+	int			item_count;
+	char		**answer;
+	int			index;
+	t_split_var	vars;
 
-	minus_count = 0;
-	i = 0;
-	if (element[0] == '0' && ft_strlen(element) != 1)
-		on_exit("Nobody writes numbers like that\n");
-	if (element[0] == '-' && ft_strlen(element) == 1)
-		on_exit("Minus is not a number\n");
-
-	while (element[i])
+	vars.start = 0;
+	vars.end = 0;
+	vars.text = 0;
+	item_count = 0;
+	while (string[vars.start])
 	{
-		if (element[i] == 45)
-			minus_count += 1;
-		else if (element[i] != 45 && (element[i] < 48 || element[i] > 57))
-			on_exit("Inputs must be all numbers\n");
-		i++;
+		if (!vars.text && (string[vars.start] > 32 && string[vars.start] < 127))
+		{
+			item_count ++;
+			vars.text = 1;
+		}
+		if (vars.text && ((string[vars.start] > 8 && string[vars.start] < 12) \
+			|| (string[vars.start] > 28 && string[vars.start] < 33)))
+			vars.text = 0;
+		vars.start ++;
 	}
-	if (minus_count > 1)
-		on_exit("It's not okay to have more than one - sign\n");
-	return (minus_count != 1);
-}
-
-int	check_parsing(char *element)
-{
-	int	sign;
-
-	// check_argument(element);
-
-	sign = check_if_number(element);
-	if (sign && (check_min_max(element, "2147483647") == -1))
-		on_exit("One of the numbers is greater than INT_MAX\n");
-	else if(!sign && check_min_max(&element[1], "2147483648") == -1)
-		on_exit("One of the numbers is smaller than INT_MIN\n");
-
-
-	return (ft_atoi(element));
+	// ft_printf("\nCounted items: %d\n", item_count);
+	answer = (char **)malloc((item_count + 1) * sizeof(char *));
+	if (!answer)
+		on_exit("Malloc Error\n");
+	vars.start = 0;
+	vars.text = 0;
+	vars.end = 0;
+	index = 0;
+	while (string[vars.end])
+	{
+		if ((vars.text == 1) && ((string[vars.end] > 8 && string[vars.end] < 12) || \
+			(string[vars.end] > 28 && string[vars.end] < 33)))
+		{
+			// ft_printf("Found a word %s\n",ft_substr(string, vars.start, vars.end - vars.start + 1));
+			// answer[index] = (char *)malloc((vars.end - vars.start + 1) * sizeof(char));
+			// if (!answer[index])
+			// 	on_exit("Malloc Error\n");
+			answer[index] = ft_substr(string, vars.start, vars.end - vars.start);
+			if (!answer[index])
+				on_exit("Malloc Error\n");
+			//answer[index][vars.end - vars.start] = '\0';
+			index ++;
+			vars.text = 0;
+		}
+		else if ((vars.text == 0) && (string[vars.end] > 32 && string[vars.end] < 127))
+		{
+			vars.start = vars.end;
+			vars.text = 1;
+		}
+		vars.end ++;
+		if (vars.text == 1 && !string[vars.end])
+		{
+			// ft_printf("Found a word %s\n", ft_substr(string, vars.start, vars.end - vars.start + 1));
+			// answer[index] = (char *)malloc((vars.end - vars.start + 1) * sizeof(char));
+			// if (!answer[index])
+			// 	on_exit("Malloc Error\n");
+			answer[index] = ft_substr(string, vars.start, vars.end - vars.start);
+			if (!answer[index])
+				on_exit("Malloc Error\n");
+			// ft_printf("Last index was %d\n", index);
+			//answer[index][vars.end - vars.start] = '\0';
+			index ++;
+		}
+	}
+	answer[index] = NULL;
+	return (answer);
 }
 
 void	on_exit(char* message)
 {
-	ft_printf(message);
+	int	len;
+
+	len = ft_strlen(message);
+	write(2, message, len);
 	exit(1);
 }
 
-void	check_duplicates(t_node *stack_a, int element)
+void	create_a(t_node **stack_a, int argc, char **argv)
 {
-	while (stack_a)
+	int		argument;
+	char	**answer;
+	int		element;
+	t_node	*node;
+
+	argument = 0;
+	while (++argument < argc)
 	{
-		if (stack_a->data == element)
-			on_exit("You have duplicates\n");
-		stack_a = stack_a->next;
+		element = -1;
+		answer = check_parsing(argv[argument]);
+		while(answer[++element])
+		{
+			node = ft_lstnew(ft_atoi(answer[element]));
+			if (!node)
+				on_exit("Couldn't allocate element\n");
+			check_duplicates(*stack_a, ft_atoi(answer[element]));
+			ft_lstadd_back(stack_a, node);
+		}
+		element = 0;
+		while (answer[element])
+			free(answer[element++]);
+		free(answer);
 	}
+	assign_indeces(stack_a);
 }
 
-int	has_index(t_node **stack_a)
+void	sort_three(t_node **stack)
 {
+	int		max;
 	t_node	*tmp;
+	int		curr_index;
 
-	tmp = *stack_a;
-	while(tmp)
+	max = get_max_top(*stack, 4);
+	tmp = *stack;
+	curr_index = 0;
+	while (tmp)
 	{
-		if (tmp->index == -1)
-			return (0);
+		if (tmp->data == max && curr_index == 0)
+			ra(stack);
+		if (tmp->data == max && curr_index == 1)
+		{
+			ra(stack);
+			ra(stack);
+		}
+		if ((tmp->data == max && curr_index == 0) \
+			|| (tmp->data == max && curr_index == 1))
+			break;
 		tmp = tmp->next;
+		curr_index ++;
 	}
-	return (1);
+	if ((*stack)->data > (*stack)->next->data)
+		sa(stack);
 }
 
-void	assign_index(t_node **stack_a, int next_index)
+int	get_min(t_node *stack, int lst_len, int *dummy)
 {
+	int	min;
+	int	counter;
+
+	min = stack->data;
+	counter = 0;
+	while (stack)
+	{
+		if (stack->data < min)
+		{
+			min = stack->data;
+			if (counter < lst_len / 2)
+				*dummy = 1;
+			else
+				*dummy = 2;
+		}
+		stack = stack->next;
+		counter ++;
+	}
+	return (min);
+}
+
+void	fast_sort_a(t_node **stack_a, t_node **stack_b)
+{
+	int		min_index;
 	int		min;
 	t_node	*tmp;
+	int		len_a;
 
-	tmp = *stack_a;
-	min = INT_MAX;
-	while (tmp)
+	min_index = 0;
+	len_a = ft_lstsize(*stack_a);
+	if (len_a < 4)
+		sort_three(stack_a);
+	else
 	{
-		if (tmp->data <= min && tmp->index == -1)
-			min = tmp->data;
-		tmp = tmp->next;
-	}
-	tmp = *stack_a;
-	while (tmp)
-	{
-		if (tmp->data == min)
-			tmp->index = next_index;
-		tmp = tmp->next;
+		while (len_a != 3)
+		{
+			min = get_min(*stack_a,len_a, &min_index);
+			printf("\nFound min: %d\n", min);
+			if (min_index == 1)
+			{
+				tmp = *stack_a;
+				while (tmp->data != min)
+				{
+					ra(stack_a);
+					tmp = *stack_a;
+				}
+			}
+			if (min_index == 2)
+			{
+				tmp = ft_lstlast(*stack_a);
+				while (tmp->data != min)
+				{
+					rra(stack_a);
+					tmp = ft_lstlast(*stack_a);
+					// printf ("%p\n", tmp);
+				}
+				rra(stack_a);
+			}
+			pb(stack_b, stack_a);
+			len_a --;
+		}
+		sort_three(stack_a);
+		while (*stack_b)
+			pa(stack_a, stack_b);
 	}
 }
 
 int	main(int argc, char **argv)
 {
 	t_node	*stack_a;
-	int		element;
-	int		argument;
-	t_node	*node;
 	t_node	*stack_b;
-	int		next_index;
+	int		stack_len;
 
 	if (argc <= 1)
 		on_exit("No stack A received\n");
-	argument = 0;
 	stack_a = NULL;
-	while (++argument < argc)
-	{
-		element = check_parsing(argv[argument]);
-		node = ft_lstnew(element);
-		if (!node)
-			on_exit("Couldn't allocate element\n");
-		check_duplicates(stack_a, element);
-		ft_lstadd_back(&stack_a, node);
-	}
 	stack_b = NULL;
-	next_index = 0;
-	while(!has_index(&stack_a))
-	{
-		assign_index(&stack_a, next_index);
-		next_index ++;
-	}
-	// print indeces
+
+	create_a(&stack_a, argc, argv);
+	stack_len = ft_lstsize(stack_a);
+	check_if_sorted(stack_a);
+	if (!stack_a)
+		on_exit("No stack A received\n");
+	if (stack_len == 2)
+		sa(&stack_a);
+	else if (stack_len <= 12)
+		fast_sort_a(&stack_a, &stack_b);
+	else
+		sort_a(&stack_a, &stack_b);
+
+	// ft_printf("\n\n\n\n\nAFTER\n");
+
+	// t_node	*node;
 	// node = stack_a;
 	// while (node)
 	// {
 	// 	ft_printf("Data: %d Index: %d \n", node->data, node->index);
 	// 	node = node->next;
 	// }
-
-	sort_a(&stack_a, &stack_b);
-
-	// //Creating random stack_b
-
-	// ft_printf("\n\nGenerating random stack _b\n\n");
-	// stack_b = NULL;
-	// node = stack_a;
-	// while (node)
-	// {
-	// 	ft_lstadd_back(&stack_b, ft_lstnew((node->data) + 5));
-	// 	node = node->next;
-	// }
-	// node = stack_b;
-	// while (node)
-	// {
-	// 	ft_printf("Data: %d\n", node->data);
-	// 	node = node->next;
-	// }
-	// ft_printf("-----------------------\n");
-
-	// SA/SB TEST
-	// sa(&stack_a);
-	// ft_printf("\n\nAfter SA\n\n");
-	// node = stack_a;
-	// while (node)
-	// {
-	// 	ft_printf("Data: %d\n", node->data);
-	// 	node = node->next;
-	// }
-
-
-	// PA/PB TEST
-	// pa(&stack_a, &stack_b);
-	// ft_printf("\n\nMoving first element of b to a\n\n");
-	// ft_printf("\n\nStack A\n\n");
-	// node = stack_a;
-	// while (node)
-	// {
-	// 	ft_printf("Data: %d\n", node->data);
-	// 	node = node->next;
-	// }
-	// printf("-----------------------\n");
-	// ft_printf("\n\nStack B\n\n");
-	// node = stack_b;
-	// while (node)
-	// {
-	// 	ft_printf("Data: %d\n", node->data);
-	// 	node = node->next;
-	// }
-
-	// RA/RB TEST
-	// ft_printf("\n\nMoving first element of a to the end of a\n\n");
-	// ra(&stack_a);
-	// ft_printf("\n\nStack A\n\n");
-	// node = stack_a;
-	// while (node)
-	// {
-	// 	ft_printf("Data: %d\n", node->data);
-	// 	node = node->next;
-	// }
-	// printf("-----------------------\n");
-
-	// RRA/RRB TEST
-	// ft_printf("\n\nMoving last element of a to the beginning of a\n\n");
-	// rra(&stack_a);
-	// ft_printf("\n\nStack A\n\n");
-	// node = stack_a;
-	// while (node)
-	// {
-	// 	ft_printf("Data: %d\n", node->data);
-	// 	node = node->next;
-	// }
-
-
-
-	// ft_printf("-----------------------\n");
-	// ft_printf("\n\nReverse printing A\n\n");
-	// node = ft_lstlast(stack_a);
-	// while (node)
-	// {
-	// 	ft_printf("Data: %d\n", node->data);
-	// 	node = node->prev;
-	// }
-	// ft_printf("\n\nReverse printing B\n\n");
-	// node = ft_lstlast(stack_b);
-	// while (node)
-	// {
-	// 	ft_printf("Data: %d\n", node->data);
-	// 	node = node->prev;
-	// }
-
 }
+
+// SA/SB TEST
+// sa(&stack_a);
+// ft_printf("\n\nAfter SA\n\n");
+// node = stack_a;
+// while (node)
+// {
+// 	ft_printf("Data: %d\n", node->data);
+// 	node = node->next;
+// }
+
+
+// PA/PB TEST
+// pa(&stack_a, &stack_b);
+// ft_printf("\n\nMoving first element of b to a\n\n");
+// ft_printf("\n\nStack A\n\n");
+// node = stack_a;
+// while (node)
+// {
+// 	ft_printf("Data: %d\n", node->data);
+// 	node = node->next;
+// }
+// printf("-----------------------\n");
+// ft_printf("\n\nStack B\n\n");
+// node = stack_b;
+// while (node)
+// {
+// 	ft_printf("Data: %d\n", node->data);
+// 	node = node->next;
+// }
+
+// RA/RB TEST
+// ft_printf("\n\nMoving first element of a to the end of a\n\n");
+// ra(&stack_a);
+// ft_printf("\n\nStack A\n\n");
+// node = stack_a;
+// while (node)
+// {
+// 	ft_printf("Data: %d\n", node->data);
+// 	node = node->next;
+// }
+// printf("-----------------------\n");
+
+// RRA/RRB TEST
+// ft_printf("\n\nMoving last element of a to the beginning of a\n\n");
+// rra(&stack_a);
+// ft_printf("\n\nStack A\n\n");
+// node = stack_a;
+// while (node)
+// {
+// 	ft_printf("Data: %d\n", node->data);
+// 	node = node->next;
+// }
+
+
+
+// ft_printf("-----------------------\n");
+// ft_printf("\n\nReverse printing A\n\n");
+// node = ft_lstlast(stack_a);
+// while (node)
+// {
+// 	ft_printf("Data: %d\n", node->data);
+// 	node = node->prev;
+// }
+// ft_printf("\n\nReverse printing B\n\n");
+// node = ft_lstlast(stack_b);
+// while (node)
+// {
+// 	ft_printf("Data: %d\n", node->data);
+// 	node = node->prev;
+// }

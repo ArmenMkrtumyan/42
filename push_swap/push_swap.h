@@ -13,17 +13,35 @@
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-
-
-// MAIN FUNCTION
+typedef struct s_split_values
+{
+	int		start;
+	int		end;
+	int		text;
+}			t_split_var;
 
 #include "libft.h"
 #include "ft_printf.h"
 
-#include <string.h>
+// MAIN FUNCTION
 
+char	**ft_split_boosted(char *string);
 void	on_exit(char* message);
+void	create_a(t_node **stack_a, int argc, char **argv);
+
+// BUTTERFLY
+int		get_max_top(t_node *stack, int n);
+int		get_max_bottom(t_node *stack, int n);
+void	sort_a(t_node **stack_a, t_node **stack_b);
+
+// CHECKERS
+int		check_if_number(char *element);
+char	**check_parsing(char *element);
 int		check_min_max(char *string, char *critical_value);
+void	check_duplicates(t_node *stack_a, int element);
+void	check_if_sorted(t_node *stack_a);
+
+// STACK FUNCTIONS
 void	sa(t_node **stack_a);
 void	sb(t_node **stack_b);
 void	ss(t_node **stack_a, t_node **stack_b);
@@ -37,5 +55,11 @@ void	rra(t_node **stack_a);
 void	rrb(t_node **stack_b);
 void	rrr(t_node **stack_a, t_node **stack_b);
 void	sort_a(t_node **stack_a, t_node **stack_b);
+
+// UTILS
+
+int		has_index(t_node **stack_a);
+void	assign_index(t_node **stack_a, int next_index);
+void	assign_indeces(t_node **stack_a);
 
 #endif
