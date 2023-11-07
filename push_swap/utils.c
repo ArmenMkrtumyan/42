@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_1.c                                          :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amkrtumy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -17,7 +17,7 @@ int	has_index(t_node **stack_a)
 	t_node	*tmp;
 
 	tmp = *stack_a;
-	while(tmp)
+	while (tmp)
 	{
 		if (tmp->index == -1)
 			return (0);
@@ -58,4 +58,52 @@ void	assign_indeces(t_node **stack_a)
 		assign_index(stack_a, next_index);
 		next_index ++;
 	}
+}
+
+void	up_or_down(int min_index, int min, t_node **stack_a)
+{
+	t_node	*tmp;
+
+	if (min_index == 1)
+	{
+		tmp = *stack_a;
+		while (tmp->data != min)
+		{
+			ra(stack_a);
+			tmp = *stack_a;
+		}
+	}
+	if (min_index == 2)
+	{
+		tmp = ft_lstlast(*stack_a);
+		while (tmp->data != min)
+		{
+			rra(stack_a);
+			tmp = ft_lstlast(*stack_a);
+		}
+		rra(stack_a);
+	}
+}
+
+int	get_min(t_node *stack, int lst_len, int *dummy)
+{
+	int	min;
+	int	counter;
+
+	min = stack->data;
+	counter = 0;
+	while (stack)
+	{
+		if (stack->data < min)
+		{
+			min = stack->data;
+			if (counter < lst_len / 2)
+				*dummy = 1;
+			else
+				*dummy = 2;
+		}
+		stack = stack->next;
+		counter ++;
+	}
+	return (min);
 }

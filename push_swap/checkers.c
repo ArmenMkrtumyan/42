@@ -30,7 +30,8 @@ int	check_if_number(char *element)
 		if (element[i] == 45)
 			minus_count += 1;
 		if (element[i] == 45 && i != 0)
-			on_exit("It's not okay to have a - sign in the middle of a number\n");
+			on_exit("It's not okay to have a - sign in \
+				the middle of a number\n");
 		else if (element[i] != 45 && (element[i] < 48 || element[i] > 57))
 			on_exit("Inputs must be all numbers\n");
 	}
@@ -41,9 +42,9 @@ int	check_if_number(char *element)
 
 char	**check_parsing(char *element)
 {
-	int	sign;
+	int		sign;
 	char	**answer;
-	int i;
+	int		i;
 
 	answer = ft_split_boosted(element);
 	i = -1;
@@ -52,7 +53,7 @@ char	**check_parsing(char *element)
 		sign = check_if_number(answer[i]);
 		if (sign && (check_min_max(answer[i], "2147483647") == -1))
 			on_exit("One of the numbers is greater than INT_MAX\n");
-		else if(!sign && check_min_max(&answer[i][1], "2147483648") == -1)
+		else if (!sign && check_min_max(&answer[i][1], "2147483648") == -1)
 			on_exit("One of the numbers is smaller than INT_MIN\n");
 	}
 	return (answer);

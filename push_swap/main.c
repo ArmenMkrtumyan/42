@@ -12,78 +12,7 @@
 
 #include "push_swap.h"
 
-char	**ft_split_boosted(char *string)
-{
-	int			item_count;
-	char		**answer;
-	int			index;
-	t_split_var	vars;
-
-	vars.start = 0;
-	vars.end = 0;
-	vars.text = 0;
-	item_count = 0;
-	while (string[vars.start])
-	{
-		if (!vars.text && (string[vars.start] > 32 && string[vars.start] < 127))
-		{
-			item_count ++;
-			vars.text = 1;
-		}
-		if (vars.text && ((string[vars.start] > 8 && string[vars.start] < 12) \
-			|| (string[vars.start] > 28 && string[vars.start] < 33)))
-			vars.text = 0;
-		vars.start ++;
-	}
-	// ft_printf("\nCounted items: %d\n", item_count);
-	answer = (char **)malloc((item_count + 1) * sizeof(char *));
-	if (!answer)
-		on_exit("Malloc Error\n");
-	vars.start = 0;
-	vars.text = 0;
-	vars.end = 0;
-	index = 0;
-	while (string[vars.end])
-	{
-		if ((vars.text == 1) && ((string[vars.end] > 8 && string[vars.end] < 12) || \
-			(string[vars.end] > 28 && string[vars.end] < 33)))
-		{
-			// ft_printf("Found a word %s\n",ft_substr(string, vars.start, vars.end - vars.start + 1));
-			// answer[index] = (char *)malloc((vars.end - vars.start + 1) * sizeof(char));
-			// if (!answer[index])
-			// 	on_exit("Malloc Error\n");
-			answer[index] = ft_substr(string, vars.start, vars.end - vars.start);
-			if (!answer[index])
-				on_exit("Malloc Error\n");
-			//answer[index][vars.end - vars.start] = '\0';
-			index ++;
-			vars.text = 0;
-		}
-		else if ((vars.text == 0) && (string[vars.end] > 32 && string[vars.end] < 127))
-		{
-			vars.start = vars.end;
-			vars.text = 1;
-		}
-		vars.end ++;
-		if (vars.text == 1 && !string[vars.end])
-		{
-			// ft_printf("Found a word %s\n", ft_substr(string, vars.start, vars.end - vars.start + 1));
-			// answer[index] = (char *)malloc((vars.end - vars.start + 1) * sizeof(char));
-			// if (!answer[index])
-			// 	on_exit("Malloc Error\n");
-			answer[index] = ft_substr(string, vars.start, vars.end - vars.start);
-			if (!answer[index])
-				on_exit("Malloc Error\n");
-			// ft_printf("Last index was %d\n", index);
-			//answer[index][vars.end - vars.start] = '\0';
-			index ++;
-		}
-	}
-	answer[index] = NULL;
-	return (answer);
-}
-
-void	on_exit(char* message)
+void	on_exit(char *message)
 {
 	int	len;
 
@@ -104,7 +33,7 @@ void	create_a(t_node **stack_a, int argc, char **argv)
 	{
 		element = -1;
 		answer = check_parsing(argv[argument]);
-		while(answer[++element])
+		while (answer[++element])
 		{
 			node = ft_lstnew(ft_atoi(answer[element]));
 			if (!node)
@@ -140,7 +69,7 @@ void	sort_three(t_node **stack)
 		}
 		if ((tmp->data == max && curr_index == 0) \
 			|| (tmp->data == max && curr_index == 1))
-			break;
+			break ;
 		tmp = tmp->next;
 		curr_index ++;
 	}
@@ -148,34 +77,10 @@ void	sort_three(t_node **stack)
 		sa(stack);
 }
 
-int	get_min(t_node *stack, int lst_len, int *dummy)
-{
-	int	min;
-	int	counter;
-
-	min = stack->data;
-	counter = 0;
-	while (stack)
-	{
-		if (stack->data < min)
-		{
-			min = stack->data;
-			if (counter < lst_len / 2)
-				*dummy = 1;
-			else
-				*dummy = 2;
-		}
-		stack = stack->next;
-		counter ++;
-	}
-	return (min);
-}
-
 void	fast_sort_a(t_node **stack_a, t_node **stack_b)
 {
 	int		min_index;
 	int		min;
-	t_node	*tmp;
 	int		len_a;
 
 	min_index = 0;
@@ -186,28 +91,8 @@ void	fast_sort_a(t_node **stack_a, t_node **stack_b)
 	{
 		while (len_a != 3)
 		{
-			min = get_min(*stack_a,len_a, &min_index);
-			printf("\nFound min: %d\n", min);
-			if (min_index == 1)
-			{
-				tmp = *stack_a;
-				while (tmp->data != min)
-				{
-					ra(stack_a);
-					tmp = *stack_a;
-				}
-			}
-			if (min_index == 2)
-			{
-				tmp = ft_lstlast(*stack_a);
-				while (tmp->data != min)
-				{
-					rra(stack_a);
-					tmp = ft_lstlast(*stack_a);
-					// printf ("%p\n", tmp);
-				}
-				rra(stack_a);
-			}
+			min = get_min(*stack_a, len_a, &min_index);
+			up_or_down(min_index, min, stack_a);
 			pb(stack_b, stack_a);
 			len_a --;
 		}
@@ -227,7 +112,6 @@ int	main(int argc, char **argv)
 		on_exit("No stack A received\n");
 	stack_a = NULL;
 	stack_b = NULL;
-
 	create_a(&stack_a, argc, argv);
 	stack_len = ft_lstsize(stack_a);
 	check_if_sorted(stack_a);
@@ -239,17 +123,16 @@ int	main(int argc, char **argv)
 		fast_sort_a(&stack_a, &stack_b);
 	else
 		sort_a(&stack_a, &stack_b);
-
-	// ft_printf("\n\n\n\n\nAFTER\n");
-
-	// t_node	*node;
-	// node = stack_a;
-	// while (node)
-	// {
-	// 	ft_printf("Data: %d Index: %d \n", node->data, node->index);
-	// 	node = node->next;
-	// }
 }
+// ft_printf("\n\n\n\n\nAFTER\n");
+
+// t_node	*node;
+// node = stack_a;
+// while (node)
+// {
+// 	ft_printf("Data: %d Index: %d \n", node->data, node->index);
+// 	node = node->next;
+// }
 
 // SA/SB TEST
 // sa(&stack_a);
@@ -260,7 +143,6 @@ int	main(int argc, char **argv)
 // 	ft_printf("Data: %d\n", node->data);
 // 	node = node->next;
 // }
-
 
 // PA/PB TEST
 // pa(&stack_a, &stack_b);
@@ -303,8 +185,6 @@ int	main(int argc, char **argv)
 // 	ft_printf("Data: %d\n", node->data);
 // 	node = node->next;
 // }
-
-
 
 // ft_printf("-----------------------\n");
 // ft_printf("\n\nReverse printing A\n\n");

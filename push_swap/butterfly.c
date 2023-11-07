@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "push_swap.h"
 
 int	get_max_top(t_node *stack, int n)
@@ -32,9 +31,9 @@ int	get_max_top(t_node *stack, int n)
 
 int	get_max_bottom(t_node *stack, int n)
 {
-	int	max;
-	int	counter;
-	t_node *tmp;
+	int		max;
+	int		counter;
+	t_node	*tmp;
 
 	tmp = ft_lstlast(stack);
 	max = ft_lstlast(stack)->data;
@@ -49,24 +48,11 @@ int	get_max_bottom(t_node *stack, int n)
 	return (max);
 }
 
-void	sort_a(t_node **stack_a, t_node **stack_b)
+void	from_a_to_b(t_node **stack_a, t_node **stack_b, int n)
 {
 	int	counter;
-	int	top;
-	int	bottom;
-	// int	len;
-	int n;
 
 	counter = 0;
-	// t_node * node;
-
-	// while (node)
-	// {
-	// 	ft_printf("Data: %d Index: %d \n", node->data, node->index);
-	// 	node = node->next;
-	// }
-	n = ft_lstsize(*stack_a) * 0.0375 + 11.25;
-	//n = 30;
 	while (*stack_a)
 	{
 		if ((*stack_a)->index <= counter)
@@ -83,13 +69,12 @@ void	sort_a(t_node **stack_a, t_node **stack_b)
 		else
 			ra(stack_a);
 	}
-	// ft_printf("\n\n\n\n\nStack B\n");
-	// node = *stack_b;
-	// while (node)
-	// {
-	// 	ft_printf("Data: %d Index: %d \n", node->data, node->index);
-	// 	node = node->next;
-	// }
+}
+
+void	from_b_to_a(t_node **stack_a, t_node **stack_b, int n)
+{
+	int	top;
+	int	bottom;
 
 	while (*stack_b)
 	{
@@ -113,4 +98,13 @@ void	sort_a(t_node **stack_a, t_node **stack_b)
 			pa(stack_a, stack_b);
 		}
 	}
+}
+
+void	sort_a(t_node **stack_a, t_node **stack_b)
+{
+	int	n;
+
+	n = ft_lstsize(*stack_a) * 0.0375 + 11.25;
+	from_a_to_b(stack_a, stack_b, n);
+	from_b_to_a(stack_a, stack_b, n);
 }
