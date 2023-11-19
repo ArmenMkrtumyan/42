@@ -72,6 +72,7 @@ void	ft_lstdellast(t_list **list)
 	*list = initial;
 }
 
+//on_exit_sl("Error\nInput only map name!\n");
 int	main(int argc, char	*argv[])
 {
 	int			fd1;
@@ -79,10 +80,10 @@ int	main(int argc, char	*argv[])
 	t_xy		dims;
 	t_mlx		mlx;
 
+	mlx.num_of_moves = 1;
 	mlx.lst = NULL;
-	if (argc != 2)
-		on_exit_sl("Error\nInput only map name!\n");
-	if (check_file_name(argv[1]) == 0)
+	mlx.message = NULL;
+	if (argc != 2 || check_file_name(argv[1]) == 0)
 		return (0);
 	dims.row = 1;
 	dims.col = -1;

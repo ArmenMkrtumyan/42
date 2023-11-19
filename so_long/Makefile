@@ -2,7 +2,7 @@ NAME = so_long
 UNAME = $(shell uname -s)
 
 CC = cc
-CFLAGS = -c -Wall -Wextra -ggdb3 -I mlx -I ft_printf -fsanitize=address -g#-Werror
+CFLAGS = -c -Wall -Wextra -ggdb3 -I mlx -I ft_printf# -fsanitize=address -g#-Werror
 
 MLX = -lmlx -L mlx -framework AppKit -framework OpenGL
 MLX_DIR = mlx
@@ -26,7 +26,7 @@ $(OBJDIR)/%.o: %.c
 all: ftprintf mlx mkdir $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) $(LIBFT) $(FT_PRINTF) $(MLX) -fsanitize=address -g -o $(NAME)
+	$(CC) $(OBJS) $(LIBFT) $(FT_PRINTF) $(MLX) -g -o $(NAME)
 
 mkdir:
 	@mkdir -p $(OBJDIR)

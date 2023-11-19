@@ -37,6 +37,7 @@ void	assign_message(int num_of_moves, t_mlx *mlx)
 	char	*message;
 	char	*first_part;
 
+	free(mlx->message);
 	first_part = "Moves: ";
 	message = ft_itoa(num_of_moves);
 	mlx->message = ft_strjoin(first_part, message);
