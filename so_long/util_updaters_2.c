@@ -51,30 +51,6 @@ void	move_enemy(t_list *enemy_path, t_mlx *mlx, int enemy_num)
 		on_exit_sl("You lost!");
 }
 
-void	assign_cell(int k, t_xy *child_cell, t_xy *curr_cell)
-{
-	if (k == 0)
-	{
-		child_cell->row = curr_cell->row - 1;
-		child_cell->col = curr_cell->col;
-	}
-	else if (k == 1)
-	{
-		child_cell->row = curr_cell->row + 1;
-		child_cell->col = curr_cell->col;
-	}
-	else if (k == 2)
-	{
-		child_cell->row = curr_cell->row;
-		child_cell->col = curr_cell->col + 1;
-	}
-	else if (k == 3)
-	{
-		child_cell->row = curr_cell->row;
-		child_cell->col = curr_cell->col - 1;
-	}
-}
-
 void	fix_coordinates(int k, t_xy *child_cell, t_xy curr_cell)
 {
 	if (k == 0)

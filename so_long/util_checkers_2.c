@@ -32,6 +32,17 @@ int	check_file_name(char *file_name)
 	return (1);
 }
 
+void	assign_message(int num_of_moves, t_mlx *mlx)
+{
+	char	*message;
+	char	*first_part;
+
+	first_part = "Moves: ";
+	message = ft_itoa(num_of_moves);
+	mlx->message = ft_strjoin(first_part, message);
+	free(message);
+}
+
 void	check_pos(t_mlx *mlx, int pos, int row, int col)
 {
 	mlx->char_mat[row][col] = '0';
@@ -55,6 +66,10 @@ void	check_pos(t_mlx *mlx, int pos, int row, int col)
 		mlx->char_mat[row][col + 1] = 'P';
 		mlx->p_xy.col = col + 1;
 	}
+	assign_message(mlx->num_of_moves - 1, mlx);
+	mlx_string_put(mlx->mlx_ptr, mlx->mlx_win, 20, 20, 0, mlx->message);
+	assign_message(mlx->num_of_moves++, mlx);
+	mlx_string_put(mlx->mlx_ptr, mlx->mlx_win, 20, 20, 56789, mlx->message);
 }
 
 void	checkings(int fd1, int fd2, t_xy dims, t_mlx *mlx)

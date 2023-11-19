@@ -53,20 +53,7 @@ int	check_wall(int wall, t_const *constants, t_mlx *mlx, int enemy_num)
 			mlx->path_exists = 0;
 		}
 		else
-		{
-			if (constants->coin_count == 0)
-			{
-				if (mlx->enemy_perspective != 1)
-					ft_printf("\n\nEXIT EXISTS AND COINS ARE ACCESSIBLE!!!!\n\n");
-				mlx->path_exists = 1;
-			}
-			else
-			{
-				if (mlx->enemy_perspective != 1)
-					ft_printf("\n\nEXIT EXISTS BUT COINS ARE UNAVAILABLE!!!!\n\n");
-				mlx->path_exists = 0;
-			}
-		}
+			second_part(constants, mlx);
 		return (1);
 	}
 	return (0);

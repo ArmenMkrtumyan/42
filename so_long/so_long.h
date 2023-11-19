@@ -124,6 +124,8 @@ typedef struct s_check_path
 
 typedef struct s_mlx
 {
+	int			num_of_moves;
+	char		*message;
 	int			xy;
 	int			is_dead;
 	int			coin_count;
@@ -157,7 +159,6 @@ typedef struct s_mlx
 
 // MAIN FUNCTIONS
 int		hit_enemy(t_mlx *mlx);
-void	checkings(int fd1, int fd2, t_xy dims, t_mlx *mlx);
 int		check_file_name(char *file_name);
 void	ft_lstdellast(t_list **list);
 
@@ -169,6 +170,7 @@ void	create_matrices(t_xy dim, t_mlx *mlx);
 int		check_insides_map(int fd, t_xy dims, t_inside *insides, t_mlx *mlx);
 
 // PATH CHECKER
+void	initalize_info(t_check_path *info, t_mlx *mlx, int enemy_num);
 void	check_path(t_xy dims, t_xy e, t_mlx *mlx, int enemy_num);
 
 // CHECKER UTILS
@@ -177,6 +179,9 @@ int		check_dimensions_map(int fd, t_xy *dims);
 int		check_visited(t_pos **matrix, t_xy dims);
 void	check_exit(t_xys *coords, t_const *constants);
 int		check_wall(int wall, t_const *constants, t_mlx *mlx, int enemy_num);
+void	assign_message(int num_of_moves, t_mlx *mlx);
+void	checkings(int fd1, int fd2, t_xy dims, t_mlx *mlx);
+void	second_part(t_const *constants, t_mlx *mlx);
 
 // GETTER UTILS
 int		get_fd(char *file);
@@ -193,6 +198,8 @@ void	init_nsew(t_mlx *mlx, t_xy dims);
 void	init_inside(t_inside *ins, t_mlx *mlx, t_xy dims, t_xy e);
 void	init_enemies(t_mlx *mlx);
 void	init_mlx(t_mlx *mlx);
+void	init(t_mlx *mlx, t_xy *dims, t_const *constants);
+void	initalize_info(t_check_path *info, t_mlx *mlx, int enemy_num);
 
 // UPDATER UTILS
 void	set_row_cols(t_xy *curr, t_xy *child, t_xys *coords);
@@ -200,7 +207,6 @@ void	set_content(t_key_value *content, t_xy child, t_xy curr);
 void	change_weights(t_xys *coords, t_const *constants, t_mlx *mlx);
 void	fix_coordinates(int k, t_xy *child_cell, t_xy curr_cell);
 void	update_weights(t_xys *coords, t_const *constants, t_mlx *mlx);
-void	assign_cell(int k, t_xy *child_cell, t_xy *curr_cell);
 void	switch_places(int pos, t_mlx *mlx, int row, int col);
 void	update_weights_after_move(t_mlx *mlx);
 void	update_visited_and_costs(t_mlx *mlx, t_xy zero_position);
@@ -226,5 +232,17 @@ t_list	*ft_lstnew(t_key_value content);
 
 int		pacman_animate(t_mlx *mlx);
 int		key_hook(int key_code, void *mlx_ptr);
+
+// ITOA
+
+char	*itoa_minus(int len, int n, char sign);
+char	*itoa_plus(int len, int n);
+void	get_sign(int *n, char *sign, long *copy_n);
+int		get_length(int len, long copy_n);
+char	*ft_itoa(int n);
+
+// STR_JOIN
+
+char	*ft_strjoin(char const *s1, char const *s2);
 
 #endif

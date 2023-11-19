@@ -18,10 +18,7 @@ void	calculate_enemy_path(t_check_path *info, t_mlx *mlx, int enemy_num)
 	mlx->enemies[enemy_num].enemy_path = NULL;
 	if (mlx->enemies[enemy_num].path_exists == 0)
 		return ;
-	info->dest_xy = mlx->p_xy;
-	info->start_xy = mlx->enemies[enemy_num];
-	info->last_xy.value.row = mlx->p_xy.row;
-	info->last_xy.value.col = mlx->p_xy.col;
+	initalize_info(info, mlx, enemy_num);
 	ft_lstadd_back(&mlx->enemies[enemy_num].enemy_path, \
 	ft_lstnew(info->last_xy));
 	while (info->dest_xy.row != info->start_xy.row \
@@ -41,15 +38,6 @@ void	calculate_enemy_path(t_check_path *info, t_mlx *mlx, int enemy_num)
 		}
 	}
 	info->temp = mlx->enemies[enemy_num].enemy_path;
-}
-
-void	init(t_mlx *mlx, t_xy *dims, t_const *constants)
-{
-	ft_lstclear(&(mlx->lst));
-	mlx->lst = NULL;
-	init_nsew(mlx, *dims);
-	constants->exit_exists = 0;
-	constants->coin_count = get_coin_count(mlx->char_mat, *dims);
 }
 
 void	check_path(t_xy dims, t_xy e, t_mlx *mlx, int enemy_num)
