@@ -43,7 +43,7 @@ typedef struct s_fork_plus_philosopher
 
 // philosophers
 
-long long		get_time();
+int				get_time();
 void			*initalizer(void *pack);
 t_philosopher	get_values_from_argv(char *argv, int index);
 t_philosopher	get_values_from_argv(char *argv, int index);

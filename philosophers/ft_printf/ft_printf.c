@@ -122,7 +122,7 @@ int	ft_printf(const char *sentence, ...)
 // //   int number = 8;
 // 	int a = 0;
 // 	// print_hexadecimal(123, 0);
-// 	// printf("%d %d\n", a, b);
+// 	// ft_printf("%d %d\n", a, b);
 // 	 = ft_printf("%u %u %u\n", UINT_MAX, 123, 456);
 // ", ft_printf("\nA RANDOM %s TEXT NULL", NULL));
 // // //   return 0;

@@ -12,13 +12,12 @@
 
 #include "philosophers.h"
 
-long long get_time()
+int get_time()
 {
 	struct timeval te;
-	long long milliseconds;
-
+	int milliseconds;
 	gettimeofday(&te, NULL);
-	milliseconds = te.tv_sec * 1000LL + te.tv_usec / 1000;
+	milliseconds = te.tv_sec * 1000LL + te.tv_usec / 1000 - 1703610000000;
 	return milliseconds;
 }
 
@@ -26,20 +25,21 @@ void *initalizer(void *pack)
 {
 	t_fork_plus_philosopher* fork_philo;
 	fork_philo = (t_fork_plus_philosopher *)pack;
-	long long current;
-	long long time_passed;
+	int current;
+	int time_passed;
 
+	printf("Index of philosopher: %d\n", fork_philo->philosopher.index);
 	if (fork_philo->philosopher.index % 2 == 0)
-		usleep(1000);
+		usleep(10000);
 	while (1)
 	{
 		time_passed = get_time();
 		pthread_mutex_lock(&(fork_philo->forks[fork_philo->philosopher.index - 1 % fork_philo->num_of_philo]));
-		printf("%lld N%d has taken a fork\n", time_passed, fork_philo->philosopher.index);
+		printf("%d N%d has taken a fork\n", time_passed, fork_philo->philosopher.index);
 		time_passed = get_time();
 		pthread_mutex_lock(&(fork_philo->forks[fork_philo->philosopher.index + 1 % fork_philo->num_of_philo]));
-		printf("%lld N%d has taken a fork\n", time_passed, fork_philo->philosopher.index);
-		printf("%lld N%d is eating\n", time_passed, fork_philo->philosopher.index);
+		printf("%d N%d has taken a fork\n", time_passed, fork_philo->philosopher.index);
+		printf("%d N%d is eating\n", time_passed, fork_philo->philosopher.index);
 		current = get_time();
 		while (time_passed - current < fork_philo->philosopher.time_to_eat)
 			time_passed = get_time();
@@ -47,10 +47,10 @@ void *initalizer(void *pack)
 		pthread_mutex_unlock(&(fork_philo->forks[fork_philo->philosopher.index - 1 % fork_philo->num_of_philo]));
 		pthread_mutex_unlock(&(fork_philo->forks[fork_philo->philosopher.index + 1 % fork_philo->num_of_philo]));
 		current = get_time();
-		printf("%lld N%d is sleeping\n", current, fork_philo->philosopher.index);
+		printf("%d N%d is sleeping\n", current, fork_philo->philosopher.index);
 		while (time_passed - current < fork_philo->philosopher.time_to_sleep)
 			time_passed = get_time();
-		printf("%lld N%d is thinkig\n", time_passed, fork_philo->philosopher.index);
+		printf("%d N%d is thinkig\n", time_passed, fork_philo->philosopher.index);
 	}
 	pthread_exit(NULL);
 }
@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
 	int i;
 	// struct timeval te;
 	// gettimeofday(&te, NULL); // get current time
-	// long long current;
+	// int current;
 	t_philosopher philosopher;
 	pthread_mutex_t *forks;
 	t_fork_plus_philosopher combo;
