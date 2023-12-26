@@ -16,10 +16,13 @@
 // INCLUDES
 
 // # include "libft.h"
-// # include "ft_printf.h"
+# include "ft_printf.h"
 # include <stdlib.h>
 # include <stdio.h>
 # include <pthread.h>
+# include <unistd.h>
+# include <time.h>
+# include <sys/time.h>
 
 typedef struct s_philosopher
 {
@@ -38,7 +41,25 @@ typedef struct s_fork_plus_philosopher
 	int					num_of_philo;
 }						t_fork_plus_philosopher;
 
-// MAIN FUNCTION
+// philosophers
+
+long long		get_time();
+void			*initalizer(void *pack);
+t_philosopher	get_values_from_argv(char *argv, int index);
+t_philosopher	get_values_from_argv(char *argv, int index);
+
+
+// atoi
+
+int		check_emptyness(int i, const char *str);
+void	check_sign(char str_i, int *sign, int *i);
+int		ft_atoi(char *str);
+
+// checkers
+
+int		check_max(char *string, char *critical_value);
+int		check_if_number(char *element);
+int		check_parsing(char *element);
 
 
 # endif
