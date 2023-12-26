@@ -1,0 +1,8 @@
+{
+	"files.associations": {
+		"bitset": "c",
+		"chrono": "c",
+		"unordered_map": "c",
+		"iterator": "c"
+	}
+}
