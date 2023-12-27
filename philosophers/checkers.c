@@ -34,15 +34,13 @@ int	check_max(char *string, char *critical_value)
 int	check_if_number(char *element)
 {
 	int	i;
-	int	minus_count;
 
-	minus_count = 0;
-	i = -1;
-	if ((element[0] == '0' && ft_strlen(element) != 1) || element[0] == '-')
+	if (element[0] == '0')
 	{
 		printf("Invalid number\n");
 		return (-1);
 	}
+	i = -1;
 	while (element[++i])
 	{
 		if (element[i] < 48 || element[i] > 57)

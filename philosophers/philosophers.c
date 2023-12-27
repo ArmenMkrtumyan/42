@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
 	{
 		if (check_parsing(argv[i]) == -1)
 		{
-			printf("Invalid argument. Expected a number.\n");
+			printf("Invalid argument.\n");
 			return 0;
 		}
 		i++;
