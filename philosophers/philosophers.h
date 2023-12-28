@@ -15,7 +15,6 @@
 
 // INCLUDES
 
-// # include "libft.h"
 # include "ft_printf.h"
 # include <stdlib.h>
 # include <string.h>
@@ -27,20 +26,12 @@
 
 typedef struct			s_philosopher
 {
-	// int					index;
 	int					time_to_die;
 	int					time_to_eat;
 	int					time_to_sleep;
 	int					eat_count;
 	int					last_time_eaten;
 }						t_philosopher;
-
-typedef struct			s_packed
-{
-	t_philosopher		philosopher;
-	pthread_mutex_t*	forks;
-	int					num_of_philo;
-}						t_pack;
 
 typedef struct			s_array_of_philosophers
 {
@@ -54,8 +45,16 @@ typedef struct			s_array_of_philosophers
 	pthread_mutex_t*	forks;
 }						t_philos;
 
+typedef struct			constants
+{
+	int					num_of_philo;
+	int					i;
+	struct timeval		start_time;
+}						t_constants;
 
-// philosophers
+
+
+// PHILOSOPHERS
 
 int						get_time();
 void					*initalizer(void *pack);
@@ -63,17 +62,23 @@ t_philosopher			get_values_from_argv(char **argv);
 int						on_exit(char *message);
 
 
-// atoi
+// ATOI
 
 int						check_emptyness(int i, const char *str);
 void					check_sign(char str_i, int *sign, int *i);
 int						ft_atoi(char *str);
 
-// checkers
+// CHECKERS
 
 int						check_max(char *string, char *critical_value);
 int						check_if_number(char *element);
 int						check_parsing(char *element);
+int						check_death(t_philos *array_of_philos, int num_of_philosophers, struct timeval start_time);
+int						check_parsing_stuff(int argc, char **argv);
 
+// INITIALIZERS
+
+void					init_mutexes(t_philos *array_of_philos, pthread_mutex_t *forks, int num_of_philosophers);
+void					init_philo(t_philos *philo, t_philosopher philosopher, pthread_mutex_t *forks, t_constants constants);
 
 # endif

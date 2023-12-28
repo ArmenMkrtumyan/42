@@ -6,6 +6,7 @@
 		"iterator": "c",
 		"locale": "c",
 		"philosophers.h": "c",
-		"ratio": "c"
+		"ratio": "c",
+		"__locale": "c"
 	}
 }

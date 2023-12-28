@@ -63,3 +63,41 @@ int		check_parsing(char *element)
 	}
 	return (1);
 }
+
+int	check_death(t_philos *array_of_philos, int num_of_philosophers, struct timeval start_time)
+{
+	int	i;
+
+	i = 0;
+	while(i < num_of_philosophers)
+	{
+		pthread_mutex_lock(&(array_of_philos[i].last_time_mutex));
+		if (get_time(start_time) - array_of_philos[i].last_time_eaten > array_of_philos[i].philosopher.time_to_die)
+		{
+			printf("philosopher N%d died\n", array_of_philos[i].index);
+			break;
+		}
+		pthread_mutex_unlock(&(array_of_philos[i].last_time_mutex));
+		i ++;
+		if (i == num_of_philosophers)
+			i = 0;
+
+	}
+	return (0);
+}
+
+int	check_parsing_stuff(int argc, char **argv)
+{
+	int	i;
+
+	if (argc != 6 && argc != 5)
+		return (on_exit("Invalid number of arguments. Expected 4 or 5 arguments.\n"));
+	i = 1;
+	while (i < argc)
+	{
+		if (check_parsing(argv[i]) == -1)
+			return (on_exit("Invalid argument.\n"));
+		i++;
+	}
+	return (1);
+}
