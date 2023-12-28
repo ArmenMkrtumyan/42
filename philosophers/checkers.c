@@ -52,7 +52,7 @@ int	check_if_number(char *element)
 	return (1);
 }
 
-int		check_parsing(char *element)
+int	check_parsing(char *element)
 {
 	if (check_if_number(element) == -1)
 		return (-1);
@@ -67,8 +67,10 @@ int		check_parsing(char *element)
 int	check_death(t_philos *array_of_philos, int num_of_philosophers, struct timeval start_time)
 {
 	int	i;
+	int	eaten_count;
 
 	i = 0;
+	eaten_count = 0;
 	while(i < num_of_philosophers)
 	{
 		pthread_mutex_lock(&(array_of_philos[i].last_time_mutex));
@@ -77,11 +79,17 @@ int	check_death(t_philos *array_of_philos, int num_of_philosophers, struct timev
 			printf("philosopher N%d died\n", array_of_philos[i].index);
 			break;
 		}
+		if (array_of_philos[i].num_of_times_eaten >= array_of_philos[i].philosopher.eat_count)
+			eaten_count += 1;
 		pthread_mutex_unlock(&(array_of_philos[i].last_time_mutex));
 		i ++;
 		if (i == num_of_philosophers)
+		{
+			if (eaten_count == num_of_philosophers && array_of_philos[i-1].philosopher.eat_count != -1)
+				return (on_exit("All philosophers have eaten enough\n"));
 			i = 0;
-
+			eaten_count = 0;
+		}
 	}
 	return (0);
 }

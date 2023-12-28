@@ -43,6 +43,7 @@ typedef struct			s_array_of_philosophers
 	struct timeval		start_time;
 	pthread_mutex_t		last_time_mutex;
 	pthread_mutex_t*	forks;
+	int					num_of_times_eaten;
 }						t_philos;
 
 typedef struct			constants
@@ -58,7 +59,7 @@ typedef struct			constants
 
 int						get_time();
 void					*initalizer(void *pack);
-t_philosopher			get_values_from_argv(char **argv);
+t_philosopher			get_argc_argv(int argc, char **argv);
 int						on_exit(char *message);
 
 

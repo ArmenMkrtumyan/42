@@ -15,7 +15,7 @@
 int	on_exit(char *message)
 {
 	printf("%s", message);
-	return (-1);
+	return (0);
 }
 
 // millisecond = current time - given_time
@@ -29,11 +29,34 @@ int	get_time(struct timeval given_time)
 	return milliseconds;
 }
 
+int	go_to_sleep(t_philos *pack, int current, int time_passed)
+{
+	printf("%d ms N%d is sleeping\n", current, pack->index);
+	while (time_passed - current < pack->philosopher.time_to_sleep)
+		time_passed = get_time(pack->start_time);
+	printf("%d ms N%d is thinking\n", time_passed, pack->index);
+	return (time_passed);
+}
+
+int	go_to_eat(t_philos *pack)
+{
+	int			current;
+	int			time_passed;
+
+	time_passed = get_time(pack->start_time);
+	printf("%d ms N%d has taken a fork\n", time_passed, pack->index);
+	printf("%d ms N%d is eating\n", time_passed, pack->index);
+	current = get_time(pack->start_time);
+	while (time_passed - current < pack->philosopher.time_to_eat)
+		time_passed = get_time(pack->start_time);
+	return (time_passed);
+}
+
 void	*initalizer(void *packed)
 {
 	t_philos	*pack;
-	int			current;
 	int			time_passed;
+	int			current;
 
 	pack = (t_philos *)packed;
 	if (pack->index % 2 == 0)
@@ -43,28 +66,21 @@ void	*initalizer(void *packed)
 		time_passed = get_time(pack->start_time);
 		pthread_mutex_lock(&(pack->forks[pack->index - 1 % pack->num_of_philo]));
 		printf("%d ms N%d has taken a fork\n", time_passed, pack->index);
-		time_passed = get_time(pack->start_time);
 		pthread_mutex_lock(&(pack->forks[pack->index + 1 % pack->num_of_philo]));
-		printf("%d ms N%d has taken a fork\n", time_passed, pack->index);
-		printf("%d ms N%d is eating\n", time_passed, pack->index);
-		current = get_time(pack->start_time);
-		while (time_passed - current < pack->philosopher.time_to_eat)
-			time_passed = get_time(pack->start_time);
+		time_passed = go_to_eat(pack);
 		pthread_mutex_unlock(&(pack->forks[pack->index - 1 % pack->num_of_philo]));
 		pthread_mutex_unlock(&(pack->forks[pack->index + 1 % pack->num_of_philo]));
 		pthread_mutex_lock(&(pack->last_time_mutex));
+		pack->num_of_times_eaten++;
 		pack->last_time_eaten = time_passed;
 		pthread_mutex_unlock(&(pack->last_time_mutex));
 		current = get_time(pack->start_time);
-		printf("%d ms N%d is sleeping\n", current, pack->index);
-		while (time_passed - current < pack->philosopher.time_to_sleep)
-			time_passed = get_time(pack->start_time);
-		printf("%d ms N%d is thinking\n", time_passed, pack->index);
+		time_passed = go_to_sleep(pack, current, time_passed);
 	}
 	return (NULL);
 }
 
-t_philosopher	get_values_from_argv(char **argv)
+t_philosopher	get_argc_argv(int argc, char **argv)
 {
 	t_philosopher	philo;
 
@@ -72,6 +88,8 @@ t_philosopher	get_values_from_argv(char **argv)
 	philo.time_to_eat = ft_atoi(argv[3]);
 	philo.time_to_sleep = ft_atoi(argv[4]);
 	philo.eat_count = ft_atoi(argv[5]);
+	if (argc == 5)
+		philo.eat_count = -1;
 	return (philo);
 }
 
@@ -83,10 +101,8 @@ int main(int argc, char *argv[])
 	t_philos		*array_of_philos;
 
 	gettimeofday(&constants.start_time, NULL);
-	if (check_parsing_stuff(argc, argv) == -1)
+	if (!check_parsing_stuff(argc, argv))
 		return (0);
-	if (argc == 5)
-		philosopher.eat_count = -1;
 	constants.num_of_philo = ft_atoi(argv[1]);
 	array_of_philos = malloc(sizeof(t_philos) * constants.num_of_philo);
 	forks = malloc(sizeof(pthread_mutex_t) * constants.num_of_philo);
@@ -94,7 +110,7 @@ int main(int argc, char *argv[])
 	constants.i = 0;
 	while (constants.i < constants.num_of_philo)
 	{
-		philosopher = get_values_from_argv(argv);
+		philosopher = get_argc_argv(argc, argv);
 		init_philo(&array_of_philos[constants.i], philosopher, forks, constants);
 		if (pthread_create(&array_of_philos[constants.i].thread_id, NULL, &initalizer, &array_of_philos[constants.i]) != 0)
 			perror("Failed to created thread");

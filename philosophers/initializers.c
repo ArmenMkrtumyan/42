@@ -32,4 +32,5 @@ void	init_philo(t_philos *philo, t_philosopher philosopher, pthread_mutex_t *for
 	philo->forks = forks;
 	philo->num_of_philo = constants.num_of_philo;
 	philo->start_time = constants.start_time;
+	philo->num_of_times_eaten = 0;
 }
