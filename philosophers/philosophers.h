@@ -24,7 +24,7 @@
 # include <time.h>
 # include <sys/time.h>
 
-typedef struct			s_philosopher
+typedef struct s_philosopher
 {
 	int					time_to_die;
 	int					time_to_eat;
@@ -33,53 +33,55 @@ typedef struct			s_philosopher
 	int					last_time_eaten;
 }						t_philosopher;
 
-typedef struct			s_array_of_philosophers
+typedef struct s_array_of_philosophers
 {
-	int					num_of_philo;
+	int					philo_num;
 	int					index;
 	int					last_time_eaten;
 	pthread_t			thread_id;
 	t_philosopher		philosopher;
 	struct timeval		start_time;
 	pthread_mutex_t		last_time_mutex;
-	pthread_mutex_t*	forks;
+	pthread_mutex_t		*forks;
 	int					num_of_times_eaten;
 }						t_philos;
 
-typedef struct			constants
+typedef struct constants
 {
-	int					num_of_philo;
+	int					philo_num;
 	int					i;
 	struct timeval		start_time;
 }						t_constants;
 
-
-
 // PHILOSOPHERS
 
-int						get_time();
-void					*initalizer(void *pack);
-t_philosopher			get_argc_argv(int argc, char **argv);
-int						on_exit(char *message);
-
+int				on_exit(char *message);
+void			*start_threads(void *packed);
+int				go_to_sleep(t_philos *pack, int current, int time_passed);
+int				go_to_eat(t_philos *pack);
 
 // ATOI
 
-int						check_emptyness(int i, const char *str);
-void					check_sign(char str_i, int *sign, int *i);
-int						ft_atoi(char *str);
+int				check_emptyness(int i, const char *str);
+void			check_sign(char str_i, int *sign, int *i);
+int				ft_atoi(char *str);
 
 // CHECKERS
 
-int						check_max(char *string, char *critical_value);
-int						check_if_number(char *element);
-int						check_parsing(char *element);
-int						check_death(t_philos *array_of_philos, int num_of_philosophers, struct timeval start_time);
-int						check_parsing_stuff(int argc, char **argv);
+int				check_max(char *string, char *critical_value);
+int				check_if_number(char *element);
+int				check_parsing(char *element);
+int				check_death(t_philos *array_of_philos, int num_of_philosophers,
+					struct timeval start_time);
+int				check_parsing_stuff(int argc, char **argv);
 
-// INITIALIZERS
+// INITIALIZERS_GETTERS
 
-void					init_mutexes(t_philos *array_of_philos, pthread_mutex_t *forks, int num_of_philosophers);
-void					init_philo(t_philos *philo, t_philosopher philosopher, pthread_mutex_t *forks, t_constants constants);
+void			init_mutexes(t_philos *array_of_philos, pthread_mutex_t *forks,
+					int num_of_philosophers);
+t_philosopher	init_philo_1(int argc, char **argv);
+void			init_philo_2(t_philos *philo, t_philosopher philosopher,
+					pthread_mutex_t *forks, t_constants constants);
+int				get_time(struct timeval given_time);
 
-# endif
+#endif
