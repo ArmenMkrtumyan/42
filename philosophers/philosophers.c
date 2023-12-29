@@ -69,6 +69,18 @@ void	*start_threads(void *packed)
 	return (NULL);
 }
 
+// int init_thread(t_philos *array_of_philos)
+// {
+// 	if (pthread_create(&(array_of_philos->thread_id), NULL,
+// 			start_threads, array_of_philos) != 0)
+// 	{
+// 		perror("Failed to create thread");
+// 		return (0);
+// 	}
+
+// 	return (1);
+// }
+
 int	main(int argc, char *argv[])
 {
 	t_constants		constants;
@@ -89,9 +101,8 @@ int	main(int argc, char *argv[])
 		philosopher = init_philo_1(argc, argv);
 		init_philo_2(&array_of_philos[constants.i], philosopher,
 			forks, constants);
-		if (pthread_create(&array_of_philos[constants.i].thread_id, NULL,
-				&start_threads, &array_of_philos[constants.i]) != 0)
-			perror("Failed to created thread");
+		if (init_thread(&array_of_philos[constants.i]) == 0)
+			return (0);
 		constants.i++;
 	}
 	return (check_death(array_of_philos, constants.philo_num,

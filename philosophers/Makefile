@@ -1,6 +1,6 @@
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -g -fsanitize=address -pthread #-Werror 
+CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address -pthread
 SOURCES = $(wildcard *.c)
 H_SOURCES = $(wildcard *.h)
 O_SOURCES = $(subst .c,.o, $(SOURCES))

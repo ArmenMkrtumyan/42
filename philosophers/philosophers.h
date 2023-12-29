@@ -83,5 +83,6 @@ t_philosopher	init_philo_1(int argc, char **argv);
 void			init_philo_2(t_philos *philo, t_philosopher philosopher,
 					pthread_mutex_t *forks, t_constants constants);
 int				get_time(struct timeval given_time);
+int				init_thread(t_philos *array_of_philos);
 
 #endif
