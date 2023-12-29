@@ -12,6 +12,12 @@
 
 #include "philosophers.h"
 
+void	assign_pack(t_philos *pack, t_constants_2 const2)
+{
+	pack->last_time_eaten = const2.t_passed;
+	pack->num_of_times_eaten++;
+}
+
 int	check_eaten(t_philos *array_of_philos, int num_of_philosophers,
 		int *i, int *eaten_count)
 {
@@ -34,13 +40,14 @@ int	check_death(t_philos *array_of_philos, int num_of_philosophers,
 
 	i = 0;
 	eaten_count = 0;
-	while (i < num_of_philosophers)
+	while (1)
 	{
 		pthread_mutex_lock(&(array_of_philos[i].last_time_mutex));
 		if (get_time(start_time) - array_of_philos[i].last_time_eaten
 			> array_of_philos[i].philosopher.time_to_die)
 		{
-			printf("philosopher N%d died\n", array_of_philos[i].index);
+			printf("%d ms N%d died\n", get_time(start_time),
+				array_of_philos[i].index);
 			break ;
 		}
 		if (array_of_philos[i].num_of_times_eaten

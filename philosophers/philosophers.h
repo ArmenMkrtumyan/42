@@ -53,11 +53,18 @@ typedef struct constants
 	struct timeval		start_time;
 }						t_constants;
 
+typedef struct constants_2
+{
+	int					t_passed;
+	int					current;
+	int					index;
+}						t_constants_2;
+
 // PHILOSOPHERS
 
 int				on_exit(char *message);
 void			*start_threads(void *packed);
-int				go_to_sleep(t_philos *pack, int current, int time_passed);
+int				go_to_sleep(t_philos *pack, t_constants_2 const2);
 int				go_to_eat(t_philos *pack);
 
 // ATOI
@@ -68,6 +75,7 @@ int				ft_atoi(char *str);
 
 // CHECKERS
 
+void			assign_pack(t_philos *pack, t_constants_2 const2);
 int				check_max(char *string, char *critical_value);
 int				check_if_number(char *element);
 int				check_parsing(char *element);

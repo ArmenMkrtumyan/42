@@ -18,53 +18,54 @@ int	on_exit(char *message)
 	return (0);
 }
 
-int	go_to_sleep(t_philos *pack, int current, int time_passed)
+int	go_to_sleep(t_philos *pack, t_constants_2 const2)
 {
-	printf("%d ms N%d is sleeping\n", current, pack->index);
-	while (time_passed - current < pack->philosopher.time_to_sleep)
-		time_passed = get_time(pack->start_time);
-	printf("%d ms N%d is thinking\n", time_passed, pack->index);
-	return (time_passed);
+	printf("%d ms N%d is sleeping\n", const2.current, pack->index);
+	while (const2.t_passed - const2.current < pack->philosopher.time_to_sleep)
+		const2.t_passed = get_time(pack->start_time);
+	printf("%d ms N%d is thinking\n", const2.t_passed, pack->index);
+	return (const2.t_passed);
 }
 
 int	go_to_eat(t_philos *pack)
 {
 	int	current;
-	int	time_passed;
+	int	t_passed;
 
-	time_passed = get_time(pack->start_time);
-	printf("%d ms N%d has taken a fork\n", time_passed, pack->index);
-	printf("%d ms N%d is eating\n", time_passed, pack->index);
+	t_passed = get_time(pack->start_time);
+	printf("%d ms N%d has taken a fork\n", t_passed, pack->index);
+	printf("%d ms N%d is eating\n", t_passed, pack->index);
 	current = get_time(pack->start_time);
-	while (time_passed - current < pack->philosopher.time_to_eat)
-		time_passed = get_time(pack->start_time);
-	return (time_passed);
+	while (t_passed - current < pack->philosopher.time_to_eat)
+		t_passed = get_time(pack->start_time);
+	return (t_passed);
 }
 
 void	*start_threads(void *packed)
 {
-	t_philos	*pack;
-	int			time_passed;
-	int			current;
+	t_philos		*pack;
+	t_constants_2	const2;
 
 	pack = (t_philos *)packed;
 	if (pack->index % 2 == 0)
 		usleep(1500);
 	while (1)
 	{
-		time_passed = get_time(pack->start_time);
-		pthread_mutex_lock(&(pack->forks[pack->index - 1 % pack->philo_num]));
-		printf("%d ms N%d has taken a fork\n", time_passed, pack->index);
+		const2.t_passed = get_time(pack->start_time);
+		const2.index = pack->index - 1 % pack->philo_num;
+		if (const2.index < 0)
+			const2.index = pack->philo_num - 1;
+		pthread_mutex_lock(&(pack->forks[const2.index]));
+		printf("%d ms N%d has taken a fork\n", const2.t_passed, pack->index);
 		pthread_mutex_lock(&(pack->forks[pack->index + 1 % pack->philo_num]));
-		time_passed = go_to_eat(pack);
-		pthread_mutex_unlock(&(pack->forks[pack->index - 1 % pack->philo_num]));
+		const2.t_passed = go_to_eat(pack);
+		pthread_mutex_unlock(&(pack->forks[const2.index]));
 		pthread_mutex_unlock(&(pack->forks[pack->index + 1 % pack->philo_num]));
 		pthread_mutex_lock(&(pack->last_time_mutex));
-		pack->num_of_times_eaten++;
-		pack->last_time_eaten = time_passed;
+		assign_pack(pack, const2);
 		pthread_mutex_unlock(&(pack->last_time_mutex));
-		current = get_time(pack->start_time);
-		time_passed = go_to_sleep(pack, current, time_passed);
+		const2.current = get_time(pack->start_time);
+		const2.t_passed = go_to_sleep(pack, const2);
 	}
 	return (NULL);
 }

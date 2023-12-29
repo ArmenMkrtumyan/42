@@ -1,6 +1,6 @@
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address -pthread
+CFLAGS = -Wall -Wextra -Werror -g# -fsanitize=thread -g
 SOURCES = $(wildcard *.c)
 H_SOURCES = $(wildcard *.h)
 O_SOURCES = $(subst .c,.o, $(SOURCES))
@@ -9,7 +9,6 @@ DIR_O_SOURCES = $(addprefix $(OBJ_DIRECTORY)/,$(O_SOURCES))
 PRINTF_DIR = ft_printf
 HEADERS = -I$(PRINTF_DIR)
 LINK_LIBRARIES = -lftprintf -L$(PRINTF_DIR)
-
 
 all: mkdir call_printf $(NAME)
 

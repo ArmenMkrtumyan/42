@@ -8,6 +8,8 @@
 		"philosophers.h": "c",
 		"ratio": "c",
 		"__locale": "c",
-		"system_error": "c"
+		"system_error": "c",
+		"string": "c",
+		"iosfwd": "c"
 	}
 }
