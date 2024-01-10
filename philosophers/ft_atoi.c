@@ -12,6 +12,20 @@
 
 #include "philosophers.h"
 
+size_t	ft_strlen(const char *word)
+{
+	size_t	size;
+
+	if (!word)
+		return (0);
+	size = 0;
+	while (word[size] != '\0')
+	{
+		size++;
+	}
+	return (size);
+}
+
 int	check_emptyness(int i, const char *str)
 {
 	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 127 || str[i] == 32)

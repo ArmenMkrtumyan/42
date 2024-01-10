@@ -67,12 +67,12 @@ int	init_thread(t_philos *array_of_philos)
 	if (pthread_create(&array_of_philos->thread_id, NULL,
 			&start_threads, array_of_philos) != 0)
 	{
-		perror("Failed to created thread");
+		printf("Failed to created thread");
 		return (0);
 	}
 	if (pthread_detach(array_of_philos->thread_id) != 0)
 	{
-		perror("pthread_detach() error");
+		printf("pthread_detach() error");
 		return (0);
 	}
 	return (1);

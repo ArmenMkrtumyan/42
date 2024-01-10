@@ -15,7 +15,6 @@
 
 // INCLUDES
 
-# include "ft_printf.h"
 # include <stdlib.h>
 # include <string.h>
 # include <stdio.h>
@@ -72,6 +71,7 @@ int				go_to_eat(t_philos *pack);
 int				check_emptyness(int i, const char *str);
 void			check_sign(char str_i, int *sign, int *i);
 int				ft_atoi(char *str);
+size_t			ft_strlen(const char *word);
 
 // CHECKERS
 

@@ -75,7 +75,7 @@ void	*start_threads(void *packed)
 // 	if (pthread_create(&(array_of_philos->thread_id), NULL,
 // 			start_threads, array_of_philos) != 0)
 // 	{
-// 		perror("Failed to create thread");
+// 		printf("Failed to create thread");
 // 		return (0);
 // 	}
 
@@ -113,6 +113,6 @@ int	main(int argc, char *argv[])
 // {
 // 	if (pthread_join(array_of_philos[i], NULL) != 0)
 // 	{
-// 		perror("Failed to join thread");
+// 		printf("Failed to join thread");
 // 	}
 // }
