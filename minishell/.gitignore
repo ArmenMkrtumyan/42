@@ -1,0 +1,6 @@
+*.out
+object_dir/
+*.swp
+minishell
+libft/*.o
+libft/libft.a
